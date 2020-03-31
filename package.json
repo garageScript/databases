@@ -1,8 +1,8 @@
 {
   "name": "databases",
   "version": "1.0.0",
-  "description": "",
-  "main": "pg.js",
+  "description": "Create databases in postgres, mongoDB and neo4J",
+  "main": "index.js",
   "scripts": {
     "test": "jest"
   },
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/garageScript/databases.git"
   },
-  "author": "",
+  "author": "garageScript",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/gargeScript/databases/issues"

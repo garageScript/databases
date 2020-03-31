@@ -23,7 +23,7 @@ pgModule.closePGDB = async ()=>{
   try{
     await client.end()
   }catch(err){
-    console.log('connection failed to closed')
+    console.log('connection failed to closed', err)
   }
 }
 
@@ -34,7 +34,7 @@ pgModule.createPgAccount = async (username, password)=>{
     await client.query(`CREATE USER IF NOT EXISTS ${username} WITH ENCRYPTED password '${password}'`)
     await client.query(`GRANT ALL PRIVILEGES ON DATABASE ${username} TO ${username}`)
   }catch(err){
-    console.log('failed to createPgAccount')
+    console.log('failed to createPgAccount', err)
   }
 }
 
@@ -44,7 +44,7 @@ pgModule.deletePgAccount = async (username)=>{
     await client.query(`DROP DATABASE IF EXISTS ${username}`)
     await client.query(`DROP USER IF EXISTS ${username}`)
   }catch(err){
-    console.log('failed to deletePgAccount')
+    console.log('failed to deletePgAccount', err)
   }
 }
 
