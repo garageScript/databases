@@ -29,6 +29,7 @@ pgModule.closePGDB = async ()=>{
 
 pgModule.createPgAccount = async (username, password)=>{
   try{
+    if(!username || !password) return
     await client.query(`CREATE DATABASE IF NOT EXISTS ${username}`)
     await client.query(`CREATE USER IF NOT EXISTS ${username} WITH ENCRYPTED password '${password}'`)
     await client.query(`GRANT ALL PRIVILEGES ON DATABASE ${username} TO ${username}`)
@@ -39,6 +40,7 @@ pgModule.createPgAccount = async (username, password)=>{
 
 pgModule.deletePgAccount = async (username)=>{
   try{
+    if(!username) return
     await client.query(`DROP DATABASE IF EXISTS ${username}`)
     await client.query(`DROP USER IF EXISTS ${username}`)
   }catch(err){
