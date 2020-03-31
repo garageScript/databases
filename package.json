@@ -1,0 +1,23 @@
+{
+  "name": "databases",
+  "version": "1.0.0",
+  "description": "",
+  "main": "pg.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/allopez7/databases.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/allopez7/databases/issues"
+  },
+  "homepage": "https://github.com/allopez7/databases#readme",
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "jest": "^25.2.4"
+  }
+}
