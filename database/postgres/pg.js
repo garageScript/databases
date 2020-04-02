@@ -16,7 +16,7 @@ pgModule.startPGDB = async ()=>{
     await client.connect()
   }catch(err){
     console.log('connection failed', err)
-    return await {
+    return {
       error: {
         message: 'Connection to PG failed'
       }
