@@ -4,7 +4,7 @@ require('dotenv').config()
 const pgModule = {}
 let client
 
-pgModule.startPGDB = async ()=>{
+pgModule.startPGDB = ()=>{
     client = new Client({
       host: process.env.HOS,
       port: process.env.PORT,
@@ -15,7 +15,7 @@ pgModule.startPGDB = async ()=>{
     return client.connect()
 }
 
-pgModule.closePGDB = async ()=>{
+pgModule.closePGDB = ()=>{
     return client.end()
 }
 
