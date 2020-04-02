@@ -18,7 +18,8 @@
   "homepage": "https://github.com/garageScript/databases#readme",
   "devDependencies": {
     "dotenv": "^8.2.0",
-    "jest": "^25.2.4"
+    "jest": "^25.2.4",
+    "pm2": "^4.2.3"
   },
   "dependencies": {
     "pg": "^8.0.0"

@@ -7,7 +7,7 @@ let client
 pgModule.startPGDB = async ()=>{
   try{
     client = new Client({
-      host: process.env.HOST,
+      host: process.env.HOS,
       port: process.env.PORT,
       user: process.env.USERNAME,
       password: process.env.PASSWORD,
@@ -16,6 +16,11 @@ pgModule.startPGDB = async ()=>{
     await client.connect()
   }catch(err){
     console.log('connection failed', err)
+    return await {
+      error: {
+        message: 'Connection to PG failed'
+      }
+    }
   }
 }
 
@@ -23,7 +28,12 @@ pgModule.closePGDB = async ()=>{
   try{
     await client.end()
   }catch(err){
-    console.log('connection failed to closed', err)
+    console.log('connection failed to close', err)
+    return {
+      error: {
+        message: 'Connection to PG failed to close'
+      }
+    }
   }
 }
 
@@ -35,6 +45,7 @@ pgModule.createPgAccount = async (username, password)=>{
     await client.query(`GRANT ALL PRIVILEGES ON DATABASE ${username} TO ${username}`)
   }catch(err){
     console.log('failed to createPgAccount', err)
+    throw new Error(`failed to createPgAccount for user: ${username}`)
   }
 }
 
@@ -45,6 +56,7 @@ pgModule.deletePgAccount = async (username)=>{
     await client.query(`DROP USER IF EXISTS ${username}`)
   }catch(err){
     console.log('failed to deletePgAccount', err)
+    throw new Error(`failed to deletePgAccount for database and user: ${username}`)
   }
 }
 

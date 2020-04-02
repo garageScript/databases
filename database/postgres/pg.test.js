@@ -17,11 +17,17 @@ describe('Test PG DB', ()=>{
   let {startPGDB, closePGDB, createPgAccount, deletePgAccount} = require('./pg')
   describe('Test startPGDB && closePGDB', ()=>{
     it('startPGDB', async ()=>{
-      await startPGDB()
+      const startRes = await startPGDB()
+      if(startRes && startRes.error && startRes.error.message){
+        expect(startRes.error.message).toBe('Connection to PG failed')
+      }
       expect(mockClient.connect).toHaveBeenCalledTimes(1)
     })
     it('closePGDB', async ()=>{
-      await closePGDB()
+      const closeRes = await closePGDB()
+      if(closeRes && closeRes.error && closeRes.error.message){
+        expect(closeRes.error.message).toBe('Connection to PG failed to close')
+      }
       expect(mockClient.end).toHaveBeenCalledTimes(1)
     })
   })
@@ -33,6 +39,9 @@ describe('Test PG DB', ()=>{
       expect(mockClient.query).toHaveBeenNthCalledWith(1, `CREATE DATABASE IF NOT EXISTS username`)
       expect(mockClient.query).toHaveBeenNthCalledWith(2, `CREATE USER IF NOT EXISTS username WITH ENCRYPTED password 'password'`)
       expect(mockClient.query).toHaveBeenNthCalledWith(3, `GRANT ALL PRIVILEGES ON DATABASE username TO username`)
+      expect(async ()=>{
+        await createPgAccount()
+      }).not.toThrow()
       await closePGDB()
     })
   })
@@ -43,6 +52,9 @@ describe('Test PG DB', ()=>{
       expect(mockClient.query).toHaveBeenCalledTimes(2)
       expect(mockClient.query).toHaveBeenNthCalledWith(1, `DROP DATABASE IF EXISTS username`)
       expect(mockClient.query).toHaveBeenNthCalledWith(2, `DROP USER IF EXISTS username`)
+      expect(async ()=>{
+        await deletePgAccount('username')
+      }).not.toThrow()
       await closePGDB()
     })
   })
