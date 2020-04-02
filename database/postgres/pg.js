@@ -5,7 +5,6 @@ const pgModule = {}
 let client
 
 pgModule.startPGDB = async ()=>{
-  try{
     client = new Client({
       host: process.env.HOS,
       port: process.env.PORT,
@@ -13,33 +12,16 @@ pgModule.startPGDB = async ()=>{
       password: process.env.PASSWORD,
       database: process.env.DATABASE
     })
-    await client.connect()
-  }catch(err){
-    console.log('connection failed', err)
-    return {
-      error: {
-        message: 'Connection to PG failed'
-      }
-    }
-  }
+    return client.connect()
 }
 
 pgModule.closePGDB = async ()=>{
-  try{
-    await client.end()
-  }catch(err){
-    console.log('connection failed to close', err)
-    return {
-      error: {
-        message: 'Connection to PG failed to close'
-      }
-    }
-  }
+    return client.end()
 }
 
 pgModule.createPgAccount = async (username, password)=>{
-  try{
     if(!username || !password) return
+  try{
     await client.query(`CREATE DATABASE IF NOT EXISTS ${username}`)
     await client.query(`CREATE USER IF NOT EXISTS ${username} WITH ENCRYPTED password '${password}'`)
     await client.query(`GRANT ALL PRIVILEGES ON DATABASE ${username} TO ${username}`)
@@ -50,8 +32,8 @@ pgModule.createPgAccount = async (username, password)=>{
 }
 
 pgModule.deletePgAccount = async (username)=>{
-  try{
     if(!username) return
+  try{
     await client.query(`DROP DATABASE IF EXISTS ${username}`)
     await client.query(`DROP USER IF EXISTS ${username}`)
   }catch(err){

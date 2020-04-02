@@ -17,17 +17,11 @@ describe('Test PG DB', ()=>{
   let {startPGDB, closePGDB, createPgAccount, deletePgAccount} = require('./pg')
   describe('Test startPGDB && closePGDB', ()=>{
     it('startPGDB', async ()=>{
-      const startRes = await startPGDB()
-      if(startRes && startRes.error && startRes.error.message){
-        expect(startRes.error.message).toBe('Connection to PG failed')
-      }
+      await startPGDB()
       expect(mockClient.connect).toHaveBeenCalledTimes(1)
     })
     it('closePGDB', async ()=>{
-      const closeRes = await closePGDB()
-      if(closeRes && closeRes.error && closeRes.error.message){
-        expect(closeRes.error.message).toBe('Connection to PG failed to close')
-      }
+      await closePGDB()
       expect(mockClient.end).toHaveBeenCalledTimes(1)
     })
   })
