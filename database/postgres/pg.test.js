@@ -16,17 +16,17 @@ describe('Test PG DB', ()=>{
   }
   let {startPGDB, closePGDB, createPgAccount, deletePgAccount} = require('./pg')
   describe('Test startPGDB && closePGDB', ()=>{
-    it('startPGDB', async ()=>{
+    it('it should call connect when starting PGDB', async ()=>{
       await startPGDB()
       expect(mockClient.connect).toHaveBeenCalledTimes(1)
     })
-    it('closePGDB', async ()=>{
+    it('it should call end when closing PGDB', async ()=>{
       await closePGDB()
       expect(mockClient.end).toHaveBeenCalledTimes(1)
     })
   })
   describe('Test createPgAccount', ()=>{
-    it('createPgAccount', async ()=>{
+    it('it should execute all queries if required arguments are passed into createPgAccount', async ()=>{
         await startPGDB() 
         await createPgAccount('username', 'password')
         expect(mockClient.query).toHaveBeenCalledTimes(3)
@@ -35,7 +35,7 @@ describe('Test PG DB', ()=>{
         expect(mockClient.query).toHaveBeenNthCalledWith(3, `GRANT ALL PRIVILEGES ON DATABASE username TO username`)
         await closePGDB()
     })
-    it('createPgAccount, undefined parameters', async ()=>{
+    it('it should not execute any queries in createPgAccount if required arguments are not passed in', async ()=>{
         await startPGDB()
         await createPgAccount()
         expect(mockClient.query).toHaveBeenCalledTimes(0)
@@ -43,7 +43,7 @@ describe('Test PG DB', ()=>{
     })
   })
   describe('Test deletePgAccount', ()=>{
-    it('deletePgAccount', async ()=>{
+    it('it should execute all queries if required arguments are passed into deletePgAccount', async ()=>{
         await startPGDB()
         await deletePgAccount('username')
         expect(mockClient.query).toHaveBeenCalledTimes(2)
@@ -51,7 +51,7 @@ describe('Test PG DB', ()=>{
         expect(mockClient.query).toHaveBeenNthCalledWith(2, `DROP USER IF EXISTS username`)
         await closePGDB()
     })
-    it('deletePgAccount, undefined parameters', async ()=>{
+    it('it should not execute any queries in deletePgAccount if required arguments are not passed in', async ()=>{
         await startPGDB()
         await createPgAccount()
         expect(mockClient.query).toHaveBeenCalledTimes(0)
