@@ -4,7 +4,7 @@
   "description": "Create databases in postgres, mongoDB and neo4J",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",

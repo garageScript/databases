@@ -37,7 +37,7 @@ pgModule.deletePgAccount = async (username)=>{
     await client.query(`DROP DATABASE IF EXISTS ${username}`)
     await client.query(`DROP USER IF EXISTS ${username}`)
   }catch(err){
-    console.log('failed to deletePgAccount', err)
+   console.log('failed to deletePgAccount', err)
     throw new Error(`failed to deletePgAccount for database and user: ${username}`)
   }
 }
