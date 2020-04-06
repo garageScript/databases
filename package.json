@@ -18,10 +18,17 @@
   "homepage": "https://github.com/garageScript/databases#readme",
   "devDependencies": {
     "dotenv": "^8.2.0",
+    "husky": "^4.2.3",
     "jest": "^25.2.4",
     "pm2": "^4.2.3"
   },
   "dependencies": {
     "pg": "^8.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test",
+      "pre-push": "npm test"
+    }
   }
 }
