@@ -3,7 +3,7 @@ const {Client} = require('pg')
 const {startPGDB, closePGDB, createPgAccount, deletePgAccount} = require('./pg')
 
 describe('Test PG DB', ()=>{
-  afterEach(()=>{
+  beforeEach(()=>{
     jest.clearAllMocks()
   })
   let mockClient = {
@@ -63,7 +63,7 @@ describe('Test PG DB', ()=>{
         expect(mockClient.query).toHaveBeenNthCalledWith(2, `DROP USER IF EXISTS username`)
       })
       it('it should not execute any queries in deletePgAccount if required arguments are not passed in', async ()=>{
-        await createPgAccount()
+        await deletePgAccount()
         expect(mockClient.query).toHaveBeenCalledTimes(0)
       })
       it('it should check if console.log is called at throw of deletePgAccount', async ()=>{
