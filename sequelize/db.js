@@ -13,43 +13,39 @@ dbModule.start = ()=>{
       idle: 10000
     }
   })
-  sequelize.authenticate()
-    .then(()=>{
-      console.log('Connection has been established successfully')
-    })
-    .catch((err)=>{
-      console.log('Unable to connect to the database', err)
-    })
+  return sequelize.authenticate()
 }
 
-dbModule.Account = sequelize.define('account', {
-  username: {
-    type: DataTypes.STRING,
-    unique: true,
-    allowNull: false
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  email: {
-    type: DataTypes.STRING,
-    unique: true,
-    allowNull: false
-  },
-  dbPassword: {
-    type: DataTypes.STRING
-  },
-  emailConfirmation: {
-    type: DataTypes.STRING
-  },
-  passwordReset: {
-    type: DataTypes.STRING
-  },
-  databases: {
-    type: DataTypes.TEXT
-  }
-})
+dbModule.Account = ()=>{
+  return sequelize.define('account', {
+    username: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    email: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false
+    },
+    dbPassword: {
+      type: DataTypes.STRING
+    },
+    emailConfirmation: {
+      type: DataTypes.STRING
+    },
+    passwordReset: {
+      type: DataTypes.STRING
+    },
+    databases: {
+      type: DataTypes.TEXT
+    }
+  })
+}
 
 dbModule.update = ()=>{
   return sequelize.sync({alter: true})
