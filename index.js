@@ -1,4 +1,5 @@
 require('dotenv').config()
+
 const express = require('express')
 const app = express()
 const {start, update, close, Account} = require('./sequelize/db')
