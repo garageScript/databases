@@ -2,6 +2,7 @@ jest.mock('sequelize')
 const {Sequelize} = require('sequelize')
 const {start, update, close, Account} = require('./db')
 
+
 describe('Test sequelize', ()=>{
   beforeEach(()=>{
     jest.clearAllMocks()
@@ -17,11 +18,8 @@ describe('Test sequelize', ()=>{
     return mockSequelize
   })
   it('should test how many times authenticate is called', ()=>{
-    expect(mockSequelize.authenticate).toHaveBeenCalledTimes(1)
-  })
-  it('should test how many times define is called', ()=>{
-    Account()
     expect(mockSequelize.define).toHaveBeenCalledTimes(1)
+    expect(mockSequelize.authenticate).toHaveBeenCalledTimes(1)
   })
   it('should test how many times update is called', ()=>{
     update()
@@ -30,5 +28,14 @@ describe('Test sequelize', ()=>{
   it('should test how many times close is called', ()=>{
     close()
     expect(mockSequelize.close).toHaveBeenCalledTimes(1)
+  })
+  it('should test throw on sequelize authentication', async ()=>{
+    try{
+      const resStart = await start()
+      await mockSequelize.authenticate.mockReturnValue(Promise.reject()) 
+      expect(resStart).rejects.toThrow()
+    }catch(err){
+      expect(1).toHaveBeenCalledTimes(1)
+    }
   })
 })
