@@ -1,8 +1,14 @@
 jest.mock('sequelize')
-const winston = require('winston')
+jest.mock('../lib/log')
 const {Sequelize} = require('sequelize')
+
+const logGen = require('../lib/log')
+const logger = {
+  error: jest.fn()
+}
+logGen.mockReturnValue(logger)
+
 const {start, update, close, Account} = require('./db')
-winston.createLogger = jest.fn()
 
 describe('Test sequelize', ()=>{
   beforeEach(()=>{
@@ -32,11 +38,10 @@ describe('Test sequelize', ()=>{
   })
   it('should test throw on sequelize authentication', async ()=>{
     try{
-      const resStart = await start()
       await mockSequelize.authenticate.mockReturnValue(Promise.reject()) 
+      const resStart = await start()
       expect(resStart).rejects.toThrow()
     }catch(err){
-      const logger = require('../lib/log')(__filename)
       expect(logger.error).toHaveBeenCalledTimes(1)
     }
   })

@@ -8,7 +8,7 @@ const dbModule = {}
 dbModule.start = async ()=>{
   try{
     sequelize = new Sequelize(process.env.DATABASE, process.env.USERNAME, process.env.PASSWORD, {
-      host: process.env.HOST || 'localhost', 
+      host: process.env.HOST', 
       dialect: 'postgres',
       pool: {
         max: 5,
@@ -16,7 +16,7 @@ dbModule.start = async ()=>{
         idle: 10000
       }
     })
-    sequelize.define('account', {
+    await sequelize.define('account', {
       username: {
         type: DataTypes.STRING,
         unique: true,
