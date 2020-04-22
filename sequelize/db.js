@@ -6,6 +6,7 @@ let sequelize
 const dbModule = {}
 
 dbModule.start = async ()=>{
+  logger.log('starting sequelize server')
   try{
     sequelize = new Sequelize(process.env.DATABASE, process.env.USERNAME, process.env.PASSWORD, {
       host: process.env.HOST, 
@@ -44,17 +45,14 @@ dbModule.start = async ()=>{
         type: DataTypes.TEXT
       }
     })
+    logger.log('sequelize authenticating...')
     await sequelize.authenticate()
-    logger.log('starting sequelize server')
+    logger.log('updating sequelize server...')
+    await sequelize.sync({alter: !!process.env.ALTER_DB})
   }catch(err){
     logger.error(err)
     throw new Error('failed to authenticate sequelize account')
   }
-}
-
-dbModule.update = async ()=>{
-  logger.log('updating sequelize server')
-  return sequelize.sync({alter: true})
 }
 
 dbModule.close = ()=>{
