@@ -1,23 +1,22 @@
-const mailgun = require('mailgun-js')({ apiKey: process.env.MAILGUN_API_KEY, domain: process.env.MAILGUN_DOMAIN })
 require('dotenv').config()
 
-const mailgunModule = {}
-
-mailgunModule.sendEmail = async (req, res) => {    
-    try {
-      await mailgun.messages().send({
+const sendConfirmationEmail = () => {
+    const mailgun = require('mailgun-js');
+    const DOMAIN = process.env.DOMAIN;
+    const mg = mailgun({apiKey: process.env.MAILGUN_API_KEY, domain: process.env.DOMAIN});
+    const data = {
         from: process.env.SENDER_EMAIL,
-        to: req.params.mail,
-        subject: 'Congratulations! You are approved to join C0d3.com',
-        html: '<h1>Congratulations! Confirm your E-Mail with C0D3</h1><button>Confirm</button>'
-      }, (error) => {
-        if (error) {
-          console.log(`error sending email ${error}`)
+        to: process.env.RECEIVER_EMAIL,
+        subject: 'Congratulations!',
+        text: 'Welcome to C0D3',
+        html: "<h1>Confirm your E-mail</h1><button>Confirm</button>"
+    };
+    mg.messages().send(data, function(error, body){
+        if(error){
+            console.log(error)
         }
-      })
-    } catch (error) {
-      console.log(`mailgun did not send email successful ${error}`)
-    }
+        console.log(body)
+    })
 }
 
-module.exports = mailgunModule
+module.exports = sendConfirmationEmail
