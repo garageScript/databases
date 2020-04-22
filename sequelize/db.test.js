@@ -4,7 +4,8 @@ const {Sequelize} = require('sequelize')
 
 const logGen = require('../lib/log')
 const logger = {
-  error: jest.fn()
+  error: jest.fn(),
+  log: jest.fn()
 }
 logGen.mockReturnValue(logger)
 
@@ -25,15 +26,18 @@ describe('Test sequelize', ()=>{
     return mockSequelize
   })
   it('should test how many times authenticate is called', ()=>{
+    expect(logger.log).toHaveBeenCalledTimes(1)
     expect(mockSequelize.define).toHaveBeenCalledTimes(1)
     expect(mockSequelize.authenticate).toHaveBeenCalledTimes(1)
   })
   it('should test how many times update is called', ()=>{
     update()
+    expect(logger.log).toHaveBeenCalledTimes(2)
     expect(mockSequelize.sync).toHaveBeenCalledTimes(1)
   })
   it('should test how many times close is called', ()=>{
     close()
+    expect(logger.log).toHaveBeenCalledTimes(2)
     expect(mockSequelize.close).toHaveBeenCalledTimes(1)
   })
   it('should test throw on sequelize authentication', async ()=>{

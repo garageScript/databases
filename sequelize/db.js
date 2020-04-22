@@ -8,7 +8,7 @@ const dbModule = {}
 dbModule.start = async ()=>{
   try{
     sequelize = new Sequelize(process.env.DATABASE, process.env.USERNAME, process.env.PASSWORD, {
-      host: process.env.HOST', 
+      host: process.env.HOST, 
       dialect: 'postgres',
       pool: {
         max: 5,
@@ -45,6 +45,7 @@ dbModule.start = async ()=>{
       }
     })
     await sequelize.authenticate()
+    logger.log('starting sequelize server')
   }catch(err){
     logger.error(err)
     throw new Error('failed to authenticate sequelize account')
@@ -52,10 +53,12 @@ dbModule.start = async ()=>{
 }
 
 dbModule.update = async ()=>{
+  logger.log('updating sequelize server')
   return sequelize.sync({alter: true})
 }
 
 dbModule.close = ()=>{
+  logger.log('closing sequelize server')
   return sequelize.close()
 }
 
