@@ -1,9 +1,10 @@
+const mailgun = require('mailgun-js');
+const logger = require('../lib/log')
 require('dotenv').config()
 
+const mg = mailgun({apiKey: process.env.MAILGUN_API_KEY, domain: process.env.DOMAIN});
+
 const sendConfirmationEmail = () => {
-    const mailgun = require('mailgun-js');
-    const DOMAIN = process.env.DOMAIN;
-    const mg = mailgun({apiKey: process.env.MAILGUN_API_KEY, domain: process.env.DOMAIN});
     const data = {
         from: process.env.SENDER_EMAIL,
         to: process.env.RECEIVER_EMAIL,
@@ -13,9 +14,9 @@ const sendConfirmationEmail = () => {
     };
     mg.messages().send(data, function(error, body){
         if(error){
-            console.log(error)
+            logger.error('email failed to send')
         }
-        console.log(body)
+        logger.info('email successfully sent')
     })
 }
 
