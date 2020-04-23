@@ -1,3 +1,4 @@
+const logger = require('./../../lib/log')(__filename)
 const { Client } = require('pg')
 require('dotenv').config()
 
@@ -26,7 +27,7 @@ pgModule.createPgAccount = async (username, password)=>{
     await client.query(`CREATE USER IF NOT EXISTS ${username} WITH ENCRYPTED password '${password}'`)
     await client.query(`GRANT ALL PRIVILEGES ON DATABASE ${username} TO ${username}`)
   }catch(err){
-    console.log('failed to createPgAccount', err)
+    logger.error(err)
     throw new Error(`failed to createPgAccount for user: ${username}`)
   }
 }
@@ -37,7 +38,7 @@ pgModule.deletePgAccount = async (username)=>{
     await client.query(`DROP DATABASE IF EXISTS ${username}`)
     await client.query(`DROP USER IF EXISTS ${username}`)
   }catch(err){
-   console.log('failed to deletePgAccount', err)
+    logger.error(err)
     throw new Error(`failed to deletePgAccount for database and user: ${username}`)
   }
 }
