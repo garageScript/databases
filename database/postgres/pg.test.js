@@ -1,5 +1,13 @@
 jest.mock('pg')
+jest.mock('../../lib/log')
+const logGen = require('../../lib/log')
 const {Client} = require('pg')
+
+const logger = {
+  error: jest.fn()
+}
+logGen.mockReturnValue(logger)
+
 const {startPGDB, closePGDB, createPgAccount, deletePgAccount} = require('./pg')
 
 describe('Test PG DB', ()=>{
@@ -45,12 +53,11 @@ describe('Test PG DB', ()=>{
       })
       it('it should check if console.log is called at throw of createPgAccount', async ()=>{
         try{
-          console.log = jest.fn() 
           await mockClient.query.mockReturnValue(Promise.reject())
           const resCreatePgAccount = await createPgAccount('username', 'password')
           expect(resCreatePgAccount).rejects.toThrow()
         }catch(err){
-          expect(console.log).toHaveBeenCalledTimes(1)
+          expect(logger.error).toHaveBeenCalledTimes(1)
         }
       })
     })
@@ -68,12 +75,11 @@ describe('Test PG DB', ()=>{
       })
       it('it should check if console.log is called at throw of deletePgAccount', async ()=>{
         try{
-          console.log = jest.fn() 
           await mockClient.query.mockReturnValue(Promise.reject())
           const resDeletePgAccount = await deletePgAccount('username', 'password')
           expect(resDeletePgAccount).rejects.toThrow()
         }catch(err){
-          expect(console.log).toHaveBeenCalledTimes(1)
+          expect(logger.error).toHaveBeenCalledTimes(1)
         }
       })
     })
