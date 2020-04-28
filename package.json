@@ -25,7 +25,6 @@
   "dependencies": {
     "mailgun-js": "^0.22.0",
     "pg": "^8.0.2",
-    "promisify-call": "^2.0.4",
     "sequelize": "^5.21.6",
     "winston": "^3.2.1"
   },
