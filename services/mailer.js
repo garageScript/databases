@@ -13,7 +13,7 @@ const sendConfirmationEmail = () => {
         html: "<h1>Confirm your E-mail</h1><button>Confirm</button>"
     };
     
-    mg.messages().send(data).then((returnedData) => {
+    return mg.messages().send(data).then((returnedData) => {
         logger.info('results')
     }).catch((error) => {
         logger.error('error')

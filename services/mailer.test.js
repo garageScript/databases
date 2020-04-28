@@ -1,23 +1,22 @@
 jest.mock('../lib/log')
+jest.mock('mailgun-js')
 const mailgun = require('mailgun-js');
-const email = require('./mailer');
 
-const mockSend = jest.fn()
-jest.mock('mailgun-js', () => {
-    return jest.fn(() =>({
-        messages: ()=>({
-            send: mockSend
-        })
-    }))
+
+const sendFn = jest.fn().mockReturnValue( Promise.resolve('hello'))
+
+mailgun.mockImplementation(() => {
+    return{
+        messages: () => {
+            return {
+                send: sendFn
+            }
+        }
+    }
 })
 
-// const data = {
-//     from: 'mock@mail.com',
-//     to: 'mock@mailer.com',
-//     subject: 'Congratulations!',
-//     text: 'Welcome to C0D3',
-//     html: "<h1>Confirm your E-mail</h1><button>Confirm</button>"
-// };
+//requiring mailer uses the mailgun function so you want to initialize it after you define it at lines 8-16
+const email = require('./mailer');
 
 const logGen = require('../lib/log')
 const logger = {
@@ -28,10 +27,12 @@ const logger = {
 logGen.mockReturnValue(logger)
 
 describe('Test mailgun', ()=>{
+    beforeEach(() => {
+        jest.clearAllMocks()
+    })
+    
     it('should test if mocksend and mailgun is called', ()=>{
-        email()
-        expect(mockSend).toHaveBeenCalledTimes(1)
-        expect(mailgun).toHaveBeenCalledTimes(1)
-        expect(logger.info).toHaveBeenCalledTimes(1)
+        email();
+        expect(sendFn).toHaveBeenCalledTimes(1)
     })
 })
