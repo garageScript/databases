@@ -16,7 +16,7 @@ mailgun.mockImplementation(() => {
 })
 
 //requiring mailer uses the mailgun function so you want to initialize it after you define it at lines 8-16
-const email = require('./mailer');
+
 
 const logGen = require('../lib/log')
 const logger = {
@@ -26,13 +26,17 @@ const logger = {
 
 logGen.mockReturnValue(logger)
 
+const email = require('./mailer');
+
 describe('Test mailgun', ()=>{
     beforeEach(() => {
         jest.clearAllMocks()
     })
     
     it('should test if mocksend and mailgun is called', ()=>{
-        email();
+        email.sendConfirmationEmail('paul@github.com', 'token123')
         expect(sendFn).toHaveBeenCalledTimes(1)
+        expect(sendFn.mock.calls[0][1]).toEqual('paul@github.com')
+        expect(sendFn.mock.calls[0][2]).toEqual('token123')
     })
 })
