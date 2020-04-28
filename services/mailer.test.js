@@ -36,7 +36,6 @@ describe('Test mailgun', ()=>{
     it('should test if mocksend and mailgun is called', ()=>{
         email.sendConfirmationEmail('paul@github.com', 'token123')
         expect(sendFn).toHaveBeenCalledTimes(1)
-        expect(sendFn.mock.calls[0][1]).toEqual('paul@github.com')
-        expect(sendFn.mock.calls[0][2]).toEqual('token123')
+        expect(sendFn.mock.calls[0][0]).toMatchSnapshot()
     })
 })
