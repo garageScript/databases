@@ -9,7 +9,7 @@ const mgModule = {}
 mgModule.sendConfirmationEmail = (receiver, token) => {    
     const link = `https://learndatabases.dev/emailConfirmation/${token}`
     const data = {
-        from: process.env.SENDER_EMAIL,
+        from: 'admin@learndatabases.dev',
         to: receiver,
         subject: 'Congratulations!',
         text: 'Welcome to C0D3',
