@@ -25,7 +25,7 @@ mgModule.sendConfirmationEmail = (receiver, token) => {
     return mg.messages().send(data).then((returnedData) => {
         logger.info('Confirmation Email successfully sent', returnedData)
     }).catch((error) => {
-        logger.info('Confirmation Email Error:', error)
+        logger.error('Confirmation Email Error:', error)
     })
 }
 
