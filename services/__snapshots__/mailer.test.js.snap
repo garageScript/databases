@@ -2,7 +2,7 @@
 
 exports[`Test mailgun should test if mocksend and mailgun is called 1`] = `
 Object {
-  "from": "p_valderama@yahoo.com",
+  "from": "admin@learndatabases.dev",
   "html": "
         <h1> Confirm your Email </h1>
         <p>

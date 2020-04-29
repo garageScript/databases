@@ -21,7 +21,7 @@ mailgun.mockImplementation(() => {
 const logGen = require('../lib/log')
 const logger = {
   error: jest.fn(),
-  log: jest.fn()
+  info: jest.fn()
 }
 
 logGen.mockReturnValue(logger)
@@ -37,5 +37,7 @@ describe('Test mailgun', ()=>{
         email.sendConfirmationEmail('paul@github.com', 'token123')
         expect(sendFn).toHaveBeenCalledTimes(1)
         expect(sendFn.mock.calls[0][0]).toMatchSnapshot()
+        expect(logger.info.mock.calls[0][0]).toEqual('hi')
+        // expect(logger.info).toHaveBeenCalledTimes(1)
     })
 })
