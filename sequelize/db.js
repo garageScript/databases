@@ -5,6 +5,8 @@ require('dotenv').config()
 let sequelize
 const dbModule = {}
 
+const models = {}
+
 dbModule.start = async ()=>{
   logger.log('starting sequelize server')
   try{
@@ -17,7 +19,7 @@ dbModule.start = async ()=>{
         idle: 10000
       }
     })
-    await sequelize.define('account', {
+    models.Accounts = await sequelize.define('account', {
       username: {
         type: DataTypes.STRING,
         unique: true,
@@ -58,6 +60,11 @@ dbModule.start = async ()=>{
 dbModule.close = ()=>{
   logger.log('closing sequelize server')
   return sequelize.close()
+}
+
+dbModule.getModels = ()=>{
+  console.log('getting models', models)
+  return models
 }
 
 module.exports = dbModule

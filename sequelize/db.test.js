@@ -9,21 +9,21 @@ const logger = {
 }
 logGen.mockReturnValue(logger)
 
-const {start, update, close, Account} = require('./db')
+const mockSequelize = {
+  authenticate: jest.fn().mockReturnValue(Promise.resolve()),
+  define: jest.fn(),
+  sync: jest.fn().mockReturnValue(Promise.resolve()), close: jest.fn().mockReturnValue(Promise.resolve())
+}
+Sequelize.mockImplementation(function(){
+  return mockSequelize
+})
+
+const {start, update, close, getModels, Account} = require('./db')
 
 describe('Test sequelize', ()=>{
   beforeEach(()=>{
     jest.clearAllMocks()
     start()
-  })
-  const mockSequelize = {
-    authenticate: jest.fn().mockReturnValue(Promise.resolve()),
-    define: jest.fn(),
-    sync: jest.fn().mockReturnValue(Promise.resolve()),
-    close: jest.fn().mockReturnValue(Promise.resolve())
-  }
-  Sequelize.mockImplementation(function(){
-    return mockSequelize
   })
   it('should test how many times authenticate is called', ()=>{
     expect(logger.log).toHaveBeenCalledTimes(3)
@@ -43,5 +43,22 @@ describe('Test sequelize', ()=>{
     }catch(err){
       expect(logger.error).toHaveBeenCalledTimes(1)
     }
+  })
+})
+
+describe('Test models', ()=>{
+  beforeEach(()=>{
+    jest.clearAllMocks()
+  })
+  it('should get models when get models function is called', async () => {
+    mockSequelize.authenticate.mockReturnValue(Promise.resolve()) 
+    mockSequelize.define.mockReturnValue({name: 'ACCTest'}) 
+    await start()
+    const models = getModels()
+    return expect(models).toEqual({
+      Accounts: {
+        name: 'ACCTest'
+      }
+    })
   })
 })
