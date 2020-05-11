@@ -28,7 +28,7 @@ https://github.com/garageScript/databases/issues
 Wiki https://github.com/garageScript/databases/wiki
 
 
-If you have any questions or think anything was left out message us here:
+If you have any questions message us on our chat:
  https://chat.c0d3.com/c0d3/channels/
 
 __Sequelize credentials are in the chat for privacy__
