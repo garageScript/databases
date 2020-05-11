@@ -15,9 +15,12 @@ Clone your fork on the server
 Production Phases
 
 Phase 1: Modules (helper function)
+
 Phase 2: Functions that power user interactions
-**We are here!
+**We are here!**
+
 Phase 3: API to power user interactions (backend)
+
 Phase 4: UI (aka frontend)
 
 What needs to worked on
