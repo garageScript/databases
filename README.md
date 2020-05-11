@@ -12,7 +12,7 @@ Ssh into c0d3 server
 Clone your fork on the server
 `git clone https://github.com/[github username]/databases.git`
 
-Production Phases
+### Production Phases
 
 Phase 1: Modules (helper function)
 
