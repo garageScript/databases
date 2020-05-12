@@ -7,11 +7,11 @@ const dbModule = {}
 
 const models = {}
 
-dbModule.start = async ()=>{
+dbModule.start = async () => {
   logger.log('starting sequelize server')
-  try{
+  try {
     sequelize = new Sequelize(process.env.DATABASE, process.env.USERNAME, process.env.PASSWORD, {
-      host: process.env.HOST, 
+      host: process.env.HOST,
       dialect: 'postgres',
       pool: {
         max: 5,
@@ -50,20 +50,20 @@ dbModule.start = async ()=>{
     logger.log('sequelize authenticating...')
     await sequelize.authenticate()
     logger.log('updating sequelize server...')
-    await sequelize.sync({alter: !!process.env.ALTER_DB})
-  }catch(err){
+    await sequelize.sync({ alter: !!process.env.ALTER_DB })
+  } catch (err) {
     logger.error(err)
     throw new Error('failed to authenticate sequelize account')
   }
 }
 
-dbModule.close = ()=>{
+dbModule.close = () => {
   logger.log('closing sequelize server')
   return sequelize.close()
 }
 
-dbModule.getModels = ()=>{
-  console.log('getting models', models)
+dbModule.getModels = () => {
+  logger.log('getting models')
   return models
 }
 
