@@ -8,7 +8,7 @@ const dbModule = {}
 const models = {}
 
 dbModule.start = async () => {
-  logger.log('starting sequelize server')
+  logger.info('starting sequelize server')
   try {
     sequelize = new Sequelize(process.env.DATABASE, process.env.USERNAME, process.env.PASSWORD, {
       host: process.env.HOST,
@@ -47,9 +47,9 @@ dbModule.start = async () => {
         type: DataTypes.TEXT
       }
     })
-    logger.log('sequelize authenticating...')
+    logger.info('sequelize authenticating...')
     await sequelize.authenticate()
-    logger.log('updating sequelize server...')
+    logger.info('updating sequelize server...')
     await sequelize.sync({ alter: !!process.env.ALTER_DB })
   } catch (err) {
     logger.error(err)
@@ -58,12 +58,12 @@ dbModule.start = async () => {
 }
 
 dbModule.close = () => {
-  logger.log('closing sequelize server')
+  logger.info('closing sequelize server')
   return sequelize.close()
 }
 
 dbModule.getModels = () => {
-  logger.log('getting models')
+  logger.info('getting models')
   return models
 }
 
