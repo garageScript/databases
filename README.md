@@ -1,7 +1,5 @@
 # databases
 
-<<<<<<< HEAD
-=======
 Fork the repository
 Go to https://c0d3.com
 Create a username and account
@@ -34,4 +32,3 @@ If you have any questions message us on our chat:
 https://chat.c0d3.com/c0d3/channels/
 
 __Sequelize credentials are in the chat for privacy__
->>>>>>> 6aa052bdb1c46f1b95eceb0778060d2a1af3e8fd
