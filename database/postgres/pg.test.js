@@ -1,7 +1,11 @@
+jest.mock('../../lib/log')
+const logGen = require('../../lib/log')
+const logger = {error: jest.fn()}
+logGen.mockReturnValue(logger)
+
 jest.mock('pg')
 const {Client} = require('pg')
 const {startPGDB, closePGDB, createPgAccount, deletePgAccount} = require('./pg')
-const logger = {error: jest.fn()}
 
 describe('Test PG DB', ()=>{
   beforeEach(()=>{
