@@ -5,11 +5,13 @@ require('dotenv').config()
 let sequelize
 const dbModule = {}
 
-dbModule.start = async ()=>{
-  logger.log('starting sequelize server')
-  try{
+const models = {}
+
+dbModule.start = async () => {
+  logger.info('starting sequelize server')
+  try {
     sequelize = new Sequelize(process.env.DATABASE, process.env.USERNAME, process.env.PASSWORD, {
-      host: process.env.HOST, 
+      host: process.env.HOST,
       dialect: 'postgres',
       pool: {
         max: 5,
@@ -17,7 +19,7 @@ dbModule.start = async ()=>{
         idle: 10000
       }
     })
-    await sequelize.define('account', {
+    models.Accounts = await sequelize.define('account', {
       username: {
         type: DataTypes.STRING,
         unique: true,
@@ -45,19 +47,24 @@ dbModule.start = async ()=>{
         type: DataTypes.TEXT
       }
     })
-    logger.log('sequelize authenticating...')
+    logger.info('sequelize authenticating...')
     await sequelize.authenticate()
-    logger.log('updating sequelize server...')
-    await sequelize.sync({alter: !!process.env.ALTER_DB})
-  }catch(err){
+    logger.info('updating sequelize server...')
+    await sequelize.sync({ alter: !!process.env.ALTER_DB })
+  } catch (err) {
     logger.error(err)
     throw new Error('failed to authenticate sequelize account')
   }
 }
 
-dbModule.close = ()=>{
-  logger.log('closing sequelize server')
+dbModule.close = () => {
+  logger.info('closing sequelize server')
   return sequelize.close()
+}
+
+dbModule.getModels = () => {
+  logger.info('getting models')
+  return models
 }
 
 module.exports = dbModule
