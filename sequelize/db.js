@@ -10,7 +10,7 @@ const models = {}
 dbModule.start = async () => {
   logger.info('starting sequelize server')
   try {
-    sequelize = new Sequelize(process.env.DATABASE, process.env.USERNAME, process.env.PASSWORD, {
+    sequelize = new Sequelize(process.env.DATABASE, process.env.PG_USER, process.env.PASSWORD, {
       host: process.env.HOST,
       dialect: 'postgres',
       pool: {
