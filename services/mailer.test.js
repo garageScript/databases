@@ -44,14 +44,12 @@ describe('Test mailgun', ()=>{
         // expect(logger.info.mock.calls[0][0]).toEqual('Confirmation Email successfully sent')        
         
     })
-    it('should test throw', async ()=>{        
-        try{
-            await messages.sendReject.mockReturnValue(Promise.reject())
-        //     expect(messages.sendReject).toHaveBeenCalledTimes(1)
+    it('should test throw', async ()=>{                
+        await messages.sendReject.mockReturnValue(Promise.reject())
+        expect(messages.sendReject).toHaveBeenCalledTimes(1)
         // expec(messages.sendReject.mock.calls[0][0]).toMatchSnapshot()
-        }catch(error){
-            // expect(logger.error).toHaveBeenCalledTimes(1)
-            expect(logger.error.mock.calls[0][0]).toEqual("Confirmation Email Error:")            
-        }
-    })
+    }).catch((err)=>{            
+        expect(logger.error.mock.calls[0][0]).toEqual("Confirmation Email Error:")                        
+        // expect(logger.error).toHaveBeenCalledTimes(1)
+        })
 })
