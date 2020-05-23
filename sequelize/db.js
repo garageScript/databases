@@ -37,11 +37,11 @@ dbModule.start = async () => {
       dbPassword: {
         type: DataTypes.STRING
       },
-      emailConfirmation: {
-        type: DataTypes.STRING
-      },
       passwordReset: {
         type: DataTypes.STRING
+      },
+      tokenExpiration: {
+        type: DataTypes.BIGINT
       },
       databases: {
         type: DataTypes.TEXT
