@@ -13,27 +13,27 @@ const startServer = (portNumber) => {
   return new Promise((resolve, reject) => {
     app = express()
 
-    app.use(express.static('public'))
     app.use(express.json()) // for parsing application/json
-    app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
     app.post('/api/notification', async (req, res) => {
       const email = req.body.email
+      if (!email) {
+        return res.status(400).json({error: {message: "invalid input"}})
+      }
       const {Accounts} = db.getModels()
       const userAccount = await Accounts.findOne({
         where: {
           email: email
         }
       })
+      if (!userAccount) {
+        return res.status(400).json({error: {message: "account does not exist"}})
+      }
       try {
         sendPasswordResetEmail(userAccount) 
-        res.status(200).send('success')
+        return res.status(200).send('success')
       } catch (err) {
-       return {
-         error : {
-           message: 'Email delivery failed. Please try again'
-         }
-        }
+       return res.status(500).json({ error: {message: 'Email delivery failed. Please try again'}})
       }
     })
 
