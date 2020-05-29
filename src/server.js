@@ -13,15 +13,16 @@ const startServer = (portNumber) => {
   return new Promise((resolve, reject) => {
     app = express()
 
+    app.use(express.static('public'))
     app.use(express.json()) // for parsing application/json
     app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
-    app.post('/api/notification', (req, res) => {
+    app.post('/api/notification', async (req, res) => {
       const email = req.body.email
       const {Accounts} = db.getModels()
       const userAccount = await Accounts.findOne({
-        where {
-        email: email
+        where: {
+          email: email
         }
       })
       try {
