@@ -39,6 +39,7 @@ const startServer = (portNumber) => {
     })
 
     app.post('/api/users', async (req, res) => {
+      console.log(req.body)
       const userInfo = {
         username: req.body.username,
         email: req.body.email,
@@ -50,9 +51,10 @@ const startServer = (portNumber) => {
       }
       try {
         await signUp(userInfo)
-        return res.status(200).send('Succeded creating user account')
+        logger.info('Succeded creating user account', userInfo.username)
+        return res.status(200).json('Succeded creating user account')
       } catch (err) {
-        logger.error("Creating user failed", err)
+        logger.error("Creating user failed", userInfo.username, err)
         res.status(500).json({error: {message: 'Creating user failed. Please try again'}})
       }
     })
@@ -74,14 +76,15 @@ const startServer = (portNumber) => {
           return
         }
         account.destroy()
-        return res.status(200).send('Succeded deleting user account')
+        logger.info('Succeded deleting user account', req.params.id)
+        return res.status(200).json('Succeded deleting user account')
       } catch (err) {
-        logger.error("Deleting user failed", err)
+        logger.error("Deleting user failed", req.params.id, err)
         res.status(500).json({error: {message: 'Deleting user failed. Please try again'}})
       }
     })
 
-   server =  app.listen(portNumber, () => {
+   server = app.listen(portNumber, () => {
      resolve(app)
     console.log(`Listening on portNumber ${portNumber}`)
     })
