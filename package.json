@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "bcrypt": "^4.0.1",
+    "express-session": "^1.17.1",
     "pg": "^8.0.2",
     "sequelize": "^5.21.6",
     "winston": "^3.2.1",
