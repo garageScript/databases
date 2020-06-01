@@ -1,20 +1,7 @@
 const request = require('supertest')
-const {getApp} = require('./server')
-const db = require('../sequelize/db')
-const mockFindOne = jest.fn()
-const mockCreateAccount = jest.fn()
-db.getModels = () => {
-    return {
-        Accounts: {
-            findOne: mockFindOne,
-            create: mockCreateAccount
-        }
-    }
-}
+const {startServer, stopServer, getApp} = require('./server')
 
-app = getApp()
-
-describe('test POST request to /api/users', () => {
+describe('test users api for login, create, delete', () => {
     beforeEach(() => {
         jest.clearAllMocks()
     })

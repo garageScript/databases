@@ -1,8 +1,6 @@
 const logger = require('../lib/log')(__filename)
 const express = require('express')
 const session = require('express-session')
-const db = require('../sequelize/db')
-const {sendPasswordResetEmail, signUp, logIn} = require('../lib/users')
 const {usersPOSTCallback, usersDELETECallback, loginPOSTCallback} = require('./server-callback')
 
 let server = null
@@ -28,7 +26,6 @@ const startServer = (portNumber) => {
     }))
 
     app.post('/login', loginPOSTCallback)
-
     app.post('/api/users', usersPOSTCallback)
     app.delete('/api/users/:id', usersDELETECallback)
 

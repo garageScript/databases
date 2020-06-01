@@ -55,14 +55,14 @@ obj.usersDELETECallback = async (req, res) => {
     }
 }
 
-obj.loginPOSTCallback = (req, res) => {
+obj.loginPOSTCallback = async (req, res) => {
     const inputInfo = {
       username: req.body.username,
       password: req.body.password,
       email: req.body.email
     }
     try {
-      const userInfo = logIn(inputInfo)
+      const userInfo = await logIn(inputInfo)
       req.session.username = userInfo.username
       logger.info('Logged in', userInfo.username)
       res.status(200).json(`${userInfo.username} is logged in`)
