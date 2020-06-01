@@ -10,6 +10,16 @@ Ssh into c0d3 server
 Clone your fork on the server 
 `git clone https://github.com/[github username]/databases.git`
 
+To run server
+1. install nodemon
+2. run npm start:dev
+
+To install nodemon
+`npm i -g nodemon`
+
+To start the server
+`npm run start:dev`
+
 ### Production Phases
 
 Phase 1: Modules (helper function)
