@@ -1,4 +1,5 @@
 const express = require('express')
+const logger = require('../lib/log')(__filename)
 let server = null
 let app = null
 
@@ -8,17 +9,17 @@ const getApp = () => {
 
 const startServer = (portNumber) => {
   return new Promise((resolve, reject) => {
-   app = express()
-   server =  app.listen(portNumber, () => {
-     resolve(app)
-    console.log(`Listening on portNumber ${portNumber}`)
+    app = express()
+    server =  app.listen(portNumber, () => {
+      resolve(app)
+      logger.info(`Listening on portNumber ${portNumber}`)
     })
   })
 }
 
 const stopServer = () => {
   server.close()
-  console.log("The server has been closed")
+  logger.info("The server has been closed")
 }
 
 module.exports = {
