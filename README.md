@@ -14,6 +14,12 @@ To run server
 1. install nodemon
 2. run npm start:dev
 
+To install nodemon
+`npm i -g nodemon`
+
+To start the server
+`npm run start:dev`
+
 ### Production Phases
 
 Phase 1: Modules (helper function)

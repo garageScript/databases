@@ -1,6 +1,10 @@
 jest.mock('express')
+jest.mock('../sequelize/db')
 const express = require('express')
 const {getApp, startServer, stopServer} = require('./server')
+const dbModule = require('../sequelize/db')
+
+dbModule.start = jest.fn()
 
 describe('Testing the server', () => {
   test('getApp should return null when startServer has not been called', () => {
