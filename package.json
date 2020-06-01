@@ -4,7 +4,8 @@
   "description": "Create databases in postgres, mongoDB and neo4J",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -24,7 +25,9 @@
   },
   "dependencies": {
     "bcrypt": "^4.0.1",
+    "express": "^4.17.1",
     "mailgun-js": "^0.22.0",
+    "node-fetch": "^2.6.0",
     "pg": "^8.0.2",
     "sequelize": "^5.21.6",
     "winston": "^3.2.1",
