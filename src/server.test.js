@@ -42,7 +42,7 @@ describe('Testing the server', () => {
     expect(mockListen.mock.calls[0][0]).toBe(1000)
   })
   test('stopServer should call server.close', async () => {
-    const serverCarlos = {close: jest.fn()}
+    const server = {close: jest.fn()}
     express.mockReturnValue({
       listen: jest.fn().mockImplementation((a,b) => {
         // Need to setTimeout so the promise resolves
@@ -50,13 +50,13 @@ describe('Testing the server', () => {
         setTimeout(() => {
           b()
         }, 1)
-        return serverCarlos
+        return server
       })
     })
 
     await startServer()
     stopServer()
 
-    expect(serverCarlos.close.mock.calls.length).toEqual(1)
+    expect(server.close.mock.calls.length).toEqual(1)
   })
 })
