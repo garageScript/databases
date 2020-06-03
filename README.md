@@ -23,9 +23,6 @@ To start the server
 If you get an error `TOKEN EXPIRATION` run:
 `ALTER_DB=true npm run start:dev`
 
-To push without code coverage use
-`--no-verify` (use cautiously)
-
 ### Production Phases
 
 Phase 1: Modules (helper function)
