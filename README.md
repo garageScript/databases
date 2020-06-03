@@ -20,14 +20,20 @@ To install nodemon
 To start the server
 `npm run start:dev`
 
+If you get an error `TOKEN EXPIRATION` run:
+`ALTER_DB=true npm run start:dev`
+
+To push without code coverage use
+`--no-verify` (use cautiously)
+
 ### Production Phases
 
 Phase 1: Modules (helper function)
 
 Phase 2: Functions that power user interactions
-**We are here!**
 
 Phase 3: API to power user interactions (backend)
+**We are here!**
 
 Phase 4: UI (aka frontend)
 
