@@ -1,7 +1,7 @@
 const logger = require('../lib/log')(__filename)
 const express = require('express')
 const session = require('express-session')
-const {usersPOSTCallback, usersDELETECallback, loginPOSTCallback} = require('./server-callback')
+const {createUser, deleteUser, loginUser} = require('./userRoutes')
 
 let server = null
 let app = null
@@ -16,7 +16,7 @@ const startServer = (portNumber) => {
 
     app.use(express.json()) // for parsing application/json
     app.use(session({
-      secret: 'I LOVE DATABASES',
+      secret: 'I L0V3 DATABASES',
       resave: false,
       saveUninitialized: true,
       cookie: {
@@ -25,9 +25,9 @@ const startServer = (portNumber) => {
       }
     }))
 
-    app.post('/login', loginPOSTCallback)
-    app.post('/api/users', usersPOSTCallback)
-    app.delete('/api/users/:id', usersDELETECallback)
+    app.post('/api/users', createUser)
+    app.post('/login', loginUser)
+    app.delete('/api/users/:id', deleteUser)
 
    server = app.listen(portNumber, () => {
      resolve(app)

@@ -1,26 +1,35 @@
-const request = require('supertest')
+jest.mock('./userRoutes')
+jest.mock('express')
+
+const express = require('express')
+
+const app = {
+    use: () => {},
+    post: jest.fn(),
+    delete: jest.fn(),
+    listen: () => {}
+}
+express.mockReturnValue(app) // express should be mocked before requiring server
+
 const {startServer, stopServer, getApp} = require('./server')
+const userRoutes = require('./userRoutes')
+
+userRoutes.createUser = jest.fn()
+userRoutes.loginUser = jest.fn()
+userRoutes.deleteUser = jest.fn()
 
 describe('test users api for login, create, delete', () => {
     beforeEach(() => {
         jest.clearAllMocks()
     })
-    it('should respond with error with invalid input', async () => {
-        const userInfo = {
-            username: 'testname',
-            password: 'q1w2e3r4',
-            email: 'test@south.kr'
-        }
-        return request(app).post('/api/users', {
-            method: "POST",
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(userInfo)
-        }).then((res) => {
-            return res.json()
-        }).then((res) => {
-            return expect(res).toEqual('Succeded creating user account')
+    it('should call createUser, loginUser, deleteUser function', () => {
+        startServer().then(() => {
+            app.post.mock.calls[0][1]()
+            expect(userRoutes.createUser).toHaveBeenCalled()
+            app.post.mock.calls[1][1]()
+            expect(userRoutes.loginUser).toHaveBeenCalled()
+            app.delete.mock.calls[0][1]()
+            expect(userRoutes.deleteUser).toHaveBeenCalled()
         })
     })
 })

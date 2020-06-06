@@ -4,7 +4,7 @@ const {signUp} = require('../lib/users')
 
 const obj = {}
 
-obj.usersPOSTCallback = async (req, res) => {
+obj.createUser = async (req, res) => {
     const userInfo = {
         username: req.body.username,
         email: req.body.email,
@@ -24,7 +24,7 @@ obj.usersPOSTCallback = async (req, res) => {
     }
 }
   
-obj.usersDELETECallback = async (req, res) => {
+obj.deleteUser = async (req, res) => {
     if (!req.params.id) {
         logger.info("user id was not provided")
         return res.status(400).json({error: {message: "user id was not provided"}})
@@ -55,7 +55,7 @@ obj.usersDELETECallback = async (req, res) => {
     }
 }
 
-obj.loginPOSTCallback = async (req, res) => {
+obj.loginUser = async (req, res) => {
     const inputInfo = {
       username: req.body.username,
       password: req.body.password,
@@ -68,6 +68,7 @@ obj.loginPOSTCallback = async (req, res) => {
       res.status(200).json(`${userInfo.username} is logged in`)
     } catch (err) {
       logger.info(err)
+      res.status(500).json({error: {message: 'Logging in user failed. Please try again'}})
     }
 }
 
