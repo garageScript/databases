@@ -16,12 +16,12 @@ obj.createUser = async (req, res) => {
     }
     try {
         await signUp(userInfo)
-        logger.info('Succeded creating user account', userInfo.username)
-        return res.status(200).json('Succeded creating user account')
     } catch (err) {
         logger.error("Creating user failed", userInfo.username, err)
-        res.status(500).json({error: {message: 'Creating user failed. Please try again'}})
+        return res.status(500).json({error: {message: 'Creating user failed. Please try again'}})
     }
+    logger.info('Succeded creating user account', userInfo.username)
+    return res.status(200).json('Succeded creating user account')
 }
   
 obj.deleteUser = async (req, res) => {
