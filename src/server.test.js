@@ -1,12 +1,31 @@
 jest.mock('express')
+jest.mock('./database_router')
 jest.mock('../sequelize/db')
 const express = require('express')
+const app = {
+  use: () => {},
+  patch: jest.fn(),
+  listen: () => {}
+}
+express.mockReturnValue(app)
 const {getApp, startServer, stopServer} = require('./server')
 const dbModule = require('../sequelize/db')
 
 dbModule.start = jest.fn()
-
-describe('Testing the server', () => {
+const userRoutes = require('./database_router')
+userRoutes.patch = jest.fn()
+describe('test users api for patch', () => {
+     beforeEach(() => {
+         jest.clearAllMocks()
+     })
+     it('should call patch function', () => {
+         startServer().then(() => {
+             app.patch.mock.calls[0][1]()
+             expect(userRoutes.patch).toHaveBeenCalled()
+         })
+     })
+ }) 
+/*describe('Testing the server', () => {
   test('getApp should return null when startServer has not been called', () => {
     const result = getApp() 
 
@@ -24,20 +43,22 @@ describe('Testing the server', () => {
     expect(result.name).toEqual('Test Server')
   })
   test('startServer should return an object', async () => {
-    express.mockReturnValue({
+    express.mockReturnValue(
+      {
       name: 'Carl Sagan',
       listen: jest.fn().mockImplementation((a, b) => b())
-    })
+      })
 
     const result = await startServer()
     expect(result.name).toEqual('Carl Sagan')
   })
+
   test('startServer should call app.listen with a port number', async () => {
     let mockListen = jest.fn().mockImplementation((a,b) => {
         b()
         return a
   })
-    express.mockReturnValue({
+    express.mockReturnValue(app{
       name: 'George Berkeley',
       listen: mockListen
     })
@@ -63,4 +84,4 @@ describe('Testing the server', () => {
 
     expect(server.close.mock.calls.length).toEqual(1)
   })
-})
+})*/
