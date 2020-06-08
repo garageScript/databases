@@ -16,7 +16,7 @@ describe('Testing user routes', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
-  test('should throw error if req body does not have email', async () => {
+  test('should send 400 error if req body does not have email', async () => {
     const req = {
       body: {}
     }
@@ -25,7 +25,8 @@ describe('Testing user routes', () => {
     expect(res.status.mock.calls[0][0]).toEqual(400)
     expect(mockJson.mock.calls[0][0]).toEqual({error: {message: "invalid input"}})
   })
-  test('should throw error if user account is not found', async () => {
+
+  test('Should send 400 error if user account does not exist', async () => {
     db.getModels = jest.fn().mockReturnValue({
       Accounts: {
         findOne: jest.fn() 
@@ -34,7 +35,6 @@ describe('Testing user routes', () => {
 
    const req = {
      body: {
-       id: 1234,
        email: 'hello@world.com',
      } 
    } 
@@ -43,16 +43,22 @@ describe('Testing user routes', () => {
     expect(res.status.mock.calls[0][0]).toEqual(400)
     expect(mockJson.mock.calls[0][0]).toEqual({error: {message: "account does not exist"}})
   })
-  test('Should send response with status 400 if user account does not exist', async () => {
+
+  test('should send 500 error if send password throws error', async () => {
     db.getModels = jest.fn().mockReturnValue({
       Accounts: {
-        findOne: jest.fn()
+        findOne: jest.fn().mockReturnValue({
+          where: {
+           email: jest.fn().mockReturnValue(null) 
+          }
+        })
       }
     })
 
     const req = {
       body: {
-        email: 'hello@world.com'
+        id: 1,
+        email: 'hello@world.com',
       }
     }
 
@@ -61,6 +67,8 @@ describe('Testing user routes', () => {
     await resetPassword(req, res)
     expect(res.status.mock.calls[0][0]).toEqual(500)
     expect(mockJson.mock.calls[0][0]).toEqual({ error: {message: 'Email delivery failed. Please try again'}})
-  
+  })
+
+  test('should send 200 success if send password is sucessful', async () => {
   })
 })
