@@ -52,7 +52,7 @@ describe('testing patch function', () => {
         mockFindOne.mockReturnValue({
             id:12
         })
-       //users.setDBPassword.mockImplementation(() => {})
+       users.setDBPassword.mockImplementation(() => {})
         await patch(req,res)
          
         return expect(res.json.mock.calls[0][0]).toEqual(`success`)
