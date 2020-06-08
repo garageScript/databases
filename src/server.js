@@ -1,7 +1,7 @@
 const express = require('express')
 const dbModule = require('../sequelize/db')
 const logger = require('../lib/log')(__filename)
-
+const {patch} = require(./database_router')
 let server = null
 let app = null
 
@@ -13,6 +13,8 @@ const startServer = async (portNumber) => {
   await dbModule.start()
   return new Promise((resolve, reject) => {
     app = express()
+    app.use(express.json())
+    app.patch('/api/users/:id',patch)
     server =  app.listen(portNumber, () => {
       resolve(app)
       logger.info(`Listening on portNumber ${portNumber}`)
