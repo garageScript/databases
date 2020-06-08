@@ -16,12 +16,12 @@ obj.createUser = async (req, res) => {
     }
     try {
         await signUp(userInfo)
+        logger.info('Succeded creating user account', userInfo.username)
+        return res.status(200).json('Succeded creating user account')
     } catch (err) {
         logger.error("Creating user failed", userInfo.username, err)
         return res.status(500).json({error: {message: 'Creating user failed. Please try again'}})
     }
-    logger.info('Succeded creating user account', userInfo.username)
-    return res.status(200).json('Succeded creating user account')
 }
   
 obj.deleteUser = async (req, res) => {
@@ -52,23 +52,6 @@ obj.deleteUser = async (req, res) => {
     } catch (err) {
         logger.error("Deleting user failed", req.params.id, err)
         res.status(500).json({error: {message: 'Deleting user failed. Please try again'}})
-    }
-}
-
-obj.loginUser = async (req, res) => {
-    const inputInfo = {
-      username: req.body.username,
-      password: req.body.password,
-      email: req.body.email
-    }
-    try {
-      const userInfo = await logIn(inputInfo)
-      req.session.username = userInfo.username
-      logger.info('Logged in', userInfo.username)
-      res.status(200).json(`${userInfo.username} is logged in`)
-    } catch (err) {
-      logger.info(err)
-      res.status(500).json({error: {message: 'Logging in user failed. Please try again'}})
     }
 }
 
