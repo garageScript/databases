@@ -8,7 +8,7 @@ const res = {
     json: jest.fn()
 }
 
-describe('testing createUser function', () => {
+describe('testing loginUser function', () => {
     beforeEach(() => {
         jest.clearAllMocks()
     })
