@@ -1,7 +1,7 @@
 jest.mock('../lib/users')
 const users = require('../lib/users')
 users.logIn = jest.fn()
-const {createUser, deleteUser, loginUser} = require('./userRoutes')
+const {loginUser, logoutUser} = require('./userRoutes')
 
 const res = {
     status: () => { return res },
@@ -43,4 +43,16 @@ describe('testing createUser function', () => {
         await loginUser(req, res)
         return expect(res.json.mock.calls[0][0]).toEqual('username is logged in')
     })
+})
+
+describe('testing logoutUser function', () => {
+    it('should clear session', () => {
+        const req = {
+            params: { id: 99999999 },
+            session: { username: 'username' }
+        }
+        logoutUser(req, res)
+        expect(req.session.username).toEqual('')
+    })
+
 })

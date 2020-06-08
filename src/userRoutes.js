@@ -21,4 +21,10 @@ obj.loginUser = async (req, res) => {
     }
 }
 
+obj.logoutUser = (req, res) => {
+    req.session.username = ''
+    logger.info('user logged out', req.params.id)
+    res.status(200).json(`Logout succeded`)
+}
+
 module.exports = obj

@@ -1,7 +1,7 @@
 const logger = require('../lib/log')(__filename)
 const express = require('express')
 const session = require('express-session')
-const {createUser, deleteUser, loginUser} = require('./userRoutes')
+const {loginUser, logoutUser} = require('./userRoutes')
 
 let server = null
 let app = null
@@ -25,12 +25,11 @@ const startServer = (portNumber) => {
       }
     }))
 
-    app.post('/api/users', createUser)
-    app.post('/login', loginUser)
-    app.delete('/api/users/:id', deleteUser)
+    app.post('/api/session', loginUser)
+    app.delete('/api/session/:id', logoutUser)
 
    server = app.listen(portNumber, () => {
-     resolve(app)
+    resolve(app)
     console.log(`Listening on portNumber ${portNumber}`)
     })
   })
