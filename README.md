@@ -25,9 +25,9 @@ To start the server
 Phase 1: Modules (helper function)
 
 Phase 2: Functions that power user interactions
-**We are here!**
 
 Phase 3: API to power user interactions (backend)
+**We are here!**
 
 Phase 4: UI (aka frontend)
 
