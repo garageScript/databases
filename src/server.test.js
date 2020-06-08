@@ -2,19 +2,39 @@ jest.mock('express')
 jest.mock('../sequelize/db')
 const express = require('express')
 const {getApp, startServer, stopServer} = require('./server')
+const app ={
+	use:()=>{},
+	patch:jest.fn(),
+	listen:()=>{}
+}
+express.mockReturnValue(app)
 const dbModule = require('../sequelize/db')
 
 dbModule.start = jest.fn()
-
+const userRoutes = require('./database_router')
+userRoutes.patch = jest.fn()
+describe('test users api for patch', () => {
+     beforeEach(() => {
+         jest.clearAllMocks()
+     })
+     it('should call patch function', () => {
+         startServer().then(() => {
+             app.patch.mock.calls[0][1]()
+             expect(userRoutes.patch).toHaveBeenCalled()
+         })
+     })
+ }) 
 describe('Testing the server', () => {
   test('getApp should return null when startServer has not been called', () => {
     const result = getApp() 
 
-    expect(result).toBe(null)
+    expect(result).toBe(app)
   })
   test('getApp should return an express server after startServer has been called', async () => {
     express.mockReturnValue({
-      name: 'Test Server',
+	use: () => {},
+      patch: jest.fn(),    
+  	name: 'Test Server',
       listen: jest.fn().mockImplementation( (a, b) => b() )
     })
 
@@ -25,7 +45,9 @@ describe('Testing the server', () => {
   })
   test('startServer should return an object', async () => {
     express.mockReturnValue({
-      name: 'Carl Sagan',
+      use: () => {},
+      patch: jest.fn(),
+	name: 'Carl Sagan',
       listen: jest.fn().mockImplementation((a, b) => b())
     })
 
@@ -38,7 +60,9 @@ describe('Testing the server', () => {
         return a
   })
     express.mockReturnValue({
-      name: 'George Berkeley',
+      use: () => {},
+      patch: jest.fn(),
+	name: 'George Berkeley',
       listen: mockListen
     })
 
@@ -48,6 +72,8 @@ describe('Testing the server', () => {
   test('stopServer should call server.close', async () => {
     const server = {close: jest.fn()}
     express.mockReturnValue({
+	use: () => {},
+      patch: jest.fn(),
       listen: jest.fn().mockImplementation((a,b) => {
         // Need to setTimeout so the promise resolves
         //   is called after the function returns
