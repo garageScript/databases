@@ -56,9 +56,12 @@ describe('testing patch function', () => {
         mockFindOne.mockReturnValue({
             id:12
         })
-       users.setDBPassword.mockImplementation(() => {
+       
+        users.setDBPassword.mockImplementation(() => {
             console.log("yeah, mock it:")
        })
+       console.log("here9999",patch)
+       console.log()
        
         await patch(req,res)
          
