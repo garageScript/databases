@@ -1,6 +1,7 @@
 const router ={}
 const logger = require('../lib/log')(__filename)
 const dbModule = require('../sequelize/db')
+console.log("ooofff")
 const userModule = require('../lib/users')
 console.log("here1",userModule.setDBPassword)
 router.patch =  async(req,res)=>{
