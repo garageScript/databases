@@ -1,7 +1,7 @@
 jest.mock('../lib/users')
 jest.mock('../sequelize/db')
 
-const {patch} = require('./database_router')
+const {patch} = require('./userRoutes')
 
 const db = require('../sequelize/db')
 const users = require('../lib/users')

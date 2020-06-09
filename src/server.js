@@ -1,7 +1,7 @@
 const express = require('express')
 const dbModule = require('../sequelize/db')
 const logger = require('../lib/log')(__filename)
-const {patch} = require('./database_router')
+const {patch} = require('./userRoutes')
 let server = null
 let app = null
 

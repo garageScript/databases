@@ -11,7 +11,7 @@ express.mockReturnValue(app)
 const dbModule = require('../sequelize/db')
 
 dbModule.start = jest.fn()
-const userRoutes = require('./database_router')
+const userRoutes = require('./userRoutes')
 userRoutes.patch = jest.fn()
 describe('test users api for patch', () => {
      beforeEach(() => {
