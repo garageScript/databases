@@ -1,9 +1,8 @@
 jest.mock('../lib/users')
-console.log("halliluya")
 jest.mock('../sequelize/db')
 
 const {patch} = require('./database_router')
-console.log("here6",patch)
+
 const db = require('../sequelize/db')
 const users = require('../lib/users')
 const mockFindOne = jest.fn()
@@ -15,9 +14,8 @@ db.getModels = () => {
       }
   }
 }
-console.log("here2",users.setDBPassword )
 users.setDBPassword =jest.fn()
-console.log("here3",users.setDBPassword )
+
 const res = {
      status: () => { return res },
      json: jest.fn()
@@ -61,11 +59,8 @@ describe('testing patch function', () => {
         users.setDBPassword.mockImplementation(() => {
             console.log("yeah, mock it:")
        })
-       console.log("here9999",patch)
-       
-       
+      
         await patch(req,res)
-         
         return expect(res.json.mock.calls[0][0]).toEqual(`success`)
     })
     
