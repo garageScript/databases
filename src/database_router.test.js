@@ -2,7 +2,7 @@ jest.mock('../lib/users')
 jest.mock('../sequelize/db')
 
 const {patch} = require('./database_router')
-console.log("here6",console.log(patch))
+console.log("here6",patch)
 const db = require('../sequelize/db')
 const users = require('../lib/users')
 const mockFindOne = jest.fn()
