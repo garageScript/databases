@@ -17,7 +17,6 @@ const startServer = async (portNumber) => {
     app.use(express.json())
 
     app.post('/api/notifications', resetPassword)
-    app.get('/', (req,res) => {res.send('hello')})
 
     server =  app.listen(portNumber, () => {
       resolve(app)

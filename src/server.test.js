@@ -1,8 +1,9 @@
 jest.mock('express')
 jest.mock('../sequelize/db')
+
 const express = require('express')
-const {getApp, startServer, stopServer} = require('./server')
 const dbModule = require('../sequelize/db')
+const {getApp, startServer, stopServer} = require('./server')
 
 dbModule.start = jest.fn()
 
