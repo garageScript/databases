@@ -2,8 +2,14 @@ jest.mock('express')
 jest.mock('../sequelize/db')
 const express = require('express')
 const {getApp, startServer, stopServer} = require('./server')
+const app = {
+  set: ()=>{},
+  use: () => {},
+  get: ()=>{},
+  listen: () => {}
+}
+express.mockReturnValue(app)
 const dbModule = require('../sequelize/db')
-
 dbModule.start = jest.fn()
 
 describe('Testing the server', () => {
@@ -14,6 +20,9 @@ describe('Testing the server', () => {
   })
   test('getApp should return an express server after startServer has been called', async () => {
     express.mockReturnValue({
+      set: ()=>{},
+      use: () => {},
+      get: ()=>{},
       name: 'Test Server',
       listen: jest.fn().mockImplementation( (a, b) => b() )
     })
@@ -25,6 +34,9 @@ describe('Testing the server', () => {
   })
   test('startServer should return an object', async () => {
     express.mockReturnValue({
+      set: ()=>{},
+      use: () => {},
+      get: ()=>{},
       name: 'Carl Sagan',
       listen: jest.fn().mockImplementation((a, b) => b())
     })
@@ -38,6 +50,9 @@ describe('Testing the server', () => {
         return a
   })
     express.mockReturnValue({
+      set: ()=>{},
+      use: () => {},
+      get: ()=>{},
       name: 'George Berkeley',
       listen: mockListen
     })
@@ -48,6 +63,9 @@ describe('Testing the server', () => {
   test('stopServer should call server.close', async () => {
     const server = {close: jest.fn()}
     express.mockReturnValue({
+      set: ()=>{},
+      use: () => {},
+      get: ()=>{},
       listen: jest.fn().mockImplementation((a,b) => {
         // Need to setTimeout so the promise resolves
         //   is called after the function returns
