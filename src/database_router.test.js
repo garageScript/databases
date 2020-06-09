@@ -2,6 +2,7 @@ jest.mock('../lib/users')
 jest.mock('../sequelize/db')
 
 const {patch} = require('./database_router')
+console.log("here6",console.log(patch))
 const db = require('../sequelize/db')
 const users = require('../lib/users')
 const mockFindOne = jest.fn()
@@ -13,7 +14,9 @@ db.getModels = () => {
       }
   }
 }
+console.log("here2",users.setDBPassword )
 users.setDBPassword =jest.fn()
+console.log("here3",users.setDBPassword )
 const res = {
      status: () => { return res },
      json: jest.fn()
@@ -32,6 +35,7 @@ describe('testing patch function', () => {
          //req.params.id does not exist...
         
          await patch(req, res)
+
          return expect(res.json.mock.calls[0][0].error.message).toEqual('invalid input of userid and password')
     })
     it('should send error if user account not found', async() => {
