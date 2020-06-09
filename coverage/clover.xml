@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1591677009852" clover="3.2.0">
-  <project timestamp="1591677009853" name="All files">
-    <metrics statements="176" coveredstatements="176" conditionals="28" coveredconditionals="28" methods="27" coveredmethods="27" elements="231" coveredelements="231" complexity="0" loc="176" ncloc="176" packages="5" files="7" classes="7"/>
+<coverage generated="1591677325404" clover="3.2.0">
+  <project timestamp="1591677325404" name="All files">
+    <metrics statements="177" coveredstatements="177" conditionals="28" coveredconditionals="28" methods="27" coveredmethods="27" elements="232" coveredelements="232" complexity="0" loc="177" ncloc="177" packages="5" files="7" classes="7"/>
     <package name="database.postgres">
       <metrics statements="25" coveredstatements="25" conditionals="6" coveredconditionals="6" methods="4" coveredmethods="4"/>
       <file name="pg.js" path="/Users/alicefanz/Desktop/js/databases/database/postgres/pg.js">
@@ -34,7 +34,7 @@
       </file>
     </package>
     <package name="lib">
-      <metrics statements="69" coveredstatements="69" conditionals="16" coveredconditionals="16" methods="11" coveredmethods="11"/>
+      <metrics statements="70" coveredstatements="70" conditionals="16" coveredconditionals="16" methods="11" coveredmethods="11"/>
       <file name="log.js" path="/Users/alicefanz/Desktop/js/databases/lib/log.js">
         <metrics statements="15" coveredstatements="15" conditionals="2" coveredconditionals="2" methods="7" coveredmethods="7"/>
         <line num="1" count="10" type="stmt"/>
@@ -54,7 +54,7 @@
         <line num="41" count="12" type="stmt"/>
       </file>
       <file name="users.js" path="/Users/alicefanz/Desktop/js/databases/lib/users.js">
-        <metrics statements="54" coveredstatements="54" conditionals="14" coveredconditionals="14" methods="4" coveredmethods="4"/>
+        <metrics statements="55" coveredstatements="55" conditionals="14" coveredconditionals="14" methods="4" coveredmethods="4"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
         <line num="3" count="3" type="stmt"/>
@@ -99,16 +99,17 @@
         <line num="81" count="1" type="stmt"/>
         <line num="84" count="1" type="stmt"/>
         <line num="87" count="3" type="stmt"/>
-        <line num="88" count="3" type="cond" truecount="4" falsecount="0"/>
-        <line num="89" count="1" type="stmt"/>
+        <line num="88" count="3" type="stmt"/>
+        <line num="89" count="3" type="cond" truecount="4" falsecount="0"/>
         <line num="90" count="1" type="stmt"/>
-        <line num="92" count="2" type="stmt"/>
+        <line num="91" count="1" type="stmt"/>
         <line num="93" count="2" type="stmt"/>
         <line num="94" count="2" type="stmt"/>
-        <line num="102" count="1" type="stmt"/>
+        <line num="95" count="2" type="stmt"/>
         <line num="103" count="1" type="stmt"/>
-        <line num="105" count="1" type="stmt"/>
-        <line num="108" count="3" type="stmt"/>
+        <line num="104" count="1" type="stmt"/>
+        <line num="106" count="1" type="stmt"/>
+        <line num="109" count="3" type="stmt"/>
       </file>
     </package>
     <package name="sequelize">
