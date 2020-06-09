@@ -1,4 +1,5 @@
 jest.mock('../lib/users')
+console.log("halliluya")
 jest.mock('../sequelize/db')
 
 const {patch} = require('./database_router')
@@ -61,7 +62,7 @@ describe('testing patch function', () => {
             console.log("yeah, mock it:")
        })
        console.log("here9999",patch)
-       console.log()
+       
        
         await patch(req,res)
          
