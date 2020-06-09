@@ -41,17 +41,18 @@ describe('Testing user routes', () => {
 
     await resetPassword(req, res)
     expect(res.status.mock.calls[0][0]).toEqual(400)
-    expect(mockJson.mock.calls[0][0]).toEqual({error: {message: "account does not exist"}})
+    expect(mockJson.mock.calls[0][0]).toEqual({error: {message: "Account does not exist"}})
   })
 
   test('should send 500 error if send password throws error', async () => {
+    const userAccount = {
+      id: 1,
+      email: 'hello@world.com'
+    }
+
     db.getModels = jest.fn().mockReturnValue({
       Accounts: {
-        findOne: jest.fn().mockReturnValue({
-          where: {
-            email: jest.fn()
-          }
-        })
+        findOne: jest.fn().mockReturnValue(userAccount)
       }
     })
 
@@ -61,6 +62,10 @@ describe('Testing user routes', () => {
       }
     }
 
+    sendPasswordResetEmail.mockImplementation(() => {
+      throw new Error('error') 
+    })
+
     await resetPassword(req, res)
     expect(res.status.mock.calls[0][0]).toEqual(500)
     expect(mockJson.mock.calls[0][0]).toEqual({ error: {message: 'Email delivery failed. Please try again'}})
@@ -68,10 +73,8 @@ describe('Testing user routes', () => {
 
   test('should send 200 success if send password is sucessful', async () => {
     const userAccount = {
-      id: 1,
-      username: 'hello',
+      id: 2,
       email: 'hello@world.com',
-      password: 1234567890
     }
 
     db.getModels = jest.fn().mockReturnValue({
@@ -88,6 +91,6 @@ describe('Testing user routes', () => {
 
     await resetPassword(req, res)
     expect(res.status.mock.calls[0][0]).toEqual(200)
-    expect(mockJson.mock.calls[0][0]).toEqual({error: {message: 'email sucessfully sent'}})
+    expect(mockJson.mock.calls[0][0]).toEqual({success: {message: 'email sucessfully sent'}})
   })
 })
