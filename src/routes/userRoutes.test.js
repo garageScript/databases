@@ -1,10 +1,10 @@
 jest.mock('mailgun-js')
+jest.mock('../../lib/users')
 jest.mock('../../sequelize/db')
-jest.mock('../../services/mailer')
 
-const {resetPassword} = require('./userRoutes')
 const db = require('../../sequelize/db')
-const email = require('../../services/mailer')
+const {resetPassword} = require('./userRoutes')
+const {sendPasswordResetEmail} = require('../../lib/users')
 
 const mockJson = jest.fn()
 
@@ -49,7 +49,7 @@ describe('Testing user routes', () => {
       Accounts: {
         findOne: jest.fn().mockReturnValue({
           where: {
-           email: jest.fn().mockReturnValue(null) 
+            email: jest.fn()
           }
         })
       }
@@ -57,12 +57,9 @@ describe('Testing user routes', () => {
 
     const req = {
       body: {
-        id: 1,
-        email: 'hello@world.com',
+        email: 'hello@world.com'
       }
     }
-
-    sendPasswordResetEmail = jest.fn().mockReturnValue(null)
 
     await resetPassword(req, res)
     expect(res.status.mock.calls[0][0]).toEqual(500)
@@ -70,5 +67,27 @@ describe('Testing user routes', () => {
   })
 
   test('should send 200 success if send password is sucessful', async () => {
+    const userAccount = {
+      id: 1,
+      username: 'hello',
+      email: 'hello@world.com',
+      password: 1234567890
+    }
+
+    db.getModels = jest.fn().mockReturnValue({
+      Accounts: {
+        findOne: jest.fn().mockReturnValue(userAccount)
+      }
+    })
+
+    const req = {
+      body: {
+        email: 'hello@world.com' 
+      } 
+    }
+
+    await resetPassword(req, res)
+    expect(res.status.mock.calls[0][0]).toEqual(200)
+    expect(mockJson.mock.calls[0][0]).toEqual({error: {message: 'email sucessfully sent'}})
   })
 })
