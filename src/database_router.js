@@ -3,7 +3,6 @@ const logger = require('../lib/log')(__filename)
 const dbModule = require('../sequelize/db')
 const userModule = require('../lib/users')
 router.patch =  async(req,res)=>{
-    //const {setDBPassword} = require('../lib/users')
     
     if(req.params.id===null ||!req.body.password ){
         logger.error('invalid input')
@@ -11,6 +10,7 @@ router.patch =  async(req,res)=>{
     }
     
     const {Accounts} = dbModule.getModels()
+
     const userAccount = await Accounts.findOne({
         where:{
             id:req.params.id
@@ -23,6 +23,7 @@ router.patch =  async(req,res)=>{
         return
     }
     try {
+        console.log(userModule.setDBPassword)
         await userModule.setDBPassword(userAccount,req.body.password) 
         console.log(userModule.setDBPassword)
         logger.info(`user ${userAccount.id} updates password`)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1591673211819" clover="3.2.0">
-  <project timestamp="1591673211819" name="All files">
+<coverage generated="1591673967277" clover="3.2.0">
+  <project timestamp="1591673967278" name="All files">
     <metrics statements="173" coveredstatements="173" conditionals="28" coveredconditionals="28" methods="27" coveredmethods="27" elements="228" coveredelements="228" complexity="0" loc="173" ncloc="173" packages="5" files="7" classes="7"/>
     <package name="database.postgres">
       <metrics statements="25" coveredstatements="25" conditionals="6" coveredconditionals="6" methods="4" coveredmethods="4"/>
