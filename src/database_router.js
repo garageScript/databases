@@ -3,7 +3,7 @@ const logger = require('../lib/log')(__filename)
 const dbModule = require('../sequelize/db')
 console.log("ooofff")
 const userModule = require('../lib/users')
-console.log("here1",userModule.setDBPassword)
+console.log("here1",userModule)
 router.patch =  async(req,res)=>{
     console.log("here10",userModule.setDBPassword )
     if(req.params.id===null ||!req.body.password ){
