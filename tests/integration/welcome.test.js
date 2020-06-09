@@ -9,7 +9,7 @@ describe('test welcome page',()=>{
         await stopServer()
     })
     test('should render welcome page correctly', async()=>{
-        const result = await fetch('http://127.0.0.1:20200/').then(r=> r.text())
+        const result = await fetch('http://localhost:20200/').then(r=> r.text())
         expect(result).toMatchSnapshot()
     })
 })
