@@ -1,10 +1,9 @@
 const router ={}
 const logger = require('../lib/log')(__filename)
 const dbModule = require('../sequelize/db')
-
+const userModule = require('../lib/users')
 router.patch =  async(req,res)=>{
-    const {setDBPassword} = require('../lib/users')
-    //how to connect userId with user obj & userInfo?
+
     if(req.params.id===null ||!req.body.password ){
         logger.error('invalid input')
         return res.status(400).json({error:{message:'invalid input of userid and password'}})
@@ -23,7 +22,7 @@ router.patch =  async(req,res)=>{
         return
     }
     try {
-        await setDBPassword(userAccount,req.body.password) 
+        await userModule.setDBPassword(userAccount,req.body.password) 
         logger.info(`user ${userAccount.id} updates password`)
         return res.status(200).json('success')
       } catch (err) {
