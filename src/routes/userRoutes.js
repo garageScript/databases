@@ -28,7 +28,7 @@ routes.resetPassword = async (req, res) => {
     await sendPasswordResetEmail(userAccount)
 
     logger.info(`user reset password email sent to user ${userAccount.id}`)
-    return res.status(200).send({sucess: {message: "Email sucessfully sent"}})
+    return res.status(200).json({success: {message: "Email sucessfully sent"}})
   } catch (err) {
     logger.error(`Could not send email to user ${userAccount.id}`)
     return res.status(500).json({ error: {message: 'Email delivery failed. Please try again'}})

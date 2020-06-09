@@ -71,7 +71,7 @@ describe('Testing user routes', () => {
     expect(mockJson.mock.calls[0][0]).toEqual({ error: {message: 'Email delivery failed. Please try again'}})
   })
 
-  test('should send 200 success if send password is sucessful', async () => {
+  test('should send 200 success if send password is successful', async () => {
     const userAccount = {
       id: 2,
       email: 'hello@world.com',
@@ -89,8 +89,12 @@ describe('Testing user routes', () => {
       } 
     }
 
+    sendPasswordResetEmail.mockImplementation(() => {
+      return
+    })
+
     await resetPassword(req, res)
     expect(res.status.mock.calls[0][0]).toEqual(200)
-    expect(mockJson.mock.calls[0][0]).toEqual({success: {message: 'email sucessfully sent'}})
+    expect(mockJson.mock.calls[0][0]).toEqual({success: {message: 'Email sucessfully sent'}})
   })
 })
