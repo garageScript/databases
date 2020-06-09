@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1591606801374" clover="3.2.0">
-  <project timestamp="1591606801374" name="All files">
+<coverage generated="1591672977065" clover="3.2.0">
+  <project timestamp="1591672977065" name="All files">
     <metrics statements="172" coveredstatements="172" conditionals="28" coveredconditionals="28" methods="27" coveredmethods="27" elements="227" coveredelements="227" complexity="0" loc="172" ncloc="172" packages="5" files="7" classes="7"/>
     <package name="database.postgres">
       <metrics statements="25" coveredstatements="25" conditionals="6" coveredconditionals="6" methods="4" coveredmethods="4"/>
@@ -40,30 +40,30 @@
         <line num="1" count="10" type="stmt"/>
         <line num="2" count="10" type="stmt"/>
         <line num="4" count="10" type="stmt"/>
-        <line num="5" count="10" type="stmt"/>
+        <line num="5" count="12" type="stmt"/>
         <line num="13" count="10" type="stmt"/>
-        <line num="21" count="10" type="stmt"/>
+        <line num="21" count="12" type="stmt"/>
         <line num="22" count="12" type="stmt"/>
         <line num="23" count="17" type="cond" truecount="2" falsecount="0"/>
         <line num="24" count="15" type="stmt"/>
         <line num="26" count="12" type="stmt"/>
-        <line num="29" count="10" type="stmt"/>
+        <line num="29" count="12" type="stmt"/>
         <line num="31" count="7" type="stmt"/>
         <line num="34" count="1" type="stmt"/>
         <line num="37" count="4" type="stmt"/>
-        <line num="41" count="10" type="stmt"/>
+        <line num="41" count="12" type="stmt"/>
       </file>
       <file name="users.js" path="/Users/alicefanz/Desktop/js/databases/lib/users.js">
         <metrics statements="54" coveredstatements="54" conditionals="14" coveredconditionals="14" methods="4" coveredmethods="4"/>
-        <line num="1" count="2" type="stmt"/>
-        <line num="2" count="2" type="stmt"/>
-        <line num="3" count="2" type="stmt"/>
-        <line num="4" count="2" type="stmt"/>
-        <line num="5" count="2" type="stmt"/>
-        <line num="6" count="2" type="stmt"/>
-        <line num="7" count="2" type="stmt"/>
-        <line num="9" count="2" type="stmt"/>
-        <line num="15" count="2" type="stmt"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="2" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="4" count="3" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="6" count="3" type="stmt"/>
+        <line num="7" count="3" type="stmt"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
         <line num="16" count="2" type="stmt"/>
         <line num="17" count="2" type="stmt"/>
         <line num="19" count="2" type="stmt"/>
@@ -71,7 +71,7 @@
         <line num="25" count="2" type="stmt"/>
         <line num="26" count="2" type="stmt"/>
         <line num="27" count="2" type="stmt"/>
-        <line num="33" count="2" type="stmt"/>
+        <line num="33" count="3" type="stmt"/>
         <line num="34" count="7" type="stmt"/>
         <line num="35" count="7" type="stmt"/>
         <line num="37" count="5" type="stmt"/>
@@ -84,7 +84,7 @@
         <line num="51" count="1" type="stmt"/>
         <line num="56" count="1" type="stmt"/>
         <line num="57" count="1" type="stmt"/>
-        <line num="60" count="2" type="stmt"/>
+        <line num="60" count="3" type="stmt"/>
         <line num="61" count="4" type="cond" truecount="4" falsecount="0"/>
         <line num="62" count="1" type="stmt"/>
         <line num="63" count="1" type="stmt"/>
@@ -98,7 +98,7 @@
         <line num="80" count="1" type="stmt"/>
         <line num="81" count="1" type="stmt"/>
         <line num="84" count="1" type="stmt"/>
-        <line num="87" count="2" type="stmt"/>
+        <line num="87" count="3" type="stmt"/>
         <line num="88" count="3" type="cond" truecount="4" falsecount="0"/>
         <line num="89" count="1" type="stmt"/>
         <line num="90" count="1" type="stmt"/>
@@ -108,7 +108,7 @@
         <line num="102" count="1" type="stmt"/>
         <line num="103" count="1" type="stmt"/>
         <line num="105" count="1" type="stmt"/>
-        <line num="108" count="2" type="stmt"/>
+        <line num="108" count="3" type="stmt"/>
       </file>
     </package>
     <package name="sequelize">
@@ -144,19 +144,19 @@
       <metrics statements="13" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
       <file name="mailer.js" path="/Users/alicefanz/Desktop/js/databases/services/mailer.js">
         <metrics statements="13" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
-        <line num="1" count="3" type="stmt"/>
-        <line num="2" count="3" type="stmt"/>
-        <line num="3" count="3" type="stmt"/>
-        <line num="5" count="3" type="stmt"/>
-        <line num="7" count="3" type="stmt"/>
-        <line num="9" count="3" type="stmt"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="3" count="4" type="stmt"/>
+        <line num="5" count="4" type="stmt"/>
+        <line num="7" count="4" type="stmt"/>
+        <line num="9" count="4" type="stmt"/>
         <line num="10" count="2" type="stmt"/>
         <line num="11" count="2" type="stmt"/>
         <line num="24" count="2" type="stmt"/>
         <line num="25" count="1" type="stmt"/>
         <line num="27" count="1" type="stmt"/>
         <line num="28" count="1" type="stmt"/>
-        <line num="32" count="3" type="stmt"/>
+        <line num="32" count="4" type="stmt"/>
       </file>
     </package>
     <package name="src">
@@ -166,8 +166,8 @@
         <line num="1" count="2" type="stmt"/>
         <line num="2" count="2" type="stmt"/>
         <line num="3" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
         <line num="5" count="2" type="stmt"/>
-        <line num="6" count="4" type="stmt"/>
         <line num="8" count="4" type="cond" truecount="4" falsecount="0"/>
         <line num="9" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>

@@ -24,6 +24,7 @@ router.patch =  async(req,res)=>{
     }
     try {
         await userModule.setDBPassword(userAccount,req.body.password) 
+        console.log(userModule.setDBPassword)
         logger.info(`user ${userAccount.id} updates password`)
         return res.status(200).json('success')
       } catch (err) {
