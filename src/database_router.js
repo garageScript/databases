@@ -4,7 +4,7 @@ const dbModule = require('../sequelize/db')
 const userModule = require('../lib/users')
 console.log("here1",userModule.setDBPassword)
 router.patch =  async(req,res)=>{
-    
+    console.log("here10",userModule.setDBPassword )
     if(req.params.id===null ||!req.body.password ){
         logger.error('invalid input')
         return res.status(400).json({error:{message:'invalid input of userid and password'}})
