@@ -69,7 +69,7 @@ routes.deleteUser = async (req, res) => {
       })
       if (!account) {
       logger.info("Cannot find user", req.params.id)
-      res.status(500).json({error: {message: "Cannot find user"}})
+      res.status(400).json({error: {message: "Cannot find user"}})
       return
       }
       if (account.username !== req.session.username) {

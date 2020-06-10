@@ -109,6 +109,7 @@ describe('testing createUser function', () => {
           }
       }
       await createUser(req, res)
+      expect(res.status.mock.calls[0][0]).toEqual(400)
       return expect(res.json.mock.calls[0][0].error.message).toEqual("invalid input")
   })
   it('should send error if sign up fails', async () => {
@@ -123,6 +124,7 @@ describe('testing createUser function', () => {
           }
       }
       await createUser(req, res)
+      expect(res.status.mock.calls[0][0]).toEqual(500)
       return expect(res.json.mock.calls[0][0].error.message).toEqual('Creating user failed. Please try again')
   })
   it('should create user account', async () => {
@@ -137,6 +139,7 @@ describe('testing createUser function', () => {
           }
       }
       await createUser(req, res)
+      expect(res.status.mock.calls[0][0]).toEqual(200)
       return expect(res.json.mock.calls[0][0]).toEqual('Succeded creating user account')
   })
 })
@@ -150,6 +153,7 @@ describe('testing deleteUser function', () => {
           params: { id: null }
       }
       await deleteUser(req, res)
+      expect(res.status.mock.calls[0][0]).toEqual(400)
       return expect(res.json.mock.calls[0][0].error.message).toEqual("user id was not provided")
   })
   it('should send error if account is not found', async () => {
@@ -158,6 +162,7 @@ describe('testing deleteUser function', () => {
       }
       mcokFindOne.mockReturnValue(null)
       await deleteUser(req, res)
+      expect(res.status.mock.calls[0][0]).toEqual(400)
       return expect(res.json.mock.calls[0][0].error.message).toEqual("Cannot find user")
   })
   it('should send error if user session does not match', async () => {
@@ -169,6 +174,7 @@ describe('testing deleteUser function', () => {
           username: 'testuserB'
       })
       await deleteUser(req, res)
+      expect(res.status.mock.calls[0][0]).toEqual(500)
       return expect(res.json.mock.calls[0][0].error.message).toEqual("Username does not match to cookie")
   })
   it('should delete user', async () => {
@@ -181,6 +187,7 @@ describe('testing deleteUser function', () => {
           destroy: () => {}
       })
       await deleteUser(req, res)
+      expect(res.status.mock.calls[0][0]).toEqual(200)
       return expect(res.json.mock.calls[0][0]).toEqual("Succeded deleting user account")
   })
   it('should send error delete user fails', async () => {
@@ -193,6 +200,7 @@ describe('testing deleteUser function', () => {
           destroy: () => { throw new Error('Error')}
       })
       await deleteUser(req, res)
+      expect(res.status.mock.calls[0][0]).toEqual(500)
       return expect(res.json.mock.calls[0][0].error.message).toEqual("Deleting user failed. Please try again")
   })
 })
