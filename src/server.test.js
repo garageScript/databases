@@ -6,6 +6,7 @@ const dbModule = require('../sequelize/db')
 const {getApp, startServer, stopServer} = require('./server')
 
 dbModule.start = jest.fn()
+dbModule.close = jest.fn()
 
 describe('Testing the server', () => {
   test('getApp should return null when startServer has not been called', () => {
@@ -74,6 +75,7 @@ describe('Testing the server', () => {
     await startServer()
     stopServer()
 
-    expect(server.close.mock.calls.length).toEqual(1)
+    expect(dbModule.close).toHaveBeenCalled()
+    expect(server.close).toHaveBeenCalled()
   })
 })
