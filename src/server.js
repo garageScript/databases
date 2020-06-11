@@ -14,8 +14,11 @@ const startServer = async (portNumber) => {
   await dbModule.start()
   return new Promise((resolve, reject) => {
     app = express()
+    app.set('view engine','ejs')
     app.use(express.json())
-
+    app.get('/',(req,res)=>{
+      res.render('welcome.ejs')
+    })
     app.post('/api/notifications', resetPassword)
 
     server =  app.listen(portNumber, () => {

@@ -16,6 +16,7 @@ describe('Testing the server', () => {
   })
   test('getApp should return an express server after startServer has been called', async () => {
     express.mockReturnValue({
+      set:jest.fn(),
       use: jest.fn(),
       post: jest.fn(),
       get: jest.fn(),
@@ -30,6 +31,7 @@ describe('Testing the server', () => {
   })
   test('startServer should return an object', async () => {
     express.mockReturnValue({
+      set:jest.fn(),
       use: jest.fn(),
       post: jest.fn(),
       get: jest.fn(),
@@ -46,6 +48,7 @@ describe('Testing the server', () => {
         return a
   })
     express.mockReturnValue({
+      set:jest.fn(),
       use: jest.fn(),
       post: jest.fn(),
       get: jest.fn(),
@@ -59,6 +62,7 @@ describe('Testing the server', () => {
   test('stopServer should call server.close', async () => {
     const server = {close: jest.fn()}
     express.mockReturnValue({
+      set:jest.fn(),
       use: jest.fn(),
       post: jest.fn(),
       get: jest.fn(),
