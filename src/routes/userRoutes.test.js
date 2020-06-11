@@ -3,11 +3,10 @@ jest.mock('../../lib/users')
 jest.mock('../../sequelize/db')
 
 const db = require('../../sequelize/db')
-const {resetPassword} = require('./userRoutes')
-const {sendPasswordResetEmail} = require('../../lib/users')
+const {resetPassword,updateDBPassword} = require('./userRoutes')
+const {sendPasswordResetEmail,setDBPassword} = require('../../lib/users')
 
 const mockJson = jest.fn()
-
 const res = {
   status: jest.fn().mockReturnValue({json: mockJson})
 }
@@ -98,3 +97,81 @@ describe('Testing user routes', () => {
     expect(mockJson.mock.calls[0][0]).toEqual({success: {message: 'Email sucessfully sent'}})
   })
 })
+
+describe('testing patch function', () => {
+  beforeEach(() => {
+       jest.clearAllMocks()
+  })
+
+  it('should send error if user id not found', async() => { 
+      const req ={
+          params:{id:null},
+          body:{password:null}
+       }
+
+       await updateDBPassword(req, res)
+       return expect(mockJson.mock.calls[0][0].error.message).toEqual('invalid input of userid and password')
+  })
+  it('should send error if user account not found', async() => {
+      db.getModels = jest.fn().mockReturnValue({
+        Accounts: {
+          findOne: jest.fn() 
+        } 
+      }) 
+      const req = {
+           params:{id:-2},
+           body:{password:88900900}
+       }
+       await updateDBPassword(req,res)
+       return expect(mockJson.mock.calls[0][0].error.message).toEqual('account does not exist')
+  })
+
+  it('update user password', async() => {
+
+      const userAccount = {
+        id: 12
+      }
+
+      db.getModels = jest.fn().mockReturnValue({
+        Accounts: {
+          findOne: jest.fn().mockReturnValue(userAccount)
+        }
+      })
+      const req = {
+          params:{id:12},
+          body:{password:12345678}
+      }
+      
+
+      setDBPassword.mockImplementation(() => {return})
+
+      await updateDBPassword(req,res)
+      return expect(mockJson.mock.calls[0][0]).toEqual(`success`)
+  })
+
+  it('should send error if password update failed', async() => {
+      const userAccount = {
+        id: 12
+      }
+
+      db.getModels = jest.fn().mockReturnValue({
+        Accounts: {
+          findOne: jest.fn().mockReturnValue(userAccount)
+        }
+      })
+      const req = {
+          params:{id:12},
+          body:{password:'noexist'}
+      }
+      
+
+     setDBPassword.mockImplementation(() => {
+          throw new Error('error')
+        })
+        await updateDBPassword(req,res)
+        return expect(mockJson.mock.calls[0][0].error.message).toEqual("Password update failed. Please try again")        
+
+      })
+
+  })
+

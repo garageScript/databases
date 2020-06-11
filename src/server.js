@@ -1,7 +1,7 @@
 const express = require('express')
 const logger = require('../lib/log')(__filename)
 const dbModule = require('../sequelize/db')
-const {resetPassword} = require('./routes/userRoutes')
+const {resetPassword,updateDBPassword} = require('./routes/userRoutes')
 
 let server = null
 let app = null
@@ -17,7 +17,7 @@ const startServer = async (portNumber) => {
     app.use(express.json())
 
     app.post('/api/notifications', resetPassword)
-
+    app.patch('/api/users/:id',updateDBPassword)
     server =  app.listen(portNumber, () => {
       resolve(app)
       logger.info(`Listening on portNumber ${portNumber}`)
@@ -26,8 +26,14 @@ const startServer = async (portNumber) => {
 }
 
 const stopServer = () => {
-  server.close()
-  logger.info("The server has been closed")
+  return new Promise((resolve, reject) => {
+    dbModule.close()
+    logger.info("DB has been closed")
+    server.close(() => { 
+      logger.info("The server has been closed")
+      resolve() 
+    })
+  })
 }
 
 module.exports = {

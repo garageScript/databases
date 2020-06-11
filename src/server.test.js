@@ -6,11 +6,11 @@ const dbModule = require('../sequelize/db')
 const {getApp, startServer, stopServer} = require('./server')
 
 dbModule.start = jest.fn()
+dbModule.close = jest.fn()
 
 describe('Testing the server', () => {
   test('getApp should return null when startServer has not been called', () => {
     const result = getApp() 
-
     expect(result).toBe(null)
   })
   test('getApp should return an express server after startServer has been called', async () => {
@@ -18,6 +18,7 @@ describe('Testing the server', () => {
       use: jest.fn(),
       post: jest.fn(),
       get: jest.fn(),
+      patch:jest.fn(),
       listen: jest.fn().mockImplementation( (a, b) => b()),
       name: 'Test Server',
     })
@@ -32,6 +33,7 @@ describe('Testing the server', () => {
       use: jest.fn(),
       post: jest.fn(),
       get: jest.fn(),
+      patch:jest.fn(),
       listen: jest.fn().mockImplementation((a, b) => b()),
       name: 'Carl Sagan'
     })
@@ -48,6 +50,7 @@ describe('Testing the server', () => {
       use: jest.fn(),
       post: jest.fn(),
       get: jest.fn(),
+      patch:jest.fn(),
       listen: mockListen,
       name: 'George Berkeley',
     })
@@ -61,6 +64,7 @@ describe('Testing the server', () => {
       use: jest.fn(),
       post: jest.fn(),
       get: jest.fn(),
+      patch:jest.fn(),
       listen: jest.fn().mockImplementation((a,b) => {
         // Need to setTimeout so the promise resolves
         //   is called after the function returns
@@ -74,6 +78,7 @@ describe('Testing the server', () => {
     await startServer()
     stopServer()
 
-    expect(server.close.mock.calls.length).toEqual(1)
+    expect(dbModule.close).toHaveBeenCalled()
+    expect(server.close).toHaveBeenCalled()
   })
 })
