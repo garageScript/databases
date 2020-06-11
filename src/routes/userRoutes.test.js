@@ -6,11 +6,11 @@ const db = require('../../sequelize/db')
 const {resetPassword, createUser, deleteUser} = require('./userRoutes')
 const {sendPasswordResetEmail, signUp} = require('../../lib/users')
 
-const mcokFindOne = jest.fn()
+const mockFindOne = jest.fn()
 db.getModels = () => {
   return {
     Accounts: {
-      findOne: mcokFindOne
+      findOne: mockFindOne
     }
   }
 }
@@ -55,7 +55,7 @@ describe('Testing resetPassword function', () => {
       email: 'hello@world.com'
     }
 
-    mcokFindOne.mockReturnValue(userAccount)
+    mockFindOne.mockReturnValue(userAccount)
 
     const req = {
       body: {
@@ -78,7 +78,7 @@ describe('Testing resetPassword function', () => {
       email: 'hello@world.com',
     }
 
-    mcokFindOne.mockReturnValue(userAccount)
+    mockFindOne.mockReturnValue(userAccount)
 
     const req = {
       body: {
@@ -148,7 +148,7 @@ describe('Testing deleteUser function', () => {
       const req = {
           params: { id: 99999999 }
       }
-      mcokFindOne.mockReturnValue(null)
+      mockFindOne.mockReturnValue(null)
       await deleteUser(req, res)
       expect(res.status.mock.calls[0][0]).toEqual(404)
       return expect(res.json.mock.calls[0][0].error.message).toEqual("Cannot find user")
@@ -158,7 +158,7 @@ describe('Testing deleteUser function', () => {
           params: { id: 99999999 },
           session: { username: 'testuserA' }
       }
-      mcokFindOne.mockReturnValue({
+      mockFindOne.mockReturnValue({
           username: 'testuserB'
       })
       await deleteUser(req, res)
@@ -170,7 +170,7 @@ describe('Testing deleteUser function', () => {
           params: { id: 99999999 },
           session: { username: 'testuserA' }
       }
-      mcokFindOne.mockReturnValue({
+      mockFindOne.mockReturnValue({
           username: 'testuserA',
           destroy: () => {}
       })
@@ -183,7 +183,7 @@ describe('Testing deleteUser function', () => {
           params: { id: 99999999 },
           session: { username: 'testuserA' }
       }
-      mcokFindOne.mockReturnValue({
+      mockFindOne.mockReturnValue({
           username: 'testuserA',
           destroy: () => { throw new Error('Error')}
       })
