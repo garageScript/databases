@@ -8,6 +8,7 @@ const userRoutes = require('./routes/userRoutes')
 const {startServer, stopServer, getApp} = require('./server')
 
 dbModule.start = jest.fn()
+dbModule.close = jest.fn()
 userRoutes.createUser = jest.fn()
 userRoutes.loginUser = jest.fn()
 userRoutes.deleteUser = jest.fn()
@@ -40,7 +41,7 @@ describe('Testing the server', () => {
     expect(result.listen.mock.calls[0][0]).toBe(1000)
   })
   test('stopServer should call server.close', async () => {
-    const server = {close: jest.fn()}
+    const server = {close: jest.fn().mockImplementation((a) => a())}
     app.listen.mockImplementation((a,b) => {
       // Need to setTimeout so the promise resolves
       //   is called after the function returns
@@ -49,9 +50,10 @@ describe('Testing the server', () => {
     })
     
     await startServer()
-    stopServer()
-    
-    expect(server.close.mock.calls.length).toEqual(1)
+    await stopServer()
+
+    expect(dbModule.close).toHaveBeenCalled()
+    expect(server.close).toHaveBeenCalled()
   })
 })
 

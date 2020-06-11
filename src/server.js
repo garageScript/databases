@@ -31,7 +31,7 @@ const startServer = async (portNumber) => {
     app.post('/api/users', createUser)
     app.delete('/api/users/:id', deleteUser)
 
-    server =  app.listen(portNumber, () => {
+    server = app.listen(portNumber, () => {
       resolve(app)
       logger.info(`Listening on portNumber ${portNumber}`)
     })
@@ -39,8 +39,14 @@ const startServer = async (portNumber) => {
 }
 
 const stopServer = () => {
-  server.close()
-  logger.info("The server has been closed")
+  return new Promise((resolve, reject) => {
+    dbModule.close()
+    logger.info("DB has been closed")
+    server.close(() => {
+      logger.info("The server has been closed")
+      resolve()
+    })
+  })
 }
 
 module.exports = {
