@@ -29,7 +29,10 @@ const stopServer = () => {
   return new Promise((resolve, reject) => {
     dbModule.close()
     logger.info("DB has been closed")
-    
+    server.close(() => { 
+      logger.info("The server has been closed")
+      resolve() 
+    })
   })
 }
 
