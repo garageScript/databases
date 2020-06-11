@@ -41,10 +41,6 @@ routes.createUser = async (req, res) => {
       email: req.body.email,
       password: req.body.password
   }
-  if (!userInfo.username || !userInfo.email || !userInfo.password) {
-      logger.info("invalid input")
-      return res.status(400).json({error: {message: "invalid input"}})
-  }
   try {
       await signUp(userInfo)
       logger.info('Succeded creating user account', userInfo.username)
@@ -69,7 +65,7 @@ routes.deleteUser = async (req, res) => {
       })
       if (!account) {
       logger.info("Cannot find user", req.params.id)
-      res.status(400).json({error: {message: "Cannot find user"}})
+      res.status(404).json({error: {message: "Cannot find user"}})
       return
       }
       if (account.username !== req.session.username) {
@@ -77,7 +73,7 @@ routes.deleteUser = async (req, res) => {
           res.status(500).json({error: {message: "Username does not match to cookie"}})
           return
       }
-      account.destroy()
+      await account.destroy()
       logger.info('Succeded deleting user account', req.params.id)
       return res.status(200).json('Succeded deleting user account')
   } catch (err) {

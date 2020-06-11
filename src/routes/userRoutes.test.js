@@ -22,7 +22,7 @@ const res = {
   json: jest.fn()
 }
 
-describe('Testing user routes', () => {
+describe('Testing resetPassword function', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -96,21 +96,9 @@ describe('Testing user routes', () => {
   })
 })
 
-describe('testing createUser function', () => {
+describe('Testing createUser function', () => {
   beforeEach(() => {
       jest.clearAllMocks()
-  })
-  it('should send error if input is invalid', async () => {
-      const req = {
-          body: {
-              username: null,
-              email: null,
-              password: null
-          }
-      }
-      await createUser(req, res)
-      expect(res.status.mock.calls[0][0]).toEqual(400)
-      return expect(res.json.mock.calls[0][0].error.message).toEqual("invalid input")
   })
   it('should send error if sign up fails', async () => {
       signUp.mockImplementation(() => {
@@ -144,7 +132,7 @@ describe('testing createUser function', () => {
   })
 })
 
-describe('testing deleteUser function', () => {
+describe('Testing deleteUser function', () => {
   beforeEach(() => {
       jest.clearAllMocks()
   })
@@ -162,7 +150,7 @@ describe('testing deleteUser function', () => {
       }
       mcokFindOne.mockReturnValue(null)
       await deleteUser(req, res)
-      expect(res.status.mock.calls[0][0]).toEqual(400)
+      expect(res.status.mock.calls[0][0]).toEqual(404)
       return expect(res.json.mock.calls[0][0].error.message).toEqual("Cannot find user")
   })
   it('should send error if user session does not match', async () => {
