@@ -5,13 +5,14 @@ jest.mock('../sequelize/db')
 const express = require('express')
 const dbModule = require('../sequelize/db')
 const userRoutes = require('./routes/userRoutes')
+userRoutes.createUser = jest.fn()
+userRoutes.loginUser = jest.fn()
+userRoutes.deleteUser = jest.fn() // userRoutes should be mocked before requiring server
+
 const {startServer, stopServer, getApp} = require('./server')
 
 dbModule.start = jest.fn()
 dbModule.close = jest.fn()
-userRoutes.createUser = jest.fn()
-userRoutes.loginUser = jest.fn()
-userRoutes.deleteUser = jest.fn()
 
 const app = {
   use: () => {},
@@ -61,14 +62,13 @@ describe('Testing routes', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
-  it('should call createUser, loginUser, deleteUser function', () => {
-    startServer().then(() => {
-      app.post.mock.calls[0][1]()
-      expect(userRoutes.createUser).toHaveBeenCalled()
-      app.post.mock.calls[1][1]()
-      expect(userRoutes.loginUser).toHaveBeenCalled()
-      app.delete.mock.calls[0][1]()
-      expect(userRoutes.deleteUser).toHaveBeenCalled()
-    })
+  it('should call router functions', async () => {
+    await startServer()
+    await app.post.mock.calls[0][1]()
+    expect(userRoutes.resetPassword).toHaveBeenCalled()
+    await app.post.mock.calls[1][1]()
+    expect(userRoutes.createUser).toHaveBeenCalled()
+    await app.delete.mock.calls[0][1]()
+    expect(userRoutes.deleteUser).toHaveBeenCalled()
   })
 })
