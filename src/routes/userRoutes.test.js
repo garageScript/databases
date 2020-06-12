@@ -1,5 +1,5 @@
 jest.mock('../lib/users')
-const users = require('../lib/users')
+const users = require('../../lib/users')
 users.logIn = jest.fn()
 const {loginUser, logoutUser} = require('./userRoutes')
 

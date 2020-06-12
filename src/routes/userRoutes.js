@@ -1,6 +1,6 @@
-const logger = require('../lib/log')(__filename)
-const db = require('../sequelize/db')
-const {logIn} = require('../lib/users')
+const logger = require('../../lib/log')(__filename)
+const db = require('../../sequelize/db')
+const {logIn} = require('../../lib/users')
 
 const obj = {}
 
