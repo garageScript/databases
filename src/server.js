@@ -2,7 +2,7 @@ const express = require('express')
 const logger = require('../lib/log')(__filename)
 const dbModule = require('../sequelize/db')
 const session = require('express-session')
-const {resetPassword, createUser, deleteUser} = require('./routes/userRoutes')
+const {resetPassword, createUser, deleteUser,updateDBPassword} = require('./routes/userRoutes')
 
 let server = null
 let app = null
@@ -26,7 +26,7 @@ const startServer = async (portNumber) => {
         maxAge: 1000*60*5
       }
     }))
-
+    app.patch('/api/users/:id',updateDBPassword)
     app.post('/api/notifications', resetPassword)
     app.post('/api/users', createUser)
     app.delete('/api/users/:id', deleteUser)
