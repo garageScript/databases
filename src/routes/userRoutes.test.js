@@ -128,7 +128,7 @@ describe('Testing createUser function', () => {
       }
       await createUser(req, res)
       expect(res.status.mock.calls[0][0]).toEqual(200)
-      return expect(res.json.mock.calls[0][0]).toEqual('Succeded creating user account')
+      return expect(res.json.mock.calls[0][0].success.message).toEqual('Succeded creating user account')
   })
 })
 
@@ -162,7 +162,7 @@ describe('Testing deleteUser function', () => {
           username: 'testuserB'
       })
       await deleteUser(req, res)
-      expect(res.status.mock.calls[0][0]).toEqual(500)
+      expect(res.status.mock.calls[0][0]).toEqual(403)
       return expect(res.json.mock.calls[0][0].error.message).toEqual("Username does not match to cookie")
   })
   it('should delete user', async () => {
@@ -176,7 +176,7 @@ describe('Testing deleteUser function', () => {
       })
       await deleteUser(req, res)
       expect(res.status.mock.calls[0][0]).toEqual(200)
-      return expect(res.json.mock.calls[0][0]).toEqual("Succeded deleting user account")
+      return expect(res.json.mock.calls[0][0].success.message).toEqual("Succeded deleting user account")
   })
   it('should send error delete user fails', async () => {
       const req = {
