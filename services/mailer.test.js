@@ -26,7 +26,7 @@ describe('Test mailgun', ()=>{
 
     it('should test if mocksend and mailgun is called', async () => {
         messages.send = jest.fn().mockReturnValue(Promise.resolve('hello'))
-        await email.sendConfirmationEmail('paul@github.com', 'token123')
+        await email.sendPasswordResetEmail('paul@github.com', 'token123')
         expect(messages.send).toHaveBeenCalledTimes(1)
         expect(messages.send.mock.calls[0][0]).toMatchSnapshot()
         expect(logger.info).toHaveBeenCalledTimes(1)
@@ -35,7 +35,7 @@ describe('Test mailgun', ()=>{
 
     it('should call logger.error when function is called with invalid argument', async () => {
         messages.send = jest.fn().mockReturnValue(Promise.reject('rejected'))
-        await email.sendConfirmationEmail(null, null)
+        await email.sendPasswordResetEmail(null, null)
         expect(logger.error).toHaveBeenCalledTimes(1)
         expect(logger.error.mock.calls[0][0]).toEqual('Confirmation Email Error:')
     })

@@ -1,7 +1,8 @@
-const logger = require('../lib/log')(__filename)
 const express = require('express')
+const logger = require('../lib/log')(__filename)
+const dbModule = require('../sequelize/db')
 const session = require('express-session')
-const {loginUser, logoutUser} = require('./userRoutes')
+const {resetPassword, createUser, deleteUser, loginUser, logoutUser} = require('./routes/userRoutes')
 
 let server = null
 let app = null
@@ -10,11 +11,12 @@ const getApp = () => {
   return app
 }
 
-const startServer = (portNumber) => {
+const startServer = async (portNumber) => {
+  await dbModule.start()
   return new Promise((resolve, reject) => {
     app = express()
 
-    app.use(express.json()) // for parsing application/json
+    app.use(express.json())
     app.use(session({
       secret: 'I L0V3 DATABASES',
       resave: false,
@@ -25,19 +27,28 @@ const startServer = (portNumber) => {
       }
     }))
 
+    app.post('/api/notifications', resetPassword)
+    app.post('/api/users', createUser)
     app.post('/api/session', loginUser)
+    app.delete('/api/users/:id', deleteUser)
     app.delete('/api/session/:id', logoutUser)
 
-   server = app.listen(portNumber, () => {
-    resolve(app)
-    console.log(`Listening on portNumber ${portNumber}`)
+    server = app.listen(portNumber, () => {
+      resolve(app)
+      logger.info(`Listening on portNumber ${portNumber}`)
     })
   })
 }
 
 const stopServer = () => {
-  server.close()
-  console.log("The server has been closed")
+  return new Promise((resolve, reject) => {
+    dbModule.close()
+    logger.info("DB has been closed")
+    server.close(() => {
+      logger.info("The server has been closed")
+      resolve()
+    })
+  })
 }
 
 module.exports = {
