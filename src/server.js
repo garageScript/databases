@@ -25,11 +25,12 @@ const startServer = async (portNumber) => {
         maxAge: 1000*60*5
       }
     }))
-    app.patch('/api/users/:id',updateDBPassword)
+    
     app.post('/api/notifications', resetPassword)
     app.post('/api/users', createUser)
-    app.post('/api/session', loginUser)
+    app.patch('/api/users/:id',updateDBPassword)
     app.delete('/api/users/:id', deleteUser)
+    app.post('/api/session', loginUser)
     app.delete('/api/session/:id', logoutUser)
 
     server = app.listen(portNumber, () => {
