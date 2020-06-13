@@ -3,27 +3,27 @@ jest.mock('../../lib/users')
 jest.mock('../../sequelize/db')
 
 const db = require('../../sequelize/db')
-const {resetPassword, createUser, deleteUser,updateDBPassword} = require('./userRoutes')
-const {sendPasswordResetEmail, signUp,setDBPassword} = require('../../lib/users')
+const {resetPassword, createUser, deleteUser,updateDBPassword,loginUser, logoutUser} = require('./userRoutes')
+const {sendPasswordResetEmail, signUp,setDBPassword,logIn} = require('../../lib/users')
 
 const mockFindOne = jest.fn()
 db.getModels = () => {
-  return {
+    return {
     Accounts: {
       findOne: mockFindOne
     }
-  }
+}
 }
 
 const res = {
   status: jest.fn().mockImplementation(() => {
     return res
-  }),
+}),
   json: jest.fn()
 }
 
 describe('Testing resetPassword function', () => {
-  beforeEach(() => {
+    beforeEach(() => {
     jest.clearAllMocks()
   })
   
@@ -36,31 +36,31 @@ describe('Testing resetPassword function', () => {
     expect(res.status.mock.calls[0][0]).toEqual(400)
     expect(res.json.mock.calls[0][0]).toEqual({error: {message: "invalid input"}})
   })
-
+  
   test('Should send 400 error if user account does not exist', async () => {
-   const req = {
+      const req = {
      body: {
-       email: 'hello@world.com',
+         email: 'hello@world.com',
      } 
-   } 
+    } 
 
     await resetPassword(req, res)
     expect(res.status.mock.calls[0][0]).toEqual(400)
     expect(res.json.mock.calls[0][0]).toEqual({error: {message: "Account does not exist"}})
-  })
+})
 
-  test('should send 500 error if send password throws error', async () => {
+test('should send 500 error if send password throws error', async () => {
     const userAccount = {
-      id: 1,
+        id: 1,
       email: 'hello@world.com'
     }
 
     mockFindOne.mockReturnValue(userAccount)
 
     const req = {
-      body: {
+        body: {
         email: 'hello@world.com'
-      }
+    }
     }
 
     sendPasswordResetEmail.mockImplementation(() => {
@@ -70,10 +70,10 @@ describe('Testing resetPassword function', () => {
     await resetPassword(req, res)
     expect(res.status.mock.calls[0][0]).toEqual(500)
     expect(res.json.mock.calls[0][0]).toEqual({ error: {message: 'Email delivery failed. Please try again'}})
-  })
+})
 
   test('should send 200 success if send password is successful', async () => {
-    const userAccount = {
+      const userAccount = {
       id: 2,
       email: 'hello@world.com',
     }
@@ -83,7 +83,7 @@ describe('Testing resetPassword function', () => {
     const req = {
       body: {
         email: 'hello@world.com' 
-      } 
+    } 
     }
 
     sendPasswordResetEmail.mockImplementation(() => {
@@ -97,9 +97,9 @@ describe('Testing resetPassword function', () => {
 })
 
 describe('Testing createUser function', () => {
-  beforeEach(() => {
+    beforeEach(() => {
       jest.clearAllMocks()
-  })
+    })
   it('should send error if sign up fails', async () => {
       signUp.mockImplementation(() => {
           throw new Error('Error')
@@ -124,11 +124,11 @@ describe('Testing createUser function', () => {
               username: 'username',
               email: 'em@i.l',
               password: '1q2w3e4r'
-          }
+            }
       }
       await createUser(req, res)
       expect(res.status.mock.calls[0][0]).toEqual(200)
-      return expect(res.json.mock.calls[0][0]).toEqual('Succeded creating user account')
+      return expect(res.json.mock.calls[0][0].success.message).toEqual('Succeded creating user account')
   })
 })
 
@@ -157,12 +157,12 @@ describe('Testing deleteUser function', () => {
       const req = {
           params: { id: 99999999 },
           session: { username: 'testuserA' }
-      }
+        }
       mockFindOne.mockReturnValue({
           username: 'testuserB'
       })
       await deleteUser(req, res)
-      expect(res.status.mock.calls[0][0]).toEqual(500)
+      expect(res.status.mock.calls[0][0]).toEqual(403)
       return expect(res.json.mock.calls[0][0].error.message).toEqual("Username does not match to cookie")
   })
   it('should delete user', async () => {
@@ -176,7 +176,7 @@ describe('Testing deleteUser function', () => {
       })
       await deleteUser(req, res)
       expect(res.status.mock.calls[0][0]).toEqual(200)
-      return expect(res.json.mock.calls[0][0]).toEqual("Succeded deleting user account")
+      return expect(res.json.mock.calls[0][0].success.message).toEqual("Succeded deleting user account")
   })
   it('should send error delete user fails', async () => {
       const req = {
@@ -263,3 +263,50 @@ describe('testing upDBPassword function', () => {
 
   })
 
+describe('testing loginUser function', () => {
+    beforeEach(() => {
+        jest.clearAllMocks()
+    })
+    it('should send error if login fails', async () => {
+        logIn.mockImplementation(() => {
+            throw new Error('Error')
+        })
+        const req = {
+            body: {
+                username: 'username',
+                email: 'em@i.l',
+                password: '1q2w3e4r'
+            }
+        }
+        await loginUser(req, res)
+        return expect(res.json.mock.calls[0][0].error.message).toEqual('Login user failed. Please try again')
+    })
+    it('should login user', async () => {
+        logIn.mockImplementation(() => {
+            return {
+                username: 'username'
+            }
+        })
+        const req = {
+            body: {
+                username: 'username',
+                email: 'em@i.l',
+                password: '1q2w3e4r'
+            },
+            session: {}
+        }
+        await loginUser(req, res)
+        return expect(res.json.mock.calls[0][0].username).toEqual('username')
+    })
+})
+
+describe('testing logoutUser function', () => {
+    it('should clear session', () => {
+        const req = {
+            params: { id: 99999999 },
+            session: { username: 'username' }
+        }
+        logoutUser(req, res)
+        expect(req.session.username).toEqual('')
+    })
+})
