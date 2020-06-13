@@ -15,7 +15,6 @@ const startServer = async (portNumber) => {
   await dbModule.start()
   return new Promise((resolve, reject) => {
     app = express()
-
     app.use(express.json())
     app.use(session({
       secret: 'I L0V3 DATABASES',
