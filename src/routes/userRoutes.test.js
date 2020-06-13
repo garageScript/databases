@@ -246,9 +246,7 @@ describe('testing upDBPassword function', () => {
       await updateDBPassword(req,res)
       expect(res.status.mock.calls[0][0]).toEqual(500)
       expect(res.json.mock.calls[0][0].error.message).toEqual("Password update failed. Please try again")        
-
       })
-
   })
 
 describe('testing loginUser function', () => {
