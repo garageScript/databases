@@ -7,6 +7,7 @@ const dbModule = require('../sequelize/db')
 const userRoutes = require('./routes/userRoutes')
 userRoutes.createUser = jest.fn()
 userRoutes.loginUser = jest.fn()
+userRoutes.logoutUser = jest.fn()
 userRoutes.deleteUser = jest.fn() // userRoutes should be mocked before requiring server
 
 const {startServer, stopServer, getApp} = require('./server')
@@ -70,5 +71,9 @@ describe('Testing routes', () => {
     expect(userRoutes.createUser).toHaveBeenCalled()
     await app.delete.mock.calls[0][1]()
     expect(userRoutes.deleteUser).toHaveBeenCalled()
+    await app.post.mock.calls[2][1]()
+    expect(userRoutes.loginUser).toHaveBeenCalled()
+    await app.delete.mock.calls[1][1]()
+    expect(userRoutes.logoutUser).toHaveBeenCalled()
   })
 })

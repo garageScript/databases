@@ -2,7 +2,7 @@ const express = require('express')
 const logger = require('../lib/log')(__filename)
 const dbModule = require('../sequelize/db')
 const session = require('express-session')
-const {resetPassword, createUser, deleteUser} = require('./routes/userRoutes')
+const {resetPassword, createUser, deleteUser, loginUser, logoutUser} = require('./routes/userRoutes')
 
 let server = null
 let app = null
@@ -29,7 +29,9 @@ const startServer = async (portNumber) => {
 
     app.post('/api/notifications', resetPassword)
     app.post('/api/users', createUser)
+    app.post('/api/session', loginUser)
     app.delete('/api/users/:id', deleteUser)
+    app.delete('/api/session/:id', logoutUser)
 
     server = app.listen(portNumber, () => {
       resolve(app)
