@@ -1,7 +1,8 @@
 const express = require('express')
 const logger = require('../lib/log')(__filename)
 const dbModule = require('../sequelize/db')
-const {resetPassword} = require('./routes/userRoutes')
+const session = require('express-session')
+const {resetPassword, createUser, deleteUser, loginUser, logoutUser} = require('./routes/userRoutes')
 
 let server = null
 let app = null
@@ -15,13 +16,27 @@ const startServer = async (portNumber) => {
   return new Promise((resolve, reject) => {
     app = express()
     app.set('view engine','ejs')
-    app.use(express.json())
     app.get('/',(req,res)=>{
-      res.render('welcome.ejs')
+      res.render('welcome')
     })
-    app.post('/api/notifications', resetPassword)
+    app.use(express.json())
+    app.use(session({
+      secret: 'I L0V3 DATABASES',
+      resave: false,
+      saveUninitialized: true,
+      cookie: {
+        secure: true,
+        maxAge: 1000*60*5
+      }
+    }))
 
-    server =  app.listen(portNumber, () => {
+    app.post('/api/notifications', resetPassword)
+    app.post('/api/users', createUser)
+    app.post('/api/session', loginUser)
+    app.delete('/api/users/:id', deleteUser)
+    app.delete('/api/session/:id', logoutUser)
+
+    server = app.listen(portNumber, () => {
       resolve(app)
       logger.info(`Listening on portNumber ${portNumber}`)
     })
