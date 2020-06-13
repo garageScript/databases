@@ -16,6 +16,7 @@ dbModule.start = jest.fn()
 dbModule.close = jest.fn()
 
 const app = {
+  set: ()=>{},
   use: () => {},
   get: () => {},
   patch:jest.fn(),
@@ -50,11 +51,9 @@ describe('Testing the server', () => {
       //   is called after the function returns
       setTimeout(b, 1)
       return server
-    })
-    
+    }) 
     await startServer()
     await stopServer()
-
     expect(dbModule.close).toHaveBeenCalled()
     expect(server.close).toHaveBeenCalled()
   })
