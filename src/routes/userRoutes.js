@@ -97,7 +97,7 @@ routes.logoutUser = (req, res) => {
   req.session.username = ''
   logger.info('user logged out', `id: ${req.params.id}`)
   return res.status(200).json({
-    message: `Logout succedeed`
+    message: `Logout succeeded`
   })
 }
 
