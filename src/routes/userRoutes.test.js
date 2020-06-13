@@ -6,6 +6,7 @@ const db = require('../../sequelize/db')
 const {resetPassword, createUser, deleteUser} = require('./userRoutes')
 const {sendPasswordResetEmail, signUp} = require('../../lib/users')
 
+
 const mockFindOne = jest.fn()
 db.getModels = () => {
   return {
@@ -92,7 +93,7 @@ describe('Testing resetPassword function', () => {
 
     await resetPassword(req, res)
     expect(res.status.mock.calls[0][0]).toEqual(200)
-    expect(res.json.mock.calls[0][0]).toEqual({success: {message: 'Email sucessfully sent'}})
+    expect(res.json.mock.calls[0][0].dataValues.email).toEqual('hello@world.com')
   })
 })
 
@@ -128,7 +129,7 @@ describe('Testing createUser function', () => {
       }
       await createUser(req, res)
       expect(res.status.mock.calls[0][0]).toEqual(200)
-      return expect(res.json.mock.calls[0][0].success.message).toEqual('Succeded creating user account')
+      return expect(res.json.mock.calls[0][0].dataValues.email).toEqual('em@i.l')
   })
 })
 
@@ -176,7 +177,7 @@ describe('Testing deleteUser function', () => {
       })
       await deleteUser(req, res)
       expect(res.status.mock.calls[0][0]).toEqual(200)
-      return expect(res.json.mock.calls[0][0].success.message).toEqual("Succeded deleting user account")
+      return expect(res.json.mock.calls[0][0].dataValues.username).toEqual('testuserA')
   })
   it('should send error delete user fails', async () => {
       const req = {

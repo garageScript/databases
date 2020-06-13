@@ -22,9 +22,9 @@ routes.resetPassword = async (req, res) => {
   }
   logger.info(`User account found for user ${userAccount.id}, sending email now`)
   try {
-    await sendPasswordResetEmail(userAccount)
+    const account = await sendPasswordResetEmail(userAccount)
     logger.info(`user reset password email sent to user ${userAccount.id}`)
-    return res.status(200).json({success: {message: "Email sucessfully sent"}})
+    return res.status(200).json(account)
   } catch (err) {
     logger.error(`Could not send email to user ${userAccount.id}`)
     return res.status(500).json({error: {message: 'Email delivery failed. Please try again'}})
@@ -38,9 +38,10 @@ routes.createUser = async (req, res) => {
     password: req.body.password
   }
   try {
-    await signUp(userInfo)
+    const account = await signUp(userInfo)
     logger.info('Succeded creating user account', userInfo.username)
-    return res.status(200).json({success: {message: 'Succeded creating user account'}})
+    logger.warn(account)
+    return res.status(200).json(account)
   } catch (err) {
     logger.error("Creating user failed", userInfo.username, err)
     return res.status(500).json({error: {message: 'Creating user failed. Please try again'}})
@@ -67,9 +68,9 @@ routes.deleteUser = async (req, res) => {
       logger.error("Username does not match to cookie", account.username, req.session.username)
       return res.status(403).json({error: {message: "Username does not match to cookie"}})
     }
-    await account.destroy()
+    const result = await account.destroy()
     logger.info('Succeded deleting user account', req.params.id)
-    return res.status(200).json({success: {message: 'Succeded deleting user account'}})
+    return res.status(200).json(result)
   } catch (err) {
     logger.error("Deleting user failed", req.params.id, err)
     return res.status(500).json({error: {message: 'Deleting user failed. Please try again'}})
