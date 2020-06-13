@@ -3,7 +3,7 @@ const {startServer,stopServer}=require('../../src/server')
 
  describe('test welcome page',()=>{
     const testPort = process.env.TEST_PORT || 20200
-    const baseUrl = `http://localhost:${testPort}`
+    const baseUrl = `http://localhost:${testPort}/`
     beforeAll(async ()=>{
          await startServer(testPort)
      })

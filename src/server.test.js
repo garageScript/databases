@@ -18,7 +18,7 @@ dbModule.close = jest.fn()
 const app = {
   set: ()=>{},
   use: () => {},
-  get: jest.fn(),
+  get: ()=>{},
   post: jest.fn(),
   delete: jest.fn(),
   listen: jest.fn().mockImplementation((port, callback) => callback()),
@@ -64,8 +64,6 @@ describe('Testing routes', () => {
   })
   it('should call router functions', async () => {
     await startServer()
-    await app.get.mock.calls[0][1]()
-    expect(userRoutes.resetPassword).toHaveBeenCalled()
     await app.post.mock.calls[0][1]()
     expect(userRoutes.resetPassword).toHaveBeenCalled()
     await app.post.mock.calls[1][1]()

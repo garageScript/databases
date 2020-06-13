@@ -16,9 +16,7 @@ const startServer = async (portNumber) => {
   return new Promise((resolve, reject) => {
     app = express()
     app.set('view engine','ejs')
-    app.get('/',(req,res)=>{
-      res.render('welcome')
-    })
+    
     app.use(express.json())
     app.use(session({
       secret: 'I L0V3 DATABASES',
@@ -29,7 +27,9 @@ const startServer = async (portNumber) => {
         maxAge: 1000*60*5
       }
     }))
-
+    app.get('/',(req,res)=>{
+      res.render('welcome')
+    })
     app.post('/api/notifications', resetPassword)
     app.post('/api/users', createUser)
     app.post('/api/session', loginUser)
