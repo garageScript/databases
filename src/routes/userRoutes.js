@@ -1,4 +1,4 @@
-const {sendPasswordResetEmail, signUp} = require('../../lib/users')
+const {sendPasswordResetEmail, signUp, logIn} = require('../../lib/users')
 const logger = require('../../lib/log')(__filename)
 const db = require('../../sequelize/db')
 const routes = {}
@@ -73,8 +73,33 @@ routes.deleteUser = async (req, res) => {
     return res.status(200).json(result)
   } catch (err) {
     logger.error("Deleting user failed", req.params.id, err)
-    return res.status(500).json({error: {message: 'Deleting user failed. Please try again'}})
+      res.status(500).json({error: {message: 'Deleting user failed. Please try again'}})
+    }
+}
+
+routes.loginUser = async (req, res) => {
+  const inputInfo = {
+    username: req.body.username,
+    password: req.body.password,
+    email: req.body.email
   }
+  try {
+    const userInfo = await logIn(inputInfo)
+    req.session.username = userInfo.username
+    logger.info('Logged in', userInfo.username)
+    return res.status(200).json(userInfo)
+  } catch (err) {
+    logger.info(err)
+    return res.status(500).json({error: {message: 'Login user failed. Please try again'}})
+  }
+}
+
+routes.logoutUser = (req, res) => {
+  req.session.username = ''
+  logger.info('user logged out', `id: ${req.params.id}`)
+  return res.status(200).json({
+    message: `Logout succeded`
+  })
 }
 
 module.exports = routes
