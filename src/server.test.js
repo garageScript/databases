@@ -16,8 +16,9 @@ dbModule.start = jest.fn()
 dbModule.close = jest.fn()
 
 const app = {
+  set: ()=>{},
   use: () => {},
-  get: () => {},
+  get: ()=>{},
   post: jest.fn(),
   delete: jest.fn(),
   listen: jest.fn().mockImplementation((port, callback) => callback()),
@@ -49,11 +50,9 @@ describe('Testing the server', () => {
       //   is called after the function returns
       setTimeout(b, 1)
       return server
-    })
-    
+    }) 
     await startServer()
     await stopServer()
-
     expect(dbModule.close).toHaveBeenCalled()
     expect(server.close).toHaveBeenCalled()
   })
