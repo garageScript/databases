@@ -24,7 +24,7 @@ routes.resetPassword = async (req, res) => {
   try {
     const account = await sendPasswordResetEmail(userAccount)
     logger.info(`user reset password email sent to user ${userAccount.id}`)
-    return res.status(200).json(account)
+    return res.status(200).json({...account.dataValues, password: null})
   } catch (err) {
     logger.error(`Could not send email to user ${userAccount.id}`)
     return res.status(500).json({error: {message: 'Email delivery failed. Please try again'}})
@@ -40,8 +40,7 @@ routes.createUser = async (req, res) => {
   try {
     const account = await signUp(userInfo)
     logger.info('Succeded creating user account', userInfo.username)
-    logger.warn(account)
-    return res.status(200).json(account)
+    return res.status(200).json({...account.dataValues, password: null})
   } catch (err) {
     logger.error("Creating user failed", userInfo.username, err)
     return res.status(500).json({error: {message: 'Creating user failed. Please try again'}})
@@ -68,9 +67,9 @@ routes.deleteUser = async (req, res) => {
       logger.error("Username does not match to cookie", account.username, req.session.username)
       return res.status(403).json({error: {message: "Username does not match to cookie"}})
     }
-    const result = await account.destroy()
+    await account.destroy()
     logger.info('Succeded deleting user account', req.params.id)
-    return res.status(200).json(result)
+    return res.status(200).json({...account.dataValues, password: null})
   } catch (err) {
     logger.error("Deleting user failed", req.params.id, err)
       res.status(500).json({error: {message: 'Deleting user failed. Please try again'}})
@@ -78,16 +77,16 @@ routes.deleteUser = async (req, res) => {
 }
 
 routes.loginUser = async (req, res) => {
-  const inputInfo = {
+  const userInfo = {
     username: req.body.username,
     password: req.body.password,
     email: req.body.email
   }
   try {
-    const userInfo = await logIn(inputInfo)
-    req.session.username = userInfo.username
-    logger.info('Logged in', userInfo.username)
-    return res.status(200).json(userInfo)
+    const account = await logIn(userInfo)
+    req.session.username = account.username
+    logger.info('Logged in', account.username)
+    return res.status(200).json({...account.dataValues, password: null})
   } catch (err) {
     logger.info(err)
     return res.status(500).json({error: {message: 'Login user failed. Please try again'}})
@@ -98,7 +97,7 @@ routes.logoutUser = (req, res) => {
   req.session.username = ''
   logger.info('user logged out', `id: ${req.params.id}`)
   return res.status(200).json({
-    message: `Logout succeded`
+    message: `Logout succedeed`
   })
 }
 
