@@ -86,7 +86,7 @@ routes.loginUser = async (req, res) => {
     const userInfo = await logIn(inputInfo)
     req.session.username = userInfo.username
     logger.info('Logged in', userInfo.username)
-    return res.status(200).json({success: {message: `${userInfo.username} is logged in`}})
+    return res.status(200).json(userInfo)
   } catch (err) {
     logger.info(err)
     return res.status(500).json({error: {message: 'Login user failed. Please try again'}})
@@ -96,7 +96,9 @@ routes.loginUser = async (req, res) => {
 routes.logoutUser = (req, res) => {
   req.session.username = ''
   logger.info('user logged out', `id: ${req.params.id}`)
-  return res.status(200).json({success: {message: `Logout succeded`}})
+  return res.status(200).json({
+    message: `Logout succeded`
+  })
 }
 
 module.exports = routes

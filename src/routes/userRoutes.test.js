@@ -226,7 +226,7 @@ describe('testing loginUser function', () => {
             session: {}
         }
         await loginUser(req, res)
-        return expect(res.json.mock.calls[0][0].success.message).toEqual('username is logged in')
+        return expect(res.json.mock.calls[0][0].username).toEqual('username')
     })
 })
 
