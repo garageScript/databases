@@ -107,7 +107,6 @@ routes.userResetPassword = async (req, res) => {
 
   try {
     const account = await resetUserPassword(token, password)
-    console.log('account')
     logger.info('User password reset for', account.username)
     return res.status(200).json({...account.dataValues, password: null})
   } catch (err) {
