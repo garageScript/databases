@@ -240,10 +240,15 @@ describe('testing upDBPassword function', () => {
           params:{id:12},
           body:{password:12345678}
       }
-      setDBPassword.mockImplementation(() => {return})
+      setDBPassword.mockImplementation(() => {return {
+        dataValues: {
+          id: 12,
+          password: 12345678
+        }
+      }})
       await updateDBPassword(req,res)
       expect(res.status.mock.calls[0][0]).toEqual(200)
-      expect(res.json.mock.calls[0][0]).toEqual(`success`)
+      expect(res.json.mock.calls[0][0].id).toEqual(12)
   })
 
   it('should send 500 error if password update failed', async() => {

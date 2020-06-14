@@ -109,9 +109,9 @@ routes.loginUser = async (req, res) => {
         return
     }
     try {
-      await setDBPassword(userAccount,req.body.password) 
+      const updatedAccount = await setDBPassword(userAccount,req.body.password) 
       logger.info(`user ${userAccount.id} updates password`)
-      return res.status(200).json('success')
+      return res.status(200).json({...updatedAccount.dataValues,password:null})
     } catch (err) {
       logger.error('Password update failed. Please try again',req.params.id, err)
       return res.status(500).json({error: {message: 'Password update failed. Please try again'}})
