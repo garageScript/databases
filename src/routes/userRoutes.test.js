@@ -269,7 +269,13 @@ describe('testing userResetPassword', () => {
   it('should return username if success', async () => {
     const userInfo = {
       id: 2,
-      username: 'testuser'
+      username: 'testuser',
+      password: 'hello',
+      dataValues: {
+        id: 2,
+        username: 'testuser',
+        password: 'hello',
+      }
     }
 
     resetUserPassword.mockReturnValue(userInfo)
@@ -285,14 +291,18 @@ describe('testing userResetPassword', () => {
     } 
 
     await userResetPassword(req, res)
-    return expect(res.json.mock.calls[0][0]).toEqual(userInfo.username)
+    return expect(res.json.mock.calls[0][0]).toEqual({
+      password: null,
+      id: 2,
+      username: 'testuser'
+    })
   })
    it('should return error if reset user password fails', async () => {
      const userInfo = {
        id: 3
      }
 
-     resetUserPassword.mockReturnValue(() => {
+     resetUserPassword.mockImplementation(() => {
        throw new Error('testing error')
      })
 

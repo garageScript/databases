@@ -78,7 +78,6 @@ describe('Testing routes', () => {
     expect(userRoutes.loginUser).toHaveBeenCalled()
     await app.delete.mock.calls[1][1]()
     expect(userRoutes.logoutUser).toHaveBeenCalled()
-    console.log(app.post.mock.calls, 'mock calls')
     await app.post.mock.calls[3][1]()
     expect(userRoutes.userResetPassword).toHaveBeenCalled()
   })

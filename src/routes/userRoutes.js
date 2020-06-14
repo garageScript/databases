@@ -106,13 +106,12 @@ routes.userResetPassword = async (req, res) => {
   const password = req.body.password
 
   try {
-    const userInfo = await resetUserPassword(token, password)
-    req.session.username = userInfo.username
-
-    logger.info('User password reset for', userInfo.username)
-    return res.status(200).json(userInfo.username)
+    const account = await resetUserPassword(token, password)
+    console.log('account')
+    logger.info('User password reset for', account.username)
+    return res.status(200).json({...account.dataValues, password: null})
   } catch (err) {
-    logger.error(err) 
+    logger.error('user reset password error:', err) 
     return res.status(500).json({error: {message: 'Reset user password failed. Please try again'}})
   }
 }
