@@ -30,9 +30,9 @@ Phase 1: Modules (helper function)
 Phase 2: Functions that power user interactions
 
 Phase 3: API to power user interactions (backend)
-**We are here!**
 
 Phase 4: UI (aka frontend)
+**We are here!**
 
 What needs to worked on 
 https://github.com/garageScript/databases/issues
