@@ -3,7 +3,6 @@ const logger = require('../../lib/log')(__filename)
 const db = require('../../sequelize/db')
 const routes = {}
 
-// resetPasswordEmail
 routes.resetPasswordEmail = async (req, res) => {
   const email = req.body.email
   logger.info('request received to send notification')
