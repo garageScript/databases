@@ -266,48 +266,28 @@ describe('testing userResetPassword', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
-  it('should return error without token', async () => {
-    const req = {
-      body: {
-        token: undefined,
-        password: '1q2w3e4r'
-      }
-    }
-
-    await userResetPassword(req, res)
-    return expect(res.json.mock.calls[0][0].error.message).toEqual("no token for userResetPassword")
-  })
-  it('should return error without password', async () => {
-    const req = {
-      body: {
-        token: {id: 1},
-        password: undefined
-      }
-    } 
-
-    await userResetPassword(req, res)
-    return expect(res.json.mock.calls[0][0].error.message).toEqual("no password for userResetPassword")
-  })
-  /*
-  it('should return userInfo if success', async () => {
+  it('should return username if success', async () => {
     const userInfo = {
       id: 2,
+      username: 'testuser'
     }
 
-    // resetUserPassword to be merged
     resetUserPassword.mockReturnValue(userInfo)
 
     const req = {
       body : {
         token: userInfo,
         password: 'testPassword'
+      },
+      session: {
+        username: 'testuser'
       }
     } 
 
     await userResetPassword(req, res)
-    return expect(res.json.mock.calls[0][0]).toEqual(userInfo)
+    return expect(res.json.mock.calls[0][0]).toEqual(userInfo.username)
   })
-   it('should return error if reset user password fails', () => {
+   it('should return error if reset user password fails', async () => {
      const userInfo = {
        id: 3
      }
@@ -326,5 +306,4 @@ describe('testing userResetPassword', () => {
    await userResetPassword(req, res)
    return expect(res.json.mock.calls[0][0].error.message).toEqual('Reset user password failed. Please try again')
    })
-  */
 })

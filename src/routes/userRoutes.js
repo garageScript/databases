@@ -105,21 +105,12 @@ routes.userResetPassword = async (req, res) => {
   const token = req.body.token
   const password = req.body.password
 
-  if (!token) {
-    logger.error('no token for userResetPassword')
-    return res.status(400).json({error: {message: 'no token for userResetPassword'}})
-  }
-
-  if (!password) {
-    logger.error('no password for userResetPassword')
-    return res.status(400).json({error: {message: 'no password for userResetPassword'}})
-  }
-
   try {
     const userInfo = await resetUserPassword(token, password)
     req.session.username = userInfo.username
-    logger.info('User password reset for', userInfo)
-    return res.status(200).json(userInfo)
+
+    logger.info('User password reset for', userInfo.username)
+    return res.status(200).json(userInfo.username)
   } catch (err) {
     logger.error(err) 
     return res.status(500).json({error: {message: 'Reset user password failed. Please try again'}})
