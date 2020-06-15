@@ -3,9 +3,8 @@ jest.mock('../../lib/users')
 jest.mock('../../sequelize/db')
 
 const db = require('../../sequelize/db')
-const {resetPasswordEmail, createUser, deleteUser, loginUser, logoutUser, userResetPassword} = require('./userRoutes')
-const {sendPasswordResetEmail, signUp, logIn, resetUserPassword} = require('../../lib/users')
-
+const {resetPasswordEmail, createUser, deleteUser, loginUser, logoutUser, userResetPassword, updateDBPassword} = require('./userRoutes')
+const {sendPasswordResetEmail, signUp, logIn, resetUserPassword, setDBPassword} = require('../../lib/users')
 
 const mockFindOne = jest.fn()
 db.getModels = () => {
@@ -207,6 +206,67 @@ describe('Testing deleteUser function', () => {
       return expect(res.json.mock.calls[0][0].error.message).toEqual("Deleting user failed. Please try again")
   })
 })
+
+describe('testing upDBPassword function', () => {
+  beforeEach(() => {
+       jest.clearAllMocks()
+  })
+  it('should send 400 error if invalid input of userid and password', async() => { 
+      const req ={
+          params:{id:null},
+          body:{password:null}
+       }
+       await updateDBPassword(req, res)
+       expect(res.status.mock.calls[0][0]).toEqual(400)
+       expect(res.json.mock.calls[0][0].error.message).toEqual('invalid input of userid and password')
+    })
+  it('should send 400 error if user account does not exist', async() => {
+      mockFindOne.mockReturnValue(undefined)
+      const req = {
+           params:{id:-2},
+           body:{password:88900900}
+       }
+      await updateDBPassword(req,res)
+      expect(res.status.mock.calls[0][0]).toEqual(400)
+      expect(res.json.mock.calls[0][0].error.message).toEqual('account does not exist')
+  })
+  it('should send 200 success and update user password', async() => {
+      const userAccount = {
+        id: 12
+      }
+      mockFindOne.mockReturnValue(userAccount)     
+      const req = {
+          params:{id:12},
+          body:{password:12345678}
+      }
+      setDBPassword.mockImplementation(() => {return {
+        dataValues: {
+          id: 12,
+          password: 12345678
+        }
+      }})
+      await updateDBPassword(req,res)
+      expect(res.status.mock.calls[0][0]).toEqual(200)
+      expect(res.json.mock.calls[0][0].id).toEqual(12)
+  })
+
+  it('should send 500 error if password update failed', async() => {
+      const userAccount = {
+        id: 12
+      }
+      mockFindOne.mockReturnValue(userAccount)
+      const req = {
+          params:{id:12},
+          body:{password:'noexist'}
+      }
+     setDBPassword.mockImplementation(() => {
+          throw new Error('error')
+        })
+      await updateDBPassword(req,res)
+      expect(res.status.mock.calls[0][0]).toEqual(500)
+      expect(res.json.mock.calls[0][0].error.message).toEqual("Password update failed. Please try again")        
+      })
+  })
 
 describe('testing loginUser function', () => {
     beforeEach(() => {

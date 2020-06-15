@@ -1,16 +1,19 @@
 jest.mock('./routes/userRoutes')
 jest.mock('express')
+jest.mock('mailgun-js')
 jest.mock('../sequelize/db')
 jest.mock('mailgun-js')
 
 const express = require('express')
 const dbModule = require('../sequelize/db')
 const userRoutes = require('./routes/userRoutes')
+
 userRoutes.createUser = jest.fn()
 userRoutes.loginUser = jest.fn()
 userRoutes.logoutUser = jest.fn()
 userRoutes.deleteUser = jest.fn() // userRoutes should be mocked before requiring server
 userRoutes.resetUserPassword = jest.fn()
+userRoutes.updateDBPassword=jest.fn()
 
 const {startServer, stopServer, getApp} = require('./server')
 
@@ -20,7 +23,8 @@ dbModule.close = jest.fn()
 const app = {
   set: ()=>{},
   use: () => {},
-  get: ()=>{},
+  get: () => {},
+  patch:jest.fn(),
   post: jest.fn(),
   delete: jest.fn(),
   listen: jest.fn().mockImplementation((port, callback) => callback()),
@@ -66,6 +70,8 @@ describe('Testing routes', () => {
   })
   it('should call router functions', async () => {
     await startServer()
+    await app.patch.mock.calls[0][1]()
+    expect(userRoutes.updateDBPassword).toHaveBeenCalled()
     await app.post.mock.calls[0][1]()
     expect(userRoutes.resetPasswordEmail).toHaveBeenCalled()
     await app.post.mock.calls[1][1]()
