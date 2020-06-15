@@ -2,9 +2,7 @@ const express = require('express')
 const logger = require('../lib/log')(__filename)
 const dbModule = require('../sequelize/db')
 const session = require('express-session')
-
-const {resetPasswordEmail, createUser, deleteUser, loginUser, logoutUser, userResetPassword} = require('./routes/userRoutes')
-
+const {resetPasswordEmail, createUser, deleteUser, loginUser, logoutUser, userResetPassword, updateDBPassword} = require('./routes/userRoutes')
 
 let server = null
 let app = null

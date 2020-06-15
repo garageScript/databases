@@ -1,6 +1,4 @@
-
-const {sendPasswordResetEmail, signUp, logIn, resetUserPassword} = require('../../lib/users')
-
+const {sendPasswordResetEmail, signUp, logIn, resetUserPassword, setDBPassword} = require('../../lib/users')
 const logger = require('../../lib/log')(__filename)
 const db = require('../../sequelize/db')
 const routes = {}

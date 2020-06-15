@@ -3,9 +3,8 @@ jest.mock('../../lib/users')
 jest.mock('../../sequelize/db')
 
 const db = require('../../sequelize/db')
-
-const {resetPasswordEmail, createUser, deleteUser, loginUser, logoutUser, userResetPassword} = require('./userRoutes')
-const {sendPasswordResetEmail, signUp, logIn, resetUserPassword} = require('../../lib/users')
+const {resetPasswordEmail, createUser, deleteUser, loginUser, logoutUser, userResetPassword, updateDBPassword} = require('./userRoutes')
+const {sendPasswordResetEmail, signUp, logIn, resetUserPassword, setDBPassword} = require('../../lib/users')
 
 const mockFindOne = jest.fn()
 db.getModels = () => {
