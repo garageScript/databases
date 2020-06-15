@@ -377,3 +377,4 @@ describe('testing userResetPassword', () => {
    return expect(res.json.mock.calls[0][0].error.message).toEqual('Reset user password failed. Please try again')
    })
 })
+
