@@ -1,4 +1,5 @@
 jest.mock('../../lib/log')
+jest.mock('mailgun-js')
 const logGen = require('../../lib/log')
 const logger = { error: jest.fn() }
 logGen.mockReturnValue(logger)

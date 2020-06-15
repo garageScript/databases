@@ -1,5 +1,6 @@
 const {startServer,stopServer}=require('../../src/server')
  const fetch = require('node-fetch')
+jest.mock('mailgun-js')
 
  describe('test welcome page',()=>{
     const testPort = process.env.TEST_PORT || 20200
