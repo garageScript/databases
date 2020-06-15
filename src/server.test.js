@@ -1,6 +1,5 @@
 jest.mock('./routes/userRoutes')
 jest.mock('express')
-jest.mock('mailgun-js')
 jest.mock('../sequelize/db')
 
 const express = require('express')
