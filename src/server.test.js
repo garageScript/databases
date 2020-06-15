@@ -20,9 +20,7 @@ dbModule.close = jest.fn()
 const app = {
   set: ()=>{},
   use: () => {},
-  get: (req, res)=>{
-    res.render = jest.fn()
-  },
+  get: ()=>{},
   post: jest.fn(),
   delete: jest.fn(),
   listen: jest.fn().mockImplementation((port, callback) => callback()),
