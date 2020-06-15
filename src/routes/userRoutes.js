@@ -1,9 +1,11 @@
-const {sendPasswordResetEmail,signUp,setDBPassword,logIn} = require('../../lib/users')
+
+const {sendPasswordResetEmail, signUp, logIn, resetUserPassword} = require('../../lib/users')
+
 const logger = require('../../lib/log')(__filename)
 const db = require('../../sequelize/db')
 const routes = {}
 
-routes.resetPassword = async (req, res) => {
+routes.resetPasswordEmail = async (req, res) => {
   const email = req.body.email
   logger.info('request received to send notification')
 
@@ -124,6 +126,20 @@ routes.logoutUser = (req, res) => {
   return res.status(200).json({
     message: `Logout succeeded`
   })
+}
+
+routes.userResetPassword = async (req, res) => {
+  const token = req.body.token
+  const password = req.body.password
+
+  try {
+    const account = await resetUserPassword(token, password)
+    logger.info('User password reset for', account.username)
+    return res.status(200).json({...account.dataValues, password: null})
+  } catch (err) {
+    logger.error('user reset password error:', err) 
+    return res.status(500).json({error: {message: 'Reset user password failed. Please try again'}})
+  }
 }
 
 module.exports = routes
