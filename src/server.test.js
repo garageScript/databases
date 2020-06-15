@@ -2,7 +2,6 @@ jest.mock('./routes/userRoutes')
 jest.mock('express')
 jest.mock('mailgun-js')
 jest.mock('../sequelize/db')
-jest.mock('mailgun-js')
 
 const express = require('express')
 const dbModule = require('../sequelize/db')
