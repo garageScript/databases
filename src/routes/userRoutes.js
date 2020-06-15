@@ -1,4 +1,6 @@
+
 const {sendPasswordResetEmail, signUp, logIn, resetUserPassword} = require('../../lib/users')
+
 const logger = require('../../lib/log')(__filename)
 const db = require('../../sequelize/db')
 const routes = {}
@@ -92,6 +94,31 @@ routes.loginUser = async (req, res) => {
     return res.status(500).json({error: {message: 'Login user failed. Please try again'}})
   }
 }
+  routes.updateDBPassword = async(req,res) =>{
+    if(!req.params.id ||!req.body.password ){
+      logger.info('invalid input')
+      return res.status(400).json({error:{message:'invalid input of userid and password'}})
+    }
+    const {Accounts} = db.getModels()
+    const userAccount = await Accounts.findOne({
+        where:{
+          id:req.params.id
+        }
+    })
+    if(!userAccount){
+        logger.info(`account does not exist`)
+        res.status(400).json({error:{message:"account does not exist"}})
+        return
+    }
+    try {
+      const updatedAccount = await setDBPassword(userAccount,req.body.password) 
+      logger.info(`user ${userAccount.id} updates password`)
+      return res.status(200).json({...updatedAccount.dataValues,password:null})
+    } catch (err) {
+      logger.error('Password update failed. Please try again',req.params.id, err)
+      return res.status(500).json({error: {message: 'Password update failed. Please try again'}})
+    }
+  }
 
 routes.logoutUser = (req, res) => {
   req.session.username = ''
