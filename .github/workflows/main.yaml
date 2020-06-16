@@ -22,10 +22,3 @@ jobs:
 
       - name: Code Quality (codecov)
         run: bash <(curl -s https://codecov.io/bash) -t ${{secrets.HOST}}
-        run: bash <(curl -s https://codecov.io/bash) -t ${{secrets.DIALECT}}
-        run: bash <(curl -s https://codecov.io/bash) -t ${{secrets.PG_USER}}
-        run: bash <(curl -s https://codecov.io/bash) -t ${{secrets.PASSWORD}}
-        run: bash <(curl -s https://codecov.io/bash) -t ${{secrets.DATABASE}}
-        run: bash <(curl -s https://codecov.io/bash) -t ${{secrets.MAILGUN_API_KEY}}
-        run: bash <(curl -s https://codecov.io/bash) -t ${{secrets.MAILGUN_DOMAIN}}
-        run: bash <(curl -s https://codecov.io/bash) -t ${{secrets.CODECOV_TOKEN}}
