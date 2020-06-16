@@ -1,0 +1,24 @@
+name: CI
+
+on: 
+  pull_request:
+  push:
+    branches: 
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: npm install 
+
+      - name: Check tests before PR
+        run: |
+          npm run test
+
+      - name: Code Quality (codecov)
+        run: bash <(curl -s https://codecov.io/bash) -t ${{secrets.CODECOV_TOKEN}}
