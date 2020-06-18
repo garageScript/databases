@@ -3,7 +3,7 @@ const logger = require('../lib/log')(__filename)
 require('dotenv').config()
 
 const mg = mailgun({ 
-  apiKey: process.env.MAILGUN_API_KEY, 
+  apiKey: process.env.MAILGUN_APIKEY, 
   domain: process.env.MAILGUN_DOMAIN 
 })
 
