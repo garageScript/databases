@@ -18,9 +18,9 @@ jobs:
 
       - name: Check tests before PR
         env:
-          HOST: ${{secrets.HOST}}
+          HOST: test.com
           DIALECT: ${{secrets.DIALECT}} 
-          PG_USER: ${{secrets.PG_USER}}
+          PG_USER: samplePGUSER-Hardcoded
           PASSWORD: ${{secrets.PASSWORD}}
           DATABASE: ${{secrets.DATABASE}}
           MAILGUN_APIKEY: ${{secrets.MAILGUN_API_KEY}}
