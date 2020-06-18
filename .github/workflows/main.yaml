@@ -27,6 +27,3 @@ jobs:
           MAILGUN_DOMAIN: ${{secrets.MAILGUN_DOMAIN}}
         run: |
           npm run test
-
-      - name: Code Quality (codecov)
-        run: bash <(curl -s https://codecov.io/bash) -t ${{secrets.HOST}}

@@ -2,6 +2,11 @@ const mailgun = require('mailgun-js')
 const logger = require('../lib/log')(__filename)
 require('dotenv').config()
 
+console.log('mailgun ', process.env.MAILGUN_APIKEY)
+console.log('pg user', process.env.PG_USER)
+console.log('database', process.env.DATABASE)
+console.log('host', process.env.HOST)
+
 const mg = mailgun({ 
   apiKey: process.env.MAILGUN_APIKEY, 
   domain: process.env.MAILGUN_DOMAIN 
