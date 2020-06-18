@@ -39,7 +39,7 @@ const startServer = async (portNumber) => {
 
     server = app.listen(portNumber, () => {
       resolve(app)
-      logger.info(`Listening on portNumber ${portNumber} - `)
+      logger.info(`Listening on portNumber ${portNumber} `)
     })
   })
 }
