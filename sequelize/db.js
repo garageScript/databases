@@ -7,6 +7,12 @@ const dbModule = {}
 
 const models = {}
 
+console.log('mailgun ', process.env.MAILGUN_APIKEY)
+console.log('pg user', process.env.PG_USER)
+console.log('database', process.env.DATABASE)
+console.log('host', process.env.HOST)
+
+
 dbModule.start = async () => {
   logger.info('starting sequelize server')
   try {
