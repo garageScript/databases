@@ -1,0 +1,81 @@
+<div></div>
+<main>
+    <div class="card">
+        <div class="titlebox">
+            <h1 class="title">Learn Database</h1>
+        </div>
+        <div class="card-children">Please log in</div>
+        <input class="username card-children" placeholder="  username" />
+        <input class="password card-children" placeholder="  password" />
+        <button class="submit card-children">Submit</button>
+    </div>
+</main>
+
+<script>
+    const username = document.querySelector('.username')
+    const password = document.querySelector('.password')
+    const submit = document.querySelector('.submit')
+
+    submit.addEventListener('click', () => {
+        fetch('/api/session', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username.value,
+                password: password.value
+            })
+        })
+    })
+</script>
+
+<style>
+    * {
+        font-family:Arial, Helvetica, sans-serif
+    }
+
+    input {
+        padding: 3px;
+        display: block;
+        background-color: rgb(231, 231, 231);
+        box-shadow: inset 2px 2px 5px #9c9c9c, inset -4px -4px 5px #ffffff;
+        border-radius: 10px;
+        border: 0px;
+        height: 35px;
+    }
+    button {
+        border-radius: 30px;
+        background: #4776c2;
+        box-shadow: inset 2px 2px 5px  #3c64a5, 
+                    inset -2px -2px 5px #5288df;
+        color: white;
+        height: 50px;
+        width: 100px;
+        border-radius: 5px;
+        border: 0px;
+    }
+
+    body {
+        padding: 100px;
+        background: #6febe3;
+    }
+    .titlebox {
+        text-align: center;
+    }
+    .card {
+        border-radius: 50px;
+        box-shadow:  20px 20px 60px #5ec8c1, 
+                    -20px -20px 60px #80ffff;
+        text-align: center;
+        padding: 20px;
+        width: 400px;
+        margin: auto;
+    }
+    .card-children {
+        margin: auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+</style>
