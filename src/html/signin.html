@@ -6,8 +6,15 @@
         </div>
         <div class="subtitle card-children">Please log in</div>
         <input class="username card-children" placeholder="username" />
-        <input class="password card-children" placeholder="password" type="password" />
-        <button class="submit card-children">Submit</button>
+        <input class="password card-children" placeholder="password" type="password"/>
+        <div>
+            <button class="submit card-children">Submit</button>
+        </div>
+        <div>
+            <hr>
+            <button class="forgot roundbutton card-children">Find<br>ID</button>
+            <button class="signup roundbutton card-children">Sign<br>Up</button>
+        </div>
     </div>
 </main>
 
@@ -35,7 +42,8 @@
 <style>
     * {
         box-sizing: border-box;
-        font-family:Arial, Helvetica, sans-serif;
+        font-family: Candara, Calibri, Segoe, Segoe UI, Optima, Arial, sans-serif;
+        font-weight: lighter;
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         -webkit-tap-highlight-color: transparent;
         -webkit-user-select: none;
@@ -62,23 +70,43 @@
         outline: none;
     }
     button {
-        background: #0d7392;
-        color: white;
+        background: #6febe3;
+        box-shadow:  2px 2px 6px #5ec8c1, 
+                    -2px -2px 6px #80ffff;
+        color: rgb(22, 62, 88);
         height: 50px;
-        width: 100px;
+        width: 180px;
         border-radius: 5px;
         border: 0px;
-        margin: auto;
-        margin-top: 10px;
-        margin-bottom: 10px;
+        margin: 10px;
         outline: none;
         cursor: pointer;
     }
     button:hover {
-        background: #0a9bc7;
+        background: #63e6db;
     }
     button:active {
-        background: #0d7392;
+        background: #6febe3;
+        box-shadow: inset 2px 2px 6px #5ec8c1, 
+                    inset -2px -2px 6px #80ffff;
+    }
+    .roundbutton {
+        border-radius: 50%;
+        width: 55px;
+        height: 55px;
+        margin: 20px;
+        box-shadow:  1px 1px 3px #5ec8c1, 
+                    -1px -1px 3px #80ffff;
+    }
+    .roundbutton:active {
+        box-shadow: inset 1px 1px 3px #5ec8c1, 
+                    inset -1px -1px 3px #80ffff;
+    }
+
+    hr {
+        border: 0.5px solid rgb(113, 199, 214);
+        margin-top: 40px;
+        width: 220px
     }
 
     body {
@@ -88,10 +116,10 @@
     .titlebox {
         text-align: center;
         margin-top: 10px;
-        margin-bottom: 10px;
+        margin-bottom: 40px;
     }
     .subtitle {
-        margin-top: 40px;
+        margin-top: 20px;
         margin-bottom: 20px;
     }
     .card {
@@ -100,6 +128,7 @@
                     -20px -20px 60px #80ffff;
         text-align: center;
         padding: 75px;
+        padding-bottom: 50px;
         width: 450px;
         margin: auto;
     }
