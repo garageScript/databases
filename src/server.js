@@ -12,7 +12,9 @@ const getApp = () => {
 }
 
 const startServer = async (portNumber) => {
-  await dbModule.start()
+  if (process.env.NODE_ENV !== 'testing') {
+    await dbModule.start()
+  }
   return new Promise((resolve, reject) => {
     app = express()
     app.set('view engine','ejs') 
@@ -46,7 +48,9 @@ const startServer = async (portNumber) => {
 
 const stopServer = () => {
   return new Promise((resolve, reject) => {
-    dbModule.close()
+    if (process.env.NODE_ENV !== 'testing') {
+      dbModule.close()
+    }
     logger.info("DB has been closed")
     server.close(() => {
       logger.info("The server has been closed")
