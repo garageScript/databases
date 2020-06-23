@@ -18,6 +18,7 @@ jobs:
 
       - name: Check tests before PR
         env:
+          NODE_ENV: testing
           HOST: ${{secrets.HOST}}
           PG_USER: ${{secrets.PG_USER}}
           PASSWORD: ${{secrets.PASSWORD}}

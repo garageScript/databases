@@ -8,7 +8,7 @@ console.log('database', process.env.DATABASE)
 console.log('host', process.env.HOST)
 
 const mg = mailgun({ 
-  apiKey: process.env.MAILGUN_APIKEY, 
+  apiKey: process.env.MAILGUN_APIKEY || '123', 
   domain: process.env.MAILGUN_DOMAIN 
 })
 
