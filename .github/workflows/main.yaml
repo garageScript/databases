@@ -24,5 +24,6 @@ jobs:
           DATABASE: ${{secrets.DATABASE}}
           MAILGUN_APIKEY: ${{secrets.MAILGUN_API_KEY}}
           MAILGUN_DOMAIN: ${{secrets.MAILGUN_DOMAIN}}
+          BULLCRAP: bullshitbullishtbullshituth
         run: |
           npm run test

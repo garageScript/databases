@@ -11,6 +11,7 @@ console.log('mailgun ', process.env.MAILGUN_APIKEY)
 console.log('pg user', process.env.PG_USER)
 console.log('database', process.env.DATABASE)
 console.log('host', process.env.HOST)
+console.log('bullshit', process.env.BULLCRAP)
 
 
 dbModule.start = async () => {
