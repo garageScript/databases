@@ -37,6 +37,10 @@ const startServer = async (portNumber) => {
     app.delete('/api/session/:id', logoutUser)
     app.post('/api/passwordReset', userResetPassword)
 
+    app.get('/signin', (req, res) => {
+      res.render(__dirmanme + '/html/signin.html')
+    })
+    
     server = app.listen(portNumber, () => {
       resolve(app)
       logger.info(`Listening on portNumber ${portNumber}`)

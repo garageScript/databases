@@ -2,11 +2,11 @@ jest.mock('./routes/userRoutes')
 jest.mock('express')
 jest.mock('mailgun-js')
 jest.mock('../sequelize/db')
+jest.mock('fs')
 
 const express = require('express')
 const dbModule = require('../sequelize/db')
 const userRoutes = require('./routes/userRoutes')
-
 userRoutes.createUser = jest.fn()
 userRoutes.loginUser = jest.fn()
 userRoutes.logoutUser = jest.fn()
@@ -15,6 +15,7 @@ userRoutes.resetUserPassword = jest.fn()
 userRoutes.updateDBPassword=jest.fn()
 
 const {startServer, stopServer, getApp} = require('./server')
+const { describe } = require('pm2')
 
 dbModule.start = jest.fn()
 dbModule.close = jest.fn()
@@ -30,6 +31,10 @@ const app = {
   name: 'Carl Sagan'
 }
 express.mockReturnValue(app)
+
+fs.mockReturnValue({
+  readFile: jest.fn()
+})
 
 describe('Testing the server', () => {
   beforeEach(() => {

@@ -79,8 +79,7 @@ routes.deleteUser = async (req, res) => {
 routes.loginUser = async (req, res) => {
   const userInfo = {
     username: req.body.username,
-    password: req.body.password,
-    email: req.body.email
+    password: req.body.password
   }
   try {
     const account = await logIn(userInfo)
