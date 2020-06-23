@@ -2,7 +2,6 @@ jest.mock('./routes/userRoutes')
 jest.mock('express')
 jest.mock('mailgun-js')
 jest.mock('../sequelize/db')
-jest.mock('fs')
 
 const express = require('express')
 const dbModule = require('../sequelize/db')
@@ -31,10 +30,6 @@ const app = {
   name: 'Carl Sagan'
 }
 express.mockReturnValue(app)
-
-fs.mockReturnValue({
-  readFile: jest.fn()
-})
 
 describe('Testing the server', () => {
   beforeEach(() => {
