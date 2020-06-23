@@ -2,7 +2,7 @@ const express = require('express')
 const logger = require('../lib/log')(__filename)
 const dbModule = require('../sequelize/db')
 const session = require('express-session')
-const {resetPassword, createUser, deleteUser, loginUser, logoutUser} = require('./routes/userRoutes')
+const {resetPasswordEmail, createUser, deleteUser, loginUser, logoutUser, userResetPassword, updateDBPassword} = require('./routes/userRoutes')
 
 let server = null
 let app = null
@@ -15,7 +15,7 @@ const startServer = async (portNumber) => {
   await dbModule.start()
   return new Promise((resolve, reject) => {
     app = express()
-
+    app.set('view engine','ejs') 
     app.use(express.json())
     app.use(session({
       secret: 'I L0V3 DATABASES',
@@ -26,12 +26,16 @@ const startServer = async (portNumber) => {
         maxAge: 1000*60*5
       }
     }))
-
-    app.post('/api/notifications', resetPassword)
+    app.get('/',(req,res)=>{
+      res.render('welcome')
+    })
+    app.post('/api/notifications', resetPasswordEmail)
     app.post('/api/users', createUser)
-    app.post('/api/session', loginUser)
+    app.patch('/api/users/:id',updateDBPassword)
     app.delete('/api/users/:id', deleteUser)
+    app.post('/api/session', loginUser)
     app.delete('/api/session/:id', logoutUser)
+    app.post('/api/passwordReset', userResetPassword)
 
     server = app.listen(portNumber, () => {
       resolve(app)
