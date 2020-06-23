@@ -1,0 +1,136 @@
+<div></div>
+<main>
+    <div class="card">
+        <div class="titlebox">
+            <h1 class="title">Learn Databases</h1>
+        </div>
+        <div class="subtitle card-children">Please log in</div>
+        <input class="username card-children" placeholder="username" />
+        <input class="password card-children" placeholder="password" type="password"/>
+        <div>
+            <button class="submit card-children">Submit</button>
+        </div>
+        <div>
+            <hr>
+            <button class="forgot roundbutton card-children">Find<br>ID</button>
+            <button class="signup roundbutton card-children">Sign<br>Up</button>
+        </div>
+    </div>
+</main>
+
+<script>
+    const username = document.querySelector('.username')
+    const password = document.querySelector('.password')
+    const submit = document.querySelector('.submit')
+
+    submit.addEventListener('click', () => {
+        fetch('/api/session', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username.value,
+                password: password.value
+            })
+        }).then((r) => {
+
+        })
+    })
+</script>
+
+<style>
+    * {
+        box-sizing: border-box;
+        font-family: Candara, Calibri, Segoe, Segoe UI, Optima, Arial, sans-serif;
+        font-weight: lighter;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    input {
+        padding: 10px;
+        padding-left: 25px;
+        padding-right: 25px;
+        display: block;
+        background-color: rgb(245, 245, 245);
+        box-shadow: inset 2px 2px 5px #cecece, inset -4px -4px 5px #ffffff;
+        border-radius: 10px;
+        border: 0px;
+        width: 180px;
+        height: 35px;
+        margin: auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        outline: none;
+    }
+    button {
+        background: #6febe3;
+        box-shadow:  2px 2px 6px #5ec8c1, 
+                    -2px -2px 6px #80ffff;
+        color: rgb(22, 62, 88);
+        height: 50px;
+        width: 180px;
+        border-radius: 5px;
+        border: 0px;
+        margin: 10px;
+        outline: none;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #63e6db;
+    }
+    button:active {
+        background: #6febe3;
+        box-shadow: inset 2px 2px 6px #5ec8c1, 
+                    inset -2px -2px 6px #80ffff;
+    }
+    .roundbutton {
+        border-radius: 50%;
+        width: 55px;
+        height: 55px;
+        margin: 20px;
+        box-shadow:  1px 1px 3px #5ec8c1, 
+                    -1px -1px 3px #80ffff;
+    }
+    .roundbutton:active {
+        box-shadow: inset 1px 1px 3px #5ec8c1, 
+                    inset -1px -1px 3px #80ffff;
+    }
+
+    hr {
+        border: 0.5px solid rgb(113, 199, 214);
+        margin-top: 40px;
+        width: 220px
+    }
+
+    body {
+        padding: 100px;
+        background: #6febe3;
+    }
+    .titlebox {
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 40px;
+    }
+    .subtitle {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .card {
+        border-radius: 50px;
+        box-shadow:  20px 20px 60px #5ec8c1, 
+                    -20px -20px 60px #80ffff;
+        text-align: center;
+        padding: 75px;
+        padding-bottom: 50px;
+        width: 450px;
+        margin: auto;
+    }
+
+</style>
