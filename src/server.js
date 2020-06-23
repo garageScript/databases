@@ -64,5 +64,3 @@ module.exports = {
   stopServer,
   getApp
 }
-
-startServer(3000)
