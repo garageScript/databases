@@ -1,7 +1,6 @@
 const mailgun = require('mailgun-js')
 const logger = require('../lib/log')(__filename)
 const getEnvVar = require('../lib/getEnvVar')
-require('dotenv').config()
 
 const mg = mailgun(getEnvVar('mailgun'))
 
