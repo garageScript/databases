@@ -29,6 +29,9 @@ const startServer = async (portNumber) => {
     app.get('/',(req,res)=>{
       res.render('welcome')
     })
+    app.get('/signin', (req, res) => {
+      res.render('signin')
+    })
     app.post('/api/notifications', resetPasswordEmail)
     app.post('/api/users', createUser)
     app.patch('/api/users/:id',updateDBPassword)
