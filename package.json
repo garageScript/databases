@@ -4,7 +4,7 @@
   "description": "Create databases in postgres, mongoDB and neo4J",
   "main": "index.js",
   "scripts": {
-    "test": "MAILGUN_API_KEY=123 jest --coverage",
+    "test": "jest --coverage",
     "start": "node index.js",
     "start:dev": "nodemon index.js"
   },
