@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test mailgun should test if mocksend and mailgun is called 1`] = `
+Object {
+  "from": "admin@learndatabases.dev",
+  "html": "
+        <h1> Confirm your Email </h1>
+        <p>
+        <a href=\\"https://learndatabases.dev/emailConfirmation/token123\\">Click Here</a>
+        </p>
+        <p> Or visit this link: <a href=\\"https://learndatabases.dev/emailConfirmation/token123\\">https://learndatabases.dev/emailConfirmation/token123</a></p>
+        ",
+  "subject": "Congratulations!",
+  "text": "Welcome to C0D3",
+  "to": "paul@github.com",
+}
+`;
