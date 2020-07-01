@@ -18,4 +18,8 @@ const {startServer,stopServer}=require('../../src/server')
         const result = await fetch(baseUrl + 'signin').then(r=> r.text())
         expect(result).toMatchSnapshot()
     })
+    test('should render setDBpassword page correctly', async()=>{
+        const result = await fetch(baseUrl + 'setDBpassword').then(r=> r.text())
+        expect(result).toMatchSnapshot()
+    })
  })
