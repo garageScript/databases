@@ -60,8 +60,9 @@ exports[`test welcome page should render sign in page correctly 1`] = `
                 username: username.value,
                 password: password.value
             })
-        }).then((r) => {
-
+        }).then(r => r.json()).then((r) => {
+            if (r.dbPassword) return location.href = '/setDBPassword' //path name is not decided yet  
+            return location.href = '/databases' //path name is not decided yet
         })
     })
 </script>
