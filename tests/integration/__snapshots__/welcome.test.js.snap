@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test welcome page should render sign in page correctly 1`] = `
-"<style>
+"<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
+<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+
+<style>
     * {
         text-align: center;
     }
@@ -40,7 +43,7 @@ exports[`test welcome page should render sign in page correctly 1`] = `
         </div>
         <div class=\\"tale\\">
             <div>Forgot Password? <a href=\\"#\\">Find Password</a></div>
-            <div>Don't have account? <a href=\\"#\\">Sign Up</a></div>
+            <div>Don't have account? <a href=\\"/signup\\">Sign Up</a></div>
         </div>
     </div>
 </main>
@@ -67,8 +70,63 @@ exports[`test welcome page should render sign in page correctly 1`] = `
     })
 </script>
 
-<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
+"
+`;
+
+exports[`test welcome page should render sign up page correctly 1`] = `
+"<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+
+<h1>Learn Databases</h1>
+
+<p>Create Account</p>
+
+<div>
+  <input
+    class=\\"square email\\"
+    type=\\"text\\"
+    placeholder=\\"Email Address\\"
+    required
+    />
+</div>
+
+<div>
+  <input
+    class=\\"square username\\"
+    type=\\"text\\"
+    placeholder=\\"Username\\"
+    required
+    />
+</div>
+
+<div>
+  <button class=\\"square submit\\">Create Account</button>
+</div>
+
+<div>
+  Already have an account? <a href=\\"/signin\\">Login</a>
+</div>
+
+<script>
+  const submit = document.querySelector('.submit');
+  const check = document.querySelector('.check');
+  const username = document.querySelector('.username')
+  const email = document.querySelector('.email')
+  submit.addEventListener('click', () => {
+    fetch('/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username.value,
+        email: email.value
+      })
+    }).then(r => r.json()).then((r) => {
+      return location.href = '/signin'
+    })
+  })
+</script>
 "
 `;
 
