@@ -77,6 +77,26 @@ exports[`test welcome page should render sign up page correctly 1`] = `
 "<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
 
+
+<style>
+    * {
+        text-align: center;
+    }
+    input {
+        width: 400px;
+        height: 40px;
+        margin: 5px;
+    }
+    button {
+        width: 400px;
+        height: 40px;
+        margin: 10px;
+    }
+    .body {
+        margin: 10px;
+    }
+</style>
+
 <h1>Learn Databases</h1>
 
 <p>Create Account</p>
@@ -85,7 +105,6 @@ exports[`test welcome page should render sign up page correctly 1`] = `
   <input
     class=\\"email\\"
     type=\\"email\\"
-    pattern=\\"/^[a-zA-Z0-9.!#$%&'*+/=?^_\`{|}~-]+@[a-zA-Z0-9-]+(?:\\\\.[a-zA-Z0-9-]+)*$/\\"
     placeholder=\\"Email Address\\"
     required
     />
