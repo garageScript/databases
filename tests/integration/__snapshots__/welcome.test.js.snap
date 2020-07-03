@@ -83,8 +83,9 @@ exports[`test welcome page should render sign up page correctly 1`] = `
 
 <div>
   <input
-    class=\\"square email\\"
-    type=\\"text\\"
+    class=\\"email\\"
+    type=\\"email\\"
+    pattern=\\"/^[a-zA-Z0-9.!#$%&'*+/=?^_\`{|}~-]+@[a-zA-Z0-9-]+(?:\\\\.[a-zA-Z0-9-]+)*$/\\"
     placeholder=\\"Email Address\\"
     required
     />
@@ -92,7 +93,7 @@ exports[`test welcome page should render sign up page correctly 1`] = `
 
 <div>
   <input
-    class=\\"square username\\"
+    class=\\"username\\"
     type=\\"text\\"
     placeholder=\\"Username\\"
     required
@@ -100,7 +101,7 @@ exports[`test welcome page should render sign up page correctly 1`] = `
 </div>
 
 <div>
-  <button class=\\"square submit\\">Create Account</button>
+  <button class=\\"submit\\">Create Account</button>
 </div>
 
 <div>
