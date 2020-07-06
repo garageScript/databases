@@ -112,8 +112,7 @@ describe('Testing createUser function', () => {
       const req = {
           body: {
               username: 'username',
-              email: 'em@i.l',
-              password: '1q2'
+              email: 'em@i.l'
           }
       }
       await createUser(req, res)
@@ -124,16 +123,14 @@ describe('Testing createUser function', () => {
       signUp.mockImplementation(() => {
         return {
           dataValues: {
-            email: 'em@i.l',
-            password: 'as1f6lurdh8f632la'
+            email: 'em@i.l'
           }
         }
       })
       const req = {
         body: {
           username: 'username',
-          email: 'em@i.l',
-          password: '1q2w3e4r'
+          email: 'em@i.l'
         }
       }
       await createUser(req, res)
