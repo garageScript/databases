@@ -56,7 +56,9 @@
   const check = document.querySelector('.check');
   const username = document.querySelector('.username')
   const email = document.querySelector('.email')
+
   submit.addEventListener('click', () => {
+    alert("Check your email and set your password")
     fetch('/api/users', {
       method: 'POST',
       headers: {
@@ -66,7 +68,7 @@
         username: username.value,
         email: email.value
       })
-    }).then(r => r.json()).then((r) => {
+    }).then(r => r.json()).then(() => {
       return location.href = '/signin'
     })
   })

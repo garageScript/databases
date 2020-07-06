@@ -132,7 +132,9 @@ exports[`test welcome page should render sign up page correctly 1`] = `
   const check = document.querySelector('.check');
   const username = document.querySelector('.username')
   const email = document.querySelector('.email')
+
   submit.addEventListener('click', () => {
+    alert(\\"Check your email and set your password\\")
     fetch('/api/users', {
       method: 'POST',
       headers: {
@@ -142,7 +144,7 @@ exports[`test welcome page should render sign up page correctly 1`] = `
         username: username.value,
         email: email.value
       })
-    }).then(r => r.json()).then((r) => {
+    }).then(r => r.json()).then(() => {
       return location.href = '/signin'
     })
   })
