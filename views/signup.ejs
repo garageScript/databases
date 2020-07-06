@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
+
+
+<style>
+    * {
+        text-align: center;
+    }
+    input {
+        width: 400px;
+        height: 40px;
+        margin: 5px;
+    }
+    button {
+        width: 400px;
+        height: 40px;
+        margin: 10px;
+    }
+    .body {
+        margin: 10px;
+    }
+</style>
+
+<h1>Learn Databases</h1>
+
+<p>Create Account</p>
+
+<div>
+  <input
+    class="email"
+    type="email"
+    placeholder="Email Address"
+    required
+    />
+</div>
+
+<div>
+  <input
+    class="username"
+    type="text"
+    placeholder="Username"
+    required
+    />
+</div>
+
+<div>
+  <button class="submit">Create Account</button>
+</div>
+
+<div>
+  Already have an account? <a href="/signin">Login</a>
+</div>
+
+<script>
+  const submit = document.querySelector('.submit');
+  const check = document.querySelector('.check');
+  const username = document.querySelector('.username')
+  const email = document.querySelector('.email')
+
+  submit.addEventListener('click', () => {
+    alert("Check your email and set your password")
+    fetch('/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username.value,
+        email: email.value
+      })
+    }).then(r => r.json()).then(() => {
+      return location.href = '/signin'
+    })
+  })
+</script>

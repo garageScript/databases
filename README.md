@@ -20,7 +20,7 @@ To install nodemon
 To start the server
 `npm run start:dev`
 
-If you get an error `TOKEN EXPIRATION` run:
+If you need to make changes to the Database run:  
 `ALTER_DB=true npm run start:dev`
 
 ### Production Phases
