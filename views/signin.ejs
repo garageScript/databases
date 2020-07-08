@@ -57,8 +57,8 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                username: username.value,
-                password: password.value
+                username: username.value.toLowerCase(),
+                password: password.value.toLowerCase()
             })
         }).then(r => r.json()).then((r) => {
             if (r.dbPassword) return location.href = '/setDBPassword' //path name is not decided yet  
