@@ -107,7 +107,7 @@ describe('Testing createUser function', () => {
     })
   it('should send error if sign up fails', async () => {
       signUp.mockImplementation(() => {
-          throw new Error('Error')
+          throw new Error('email already exists')
       })
       const req = {
           body: {
@@ -116,8 +116,8 @@ describe('Testing createUser function', () => {
           }
       }
       await createUser(req, res)
-      expect(res.status.mock.calls[0][0]).toEqual(500)
-      return expect(res.json.mock.calls[0][0].error.message).toEqual('Creating user failed. Please try again')
+      expect(res.status.mock.calls[0][0]).toEqual(400)
+      return expect(res.json.mock.calls[0][0].error.message).toEqual('email already exists')
   })
   it('should create user account', async () => {
       signUp.mockImplementation(() => {

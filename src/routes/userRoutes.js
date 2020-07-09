@@ -42,7 +42,8 @@ routes.createUser = async (req, res) => {
     return res.status(200).json({...account.dataValues})
   } catch (err) {
     logger.error("Creating user failed", userInfo.username, err)
-    return res.status(500).json({error: {message: 'Creating user failed. Please try again'}})
+    console.log('err', err.message)
+    return res.status(400).json({error: {message: err.message}})
   }
 }
 
