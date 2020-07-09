@@ -38,10 +38,10 @@ describe('Testing resetPasswordEmail function', () => {
   })
   
   test('Should send 400 error if user account does not exist', async () => {
-      const req = {
-     body: {
-         email: 'hello@world.com',
-     } 
+    const req = {
+      body: {
+        email: 'hello@world.com',
+      } 
     } 
 
     await resetPasswordEmail(req, res)
@@ -371,7 +371,7 @@ describe('testing userResetPassword', () => {
      }
    
    await userResetPassword(req, res)
-   return expect(res.json.mock.calls[0][0].error.message).toEqual('Reset user password failed. Please try again')
+   return expect(res.json.mock.calls[0][0].error.message).toEqual('Setting user password failed. Please try again')
    })
 })
 

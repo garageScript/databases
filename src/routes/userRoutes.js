@@ -5,19 +5,36 @@ const routes = {}
 
 routes.resetPasswordEmail = async (req, res) => {
   const email = req.body.email
+  const id = req.body.id
   logger.info('request received to send notification')
 
-  if (!email) {
+  if (!email && !id) {
     return res.status(400).json({error: {message: "invalid input"}})
   }
   logger.info('user email is', email)
+  logger.info('user id is', id)
+
   const {Accounts} = db.getModels()
-  const userAccount = await Accounts.findOne({
-    where: {
-      email: email
+  const getAccount = async () => {
+    if (email) {
+      return await Accounts.findOne({
+        where: {
+          email: email
+        }
+      })
     }
-  })
-  if (!userAccount) {
+    if (id) {
+      return await Accounts.findOne({
+        where: {
+          id: id
+        }
+      })
+    }
+    return null
+  }
+  const userAccount = getAccount()
+
+  if (!userAccount.id) {
     return res.status(400).json({error: {message: "Account does not exist"}})
   }
   logger.info(`User account found for user ${userAccount.id}, sending email now`)
@@ -135,7 +152,7 @@ routes.userResetPassword = async (req, res) => {
     return res.status(200).json({...account.dataValues, password: null})
   } catch (err) {
     logger.error('user reset password error:', err) 
-    return res.status(500).json({error: {message: 'Reset user password failed. Please try again'}})
+    return res.status(500).json({error: {message: 'Setting user password failed. Please try again'}})
   }
 }
 

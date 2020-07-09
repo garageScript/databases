@@ -27,4 +27,8 @@ describe('test welcome page', () => {
        const result = await fetch(baseUrl + 'signup').then(r => r.text())
        expect(result).toMatchSnapshot()
    })
+   test('should render setPassword page correctly', async () => {
+       const result = await (fetch(baseUrl + 'setPassword').then(r => r.text()))
+       expect(result).toMatchSnapshot()
+   })
 })
