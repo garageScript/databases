@@ -41,7 +41,7 @@ exports[`test welcome page should render setDBpassword page correctly 1`] = `
     const setButton = document.querySelector('.setButton')
 
     setButton.addEventListener('click',()=>{
-        fetch('/api/users/:id',{
+        fetch('/api/users',{
             method:\\"PATCH\\",
             headers:{
                 'Content-Type': 'application/json'
