@@ -92,14 +92,14 @@ routes.loginUser = async (req, res) => {
   }
 }
   routes.updateDBPassword = async(req,res) =>{
-    if(!req.params.id ||!req.body.password ){
+    if(!req.session.username ||!req.body.password ){
       logger.info('invalid input')
-      return res.status(400).json({error:{message:'invalid input of userid and password'}})
+      return res.status(400).json({error:{message:'invalid input of username and password'}})
     }
     const {Accounts} = db.getModels()
     const userAccount = await Accounts.findOne({
         where:{
-          id:req.params.id
+          username: req.session.username
         }
     })
     if(!userAccount){
@@ -112,7 +112,7 @@ routes.loginUser = async (req, res) => {
       logger.info(`user ${userAccount.id} updates password`)
       return res.status(200).json({...updatedAccount.dataValues,password:null})
     } catch (err) {
-      logger.error('Password update failed. Please try again',req.params.id, err)
+      logger.error('Password update failed. Please try again',req.session.username, err)
       return res.status(500).json({error: {message: 'Password update failed. Please try again'}})
     }
   }
