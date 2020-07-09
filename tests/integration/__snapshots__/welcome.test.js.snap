@@ -41,7 +41,7 @@ exports[`test welcome page should render setDBpassword page correctly 1`] = `
     const setButton = document.querySelector('.setButton')
 
     setButton.addEventListener('click',()=>{
-        fetch('/api/users',{
+        fetch('/api/users/:id',{
             method:\\"PATCH\\",
             headers:{
                 'Content-Type': 'application/json'
@@ -54,120 +54,6 @@ exports[`test welcome page should render setDBpassword page correctly 1`] = `
         })
     })
 </script>
-"
-`;
-
-exports[`test welcome page should render setPassword page correctly 1`] = `
-"<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
-<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
-
-<style>
-    * {
-        text-align: center;
-    }
-    input {
-        width: 400px;
-        height: 40px;
-        margin: 5px;
-    }
-    button {
-        width: 400px;
-        height: 40px;
-        margin: 10px;
-    }
-    .card {
-        width: 450px;
-        margin: auto;
-    }
-    .subtitle {
-        margin: 10px;
-    }
-    .body {
-        margin: 10px;
-    }
-</style>
-
-<main>
-    <div class=\\"card\\">
-        <div class=\\"head\\">
-            <h1 class=\\"title\\">Learn Databases</h1>
-        </div>
-        <div class=\\"body\\">
-            <div class=\\"subtitle\\">Set your password</div>
-            <input class=\\"password1\\" placeholder=\\"create new password\\" type=\\"password\\"/><br>
-            <input class=\\"password2\\" placeholder=\\"confirm password\\" type=\\"password\\"/>
-            <button class=\\"submit\\">Submit</button>
-        </div>
-        <div class=\\"tale\\">
-            <div>Didn't recieve email? <a href=\\"#\\" class=\\"resend\\">Send Again</a></div>
-        </div>
-    </div>
-</main>
-
-<script>
-    const path = window.location.pathname.split('/')
-    const token = path.pop()
-    const id = path.pop()
-    console.log('path is', path)
-    console.log('toekn is', token)
-    console.log('userid is', id)
-
-    const password1 = document.querySelector('.password1')
-    const password2 = document.querySelector('.password2')
-    const submit = document.querySelector('.submit')
-    const resend = document.querySelector('.resend')
-
-    submit.addEventListener('click', () => {
-        if (password1.value !== password2.value) {
-            return alert(\\"Passwords do not match. Please check again.\\")
-        }
-        fetch('/api/passwordReset', {
-            method: \\"POST\\",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                token: token,
-                password: password1.value
-            })
-        }).then(r => r.json()).then((r) => {
-            if (r.error) return alert(r.error.message)
-            fetch('/api/session', {
-                method: \\"POST\\",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username: r.username,
-                    password: r.password
-                })
-            }).then((r) => {
-                return location.href = '/setDBPassword'
-            }).catch((err) => {
-                alert(\\"Password is set but login has failed. Please try again.\\", err)
-            })
-        }).catch((err) => {
-            alert(\\"Setting password has failed. Please try again.\\", err)
-        })
-    })
-
-    resend.addEventListener('click', () => {
-        fetch('/api/notifications', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-                id: id
-            })
-        }).then((r) => {
-            alert(\\"Check your email and re-connect to this page by clicking the link on the mail.\\")
-        }).catch((err) => {
-            alert(\\"Sending email has failed. Please try again.\\", err)
-        })
-    })
-</script>
-
 "
 `;
 
