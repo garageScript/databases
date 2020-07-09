@@ -23,18 +23,15 @@ routes.resetPasswordEmail = async (req, res) => {
         }
       })
     }
-    if (id) {
-      return await Accounts.findOne({
-        where: {
-          id: id
-        }
-      })
-    }
-    return null
+    return await Accounts.findOne({
+      where: {
+        id: id
+      }
+    })
   }
-  const userAccount = getAccount()
+  const userAccount = await getAccount()
 
-  if (!userAccount.id) {
+  if (!userAccount) {
     return res.status(400).json({error: {message: "Account does not exist"}})
   }
   logger.info(`User account found for user ${userAccount.id}, sending email now`)
