@@ -26,7 +26,7 @@ const startServer = async (portNumber) => {
         maxAge: 1000*60*5
       }
     }))
-    app.get('/', (req, res)=>{
+    app.get('/',(req,res)=>{
       res.render('welcome')
     })
     app.get('/signin', (req, res) => {
@@ -37,9 +37,6 @@ const startServer = async (portNumber) => {
     })
     app.get('/signup', (req, res) => {
       res.render('signup')
-    })
-    app.get('/setPassword/:id/:token', (req, res)=>{
-      res.render('setPassword')
     })
     app.post('/api/notifications', resetPasswordEmail)
     app.post('/api/users', createUser)

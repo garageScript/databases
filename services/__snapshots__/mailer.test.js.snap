@@ -4,12 +4,14 @@ exports[`Test mailgun should test if mocksend and mailgun is called 1`] = `
 Object {
   "from": "admin@learndatabases.dev",
   "html": "
-        <h1> Learn Databases </h1>
-        <h3> Set your password <a href=\\"https://learndatabases.dev/setPassword/undefined/token123\\">Here</a></h3>
-        <p> Or visit this link: <a href=\\"https://learndatabases.dev/setPassword/undefined/token123\\">https://learndatabases.dev/setPassword/undefined/token123</a></p>
+        <h1> Confirm your Email </h1>
+        <p>
+        <a href=\\"https://learndatabases.dev/emailConfirmation/token123\\">Click Here</a>
+        </p>
+        <p> Or visit this link: <a href=\\"https://learndatabases.dev/emailConfirmation/token123\\">https://learndatabases.dev/emailConfirmation/token123</a></p>
         ",
   "subject": "Congratulations!",
-  "text": "Welcome to learndatabases.dev",
+  "text": "Welcome to C0D3",
   "to": "paul@github.com",
 }
 `;
