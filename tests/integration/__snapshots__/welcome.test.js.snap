@@ -1,5 +1,93 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`test welcome page should render databases page correctly 1`] = `
+"
+<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
+<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+
+<style>
+    * {
+        text-align: center;
+    }
+    input {
+        width: 400px;
+        height: 40px;
+        margin: 5px;
+    }
+    button {
+        width: 400px;
+        height: 40px;
+        margin: 10px;
+    }
+    .card {
+        width: 450px;
+        margin: auto;
+    }
+    .subtitle {
+        margin: 10px;
+    }
+    .body {
+        margin: 10px;
+    }
+
+    .db-card {
+      border: solid 1px rgb(0,0,0);
+      background-color: rgb(15,15,15);
+      margin-top: 15px;
+      margin-bottom: 15px;
+      padding: 10px;
+      padding-bottom: 20px;
+      border-radius: 5pX;
+      cursor: pointer;
+    }
+    .db-card:hover {
+      border: solid 1px rgb(10, 70, 120);
+    }
+</style>
+
+<main>
+    <div class=\\"card\\">
+        <div class=\\"head\\">
+            <h1 class=\\"title\\">Learn Databases</h1>
+        </div>
+        <div class=\\"body\\">
+            <div class=\\"db-card postgres\\">
+              <h3 class=\\"db-title\\">PostgreSQL</h3>
+              <div class=\\"db-discription\\">A relational database management system emphasizing extensibility and technical standards compliance.</div>
+            </div>
+            <div class=\\"db-card mongodb\\">
+              <h3 class=\\"db-title\\">MongoDB</h3>
+              <div class=\\"db-discription\\">An open source database management system that uses a document-oriented database model which supports various forms of data.</div>
+            </div>
+            <div class=\\"db-card neo4j\\">
+              <h3 class=\\"db-title\\">Neo4j</h3>
+              <div class=\\"db-discription\\">A graph database management system that is the most papular graph database and the 22nd most popular database overall.</div>
+            </div>
+        </div>
+        <div class=\\"tale\\">
+        </div>
+    </div>
+</main>
+
+<script>
+    const postgres = document.querySelector('.postgres')
+    const mongodb = document.querySelector('.mongodb')
+    const neo4j = document.querySelector('.neo4j')
+
+    postgres.addEventListener('click', () => {
+      location.href = '/databases/postgres'
+    })
+    mongodb.addEventListener('click', () => {
+      location.href = '/databases/mongodb'
+    })
+    neo4j.addEventListener('click', () => {
+      location.href = '/databases/neo4j'
+    })
+</script>
+
+"
+`;
+
 exports[`test welcome page should render setDBpassword page correctly 1`] = `
 "<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
