@@ -12,6 +12,8 @@ const {
   updateDBPassword,
 } = require("./routes/userRoutes");
 
+require("dotenv").config();
+
 let server = null;
 let app = null;
 
@@ -27,7 +29,7 @@ const startServer = async (portNumber) => {
     app.use(express.json());
     app.use(
       session({
-        secret: "I L0V3 DATABASES",
+        secret: process.env.SECRET,
         resave: false,
         saveUninitialized: true,
         cookie: {
