@@ -6,18 +6,16 @@ const mg = mailgun(getEnvVar('mailgun'))
 
 const mgModule = {}
 
-mgModule.sendPasswordResetEmail = (receiver, token) => {
-  const link = `https://learndatabases.dev/emailConfirmation/${token}`
+mgModule.sendPasswordResetEmail = (receiver, token, userid) => {
+  const link = `https://learndatabases.dev/setPassword/${userid}/${token}`
   const data = {
     from: 'admin@learndatabases.dev',
     to: receiver,
     subject: 'Congratulations!',
-    text: 'Welcome to C0D3',
+    text: 'Welcome to learndatabases.dev',
     html: `
-        <h1> Confirm your Email </h1>
-        <p>
-        <a href="${link}">Click Here</a>
-        </p>
+        <h1> Learn Databases </h1>
+        <h3> Set your password <a href="${link}">Here</a></h3>
         <p> Or visit this link: <a href="${link}">${link}</a></p>
         `
   }

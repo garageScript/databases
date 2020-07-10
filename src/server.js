@@ -53,6 +53,9 @@ const startServer = async (portNumber) => {
     app.get("/databases", (req, res) => {
       res.render("databases");
     });
+    app.get("/setPassword/:id/:token", (req, res) => {
+      res.render("setPassword");
+    });
     app.post("/api/notifications", resetPasswordEmail);
     app.post("/api/users", createUser);
     app.patch("/api/users/:id", updateDBPassword);
