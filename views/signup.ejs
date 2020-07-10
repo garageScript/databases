@@ -65,8 +65,8 @@
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username: username.value,
-        email: email.value
+        username: username.value.toLowerCase(),
+        email: email.value.toLowerCase()
       })
     }).then(r => r.json()).then(() => {
       return location.href = '/signin'

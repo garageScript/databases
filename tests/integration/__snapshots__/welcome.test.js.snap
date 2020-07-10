@@ -231,7 +231,7 @@ exports[`test welcome page should render sign in page correctly 1`] = `
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                username: username.value,
+                username: username.value.toLowerCase(),
                 password: password.value
             })
         }).then(r => r.json()).then((r) => {
@@ -312,8 +312,8 @@ exports[`test welcome page should render sign up page correctly 1`] = `
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username: username.value,
-        email: email.value
+        username: username.value.toLowerCase(),
+        email: email.value.toLowerCase()
       })
     }).then(r => r.json()).then(() => {
       return location.href = '/signin'
