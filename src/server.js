@@ -29,7 +29,7 @@ const startServer = async (portNumber) => {
     app.use(express.json());
     app.use(
       session({
-        secret: process.env.SECRETE,
+        secret: process.env.SECRET,
         resave: false,
         saveUninitialized: true,
         cookie: {
