@@ -5,8 +5,8 @@ Object {
   "from": "admin@learndatabases.dev",
   "html": "
         <h1> Learn Databases </h1>
-        <h3> Set your password <a href=\\"https://learndatabases.dev/setPassword/undefined/token123\\">Here</a></h3>
-        <p> Or visit this link: <a href=\\"https://learndatabases.dev/setPassword/undefined/token123\\">https://learndatabases.dev/setPassword/undefined/token123</a></p>
+        <h3> Set your password <a href=\\"https://learndatabases.dev/setPassword/token123\\">Here</a></h3>
+        <p> Or visit this link: <a href=\\"https://learndatabases.dev/setPassword/token123\\">https://learndatabases.dev/setPassword/token123</a></p>
         ",
   "subject": "Congratulations!",
   "text": "Welcome to learndatabases.dev",

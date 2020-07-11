@@ -98,24 +98,18 @@ exports[`test welcome page should render setPassword page correctly 1`] = `
             <input class=\\"password2\\" placeholder=\\"confirm password\\" type=\\"password\\"/>
             <button class=\\"submit\\">Submit</button>
         </div>
-        <div class=\\"tale\\">
-            <div>Didn't recieve email? <a href=\\"#\\" class=\\"resend\\">Send Again</a></div>
-        </div>
     </div>
 </main>
 
 <script>
     const path = window.location.pathname.split('/')
     const token = path.pop()
-    const id = path.pop()
     console.log('path is', path)
     console.log('toekn is', token)
-    console.log('userid is', id)
 
     const password1 = document.querySelector('.password1')
     const password2 = document.querySelector('.password2')
     const submit = document.querySelector('.submit')
-    const resend = document.querySelector('.resend')
 
     submit.addEventListener('click', () => {
         if (password1.value !== password2.value) {
@@ -148,22 +142,6 @@ exports[`test welcome page should render setPassword page correctly 1`] = `
             })
         }).catch((err) => {
             alert(\\"Setting password has failed. Please try again.\\", err)
-        })
-    })
-
-    resend.addEventListener('click', () => {
-        fetch('/api/notifications', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-                id: id
-            })
-        }).then((r) => {
-            alert(\\"Check your email and re-connect to this page by clicking the link on the mail.\\")
-        }).catch((err) => {
-            alert(\\"Sending email has failed. Please try again.\\", err)
         })
     })
 </script>

@@ -28,7 +28,7 @@ describe('test welcome page', () => {
        expect(result).toMatchSnapshot()
    })
    test('should render setPassword page correctly', async () => {
-       const result = await (fetch(baseUrl + 'setPassword/0/token').then(r => r.text()))
+       const result = await (fetch(baseUrl + 'setPassword/token').then(r => r.text()))
        expect(result).toMatchSnapshot()
    })
 })
