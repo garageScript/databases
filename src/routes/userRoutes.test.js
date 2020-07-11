@@ -27,7 +27,7 @@ describe('Testing resetPasswordEmail function', () => {
     jest.clearAllMocks()
   })
   
-  test('should send 400 error if req body does not have email or id', async () => {
+  test('should send 400 error if req body does not have email', async () => {
     const req = {
       body: {}
     }
@@ -37,31 +37,19 @@ describe('Testing resetPasswordEmail function', () => {
     expect(res.json.mock.calls[0][0]).toEqual({error: {message: "invalid input"}})
   })
   
-  test('should send 400 error if user account does not exist', async () => {
-    const req = {
-      body: {
-        email: 'hello@world.com',
-      } 
+  test('Should send 400 error if user account does not exist', async () => {
+      const req = {
+     body: {
+         email: 'hello@world.com',
+     } 
     } 
 
     await resetPasswordEmail(req, res)
     expect(res.status.mock.calls[0][0]).toEqual(400)
     expect(res.json.mock.calls[0][0]).toEqual({error: {message: "Account does not exist"}})
-  })
+})
 
-  test('should pass validation if req body has id but not email', async () => {
-    const req = {
-      body: {
-        id: 10,
-      } 
-    } 
-
-    await resetPasswordEmail(req, res)
-    expect(res.status.mock.calls[0][0]).toEqual(400)
-    expect(res.json.mock.calls[0][0]).toEqual({error: {message: "Account does not exist"}})
-  })
-  
-  test('should send 500 error if send password throws error', async () => {
+test('should send 500 error if send password throws error', async () => {
     const userAccount = {
         id: 1,
       email: 'hello@world.com'
@@ -82,7 +70,7 @@ describe('Testing resetPasswordEmail function', () => {
     await resetPasswordEmail(req, res)
     expect(res.status.mock.calls[0][0]).toEqual(500)
     expect(res.json.mock.calls[0][0]).toEqual({ error: {message: 'Email delivery failed. Please try again'}})
-  })
+})
 
   test('should send 200 success if send password is successful', async () => {
       const userAccount = {
@@ -383,7 +371,7 @@ describe('testing userResetPassword', () => {
      }
    
    await userResetPassword(req, res)
-   return expect(res.json.mock.calls[0][0].error.message).toEqual('Setting user password failed. Please try again')
+   return expect(res.json.mock.calls[0][0].error.message).toEqual('Reset user password failed. Please try again')
    })
 })
 
