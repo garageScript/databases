@@ -38,7 +38,7 @@ const startServer = async (portNumber) => {
     app.get('/signup', (req, res) => {
       res.render('signup')
     })
-    app.get('/setPassword/:id/:token', (req, res)=>{
+    app.get('/setPassword/:token', (req, res)=>{
       res.render('setPassword')
     })
     app.post('/api/notifications', resetPasswordEmail)
