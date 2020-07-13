@@ -26,4 +26,5 @@ describe('test welcome page', () => {
        const result = await fetch(baseUrl + 'signup').then(r => r.text())
        expect(result).toMatchSnapshot()
    })
+   
 })
