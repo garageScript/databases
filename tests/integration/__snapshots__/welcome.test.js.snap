@@ -1,10 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test welcome page should render setDBpassword page correctly 1`] = `
-"
-  <!--views/partials/head.ejs-->
+"<!--views/partials/head.ejs-->
 <meta charset='UTF-8'>
-<title></title>
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
@@ -33,9 +31,6 @@ exports[`test welcome page should render setDBpassword page correctly 1`] = `
         margin: 10px;
     }
 </style>
-
-
-
 <main>
     <div class=\\"card\\">
         <div class=\\"header\\">
@@ -69,10 +64,8 @@ exports[`test welcome page should render setDBpassword page correctly 1`] = `
 `;
 
 exports[`test welcome page should render sign in page correctly 1`] = `
-"
-    <!--views/partials/head.ejs-->
+"<!--views/partials/head.ejs-->
 <meta charset='UTF-8'>
-<title></title>
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
@@ -145,11 +138,8 @@ exports[`test welcome page should render sign in page correctly 1`] = `
 `;
 
 exports[`test welcome page should render sign up page correctly 1`] = `
-"
-
-  <!--views/partials/head.ejs-->
+"<!--views/partials/head.ejs-->
 <meta charset='UTF-8'>
-<title></title>
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
@@ -178,8 +168,6 @@ exports[`test welcome page should render sign up page correctly 1`] = `
         margin: 10px;
     }
 </style>
-
-
 <h1>Learn Databases</h1>
 
 <p>Create Account</p>
