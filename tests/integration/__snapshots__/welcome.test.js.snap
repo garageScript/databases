@@ -89,34 +89,40 @@ exports[`test welcome page should render databases page correctly 1`] = `
 `;
 
 exports[`test welcome page should render setDBpassword page correctly 1`] = `
-"<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
+"<!--views/partials/head.ejs-->
+<meta charset='UTF-8'>
+<!--CSS (load bootstrap from a CDN)-->
+<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
 <style>
-    *{
-        text-align:center;
+    * {
+        text-align: center;
     }
     input {
-        height:40px;
-        margin-top:300px;   
+        width: 400px;
+        height: 40px;
+        margin: 5px;
     }
-    button{
-        height: 40px;   
+    button {
+        width: 400px;
+        height: 40px;
+        margin: 10px;
     }
-    .container {
+    .card {
         width: 450px;
         margin: auto;
     }
-    .body{
-        margin:10px;
-        height:700px;
-        border: 1px solid rgba(0,0,0,0.5);
-        background:rgba(220,220,220,0.5)
+    .subtitle {
+        margin: 10px;
+    }
+    .body {
+        margin: 10px;
     }
 </style>
 <main>
-    <div class=\\"container\\">
+    <div class=\\"card\\">
         <div class=\\"header\\">
-            <h1 class=\\"title\\">Database Setup</h1>
+            <h1 class=\\"title\\">Learn Databases</h1>
         </div>
         <div class=\\"body\\">
             <input class=\\"dbPassword\\" placeholder=\\"password\\">
@@ -146,9 +152,11 @@ exports[`test welcome page should render setDBpassword page correctly 1`] = `
 `;
 
 exports[`test welcome page should render sign in page correctly 1`] = `
-"<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
+"<!--views/partials/head.ejs-->
+<meta charset='UTF-8'>
+<!--CSS (load bootstrap from a CDN)-->
+<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
-
 <style>
     * {
         text-align: center;
@@ -174,7 +182,6 @@ exports[`test welcome page should render sign in page correctly 1`] = `
         margin: 10px;
     }
 </style>
-
 <main>
     <div class=\\"card\\">
         <div class=\\"head\\">
@@ -219,10 +226,11 @@ exports[`test welcome page should render sign in page correctly 1`] = `
 `;
 
 exports[`test welcome page should render sign up page correctly 1`] = `
-"<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
+"<!--views/partials/head.ejs-->
+<meta charset='UTF-8'>
+<!--CSS (load bootstrap from a CDN)-->
+<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
-
-
 <style>
     * {
         text-align: center;
@@ -237,11 +245,17 @@ exports[`test welcome page should render sign up page correctly 1`] = `
         height: 40px;
         margin: 10px;
     }
+    .card {
+        width: 450px;
+        margin: auto;
+    }
+    .subtitle {
+        margin: 10px;
+    }
     .body {
         margin: 10px;
     }
 </style>
-
 <h1>Learn Databases</h1>
 
 <p>Create Account</p>

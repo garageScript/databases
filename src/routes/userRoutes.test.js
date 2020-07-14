@@ -210,17 +210,17 @@ describe('testing upDBPassword function', () => {
   })
   it('should send 400 error if invalid input of userid and password', async() => { 
       const req ={
-          params:{id:null},
+          session: {username: null},
           body:{password:null}
        }
        await updateDBPassword(req, res)
        expect(res.status.mock.calls[0][0]).toEqual(400)
-       expect(res.json.mock.calls[0][0].error.message).toEqual('invalid input of userid and password')
+       expect(res.json.mock.calls[0][0].error.message).toEqual('invalid input of username and password')
     })
   it('should send 400 error if user account does not exist', async() => {
       mockFindOne.mockReturnValue(undefined)
       const req = {
-           params:{id:-2},
+           session: {username: "testname"},
            body:{password:88900900}
        }
       await updateDBPassword(req,res)
@@ -229,11 +229,11 @@ describe('testing upDBPassword function', () => {
   })
   it('should send 200 success and update user password', async() => {
       const userAccount = {
-        id: 12
+        username: "testname"
       }
       mockFindOne.mockReturnValue(userAccount)     
       const req = {
-          params:{id:12},
+          session: {username: "testname"},
           body:{password:12345678}
       }
       setDBPassword.mockImplementation(() => {return {
@@ -249,11 +249,11 @@ describe('testing upDBPassword function', () => {
 
   it('should send 500 error if password update failed', async() => {
       const userAccount = {
-        id: 12
+        username: "testname"
       }
       mockFindOne.mockReturnValue(userAccount)
       const req = {
-          params:{id:12},
+          session: {username: "testname"},
           body:{password:'noexist'}
       }
      setDBPassword.mockImplementation(() => {
