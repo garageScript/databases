@@ -104,6 +104,7 @@ describe("Testing resetPasswordEmail function", () => {
       body: {
         email: "hello@world.com",
       },
+      session: {},
     };
 
     sendPasswordResetEmail.mockImplementation(() => {

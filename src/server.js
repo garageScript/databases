@@ -49,6 +49,9 @@ const startServer = async (portNumber) => {
     app.get("/signup", (req, res) => {
       res.render("signup");
     });
+    app.get("/setPassword/:token", (req, res) => {
+      res.render("setPassword");
+    });
     app.get("/databases", (req, res) => {
       res.render("databases");
     });
