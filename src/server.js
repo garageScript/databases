@@ -13,7 +13,6 @@ const {
 } = require("./routes/userRoutes");
 
 require("dotenv").config();
-
 let server = null;
 let app = null;
 
@@ -52,6 +51,9 @@ const startServer = async (portNumber) => {
     });
     app.get("/setPassword/:token", (req, res) => {
       res.render("setPassword");
+    });
+    app.get("/databases", (req, res) => {
+      res.render("databases");
     });
     app.post("/api/notifications", resetPasswordEmail);
     app.post("/api/users", createUser);
