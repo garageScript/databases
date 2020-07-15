@@ -133,20 +133,7 @@ exports[`test welcome page should render setPassword page correctly 1`] = `
             })
         }).then(r => r.json()).then((r) => {
             if (r.error) return alert(r.error.message)
-            fetch('/api/session', {
-                method: \\"POST\\",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username: r.username,
-                    password: r.password
-                })
-            }).then((r) => {
-                return location.href = '/setDBPassword'
-            }).catch((err) => {
-                alert(\\"Password is set but login has failed. Please try again.\\", err)
-            })
+            return location.href = '/setDBPassword'
         }).catch((err) => {
             alert(\\"Setting password has failed. Please try again.\\", err)
         })

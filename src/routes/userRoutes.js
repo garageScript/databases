@@ -34,6 +34,7 @@ routes.resetPasswordEmail = async (req, res) => {
   try {
     const account = await sendPasswordResetEmail(userAccount);
     logger.info(`user reset password email sent to user ${userAccount.id}`);
+    req.session.username = account.username;
     return res.status(200).json({ ...account.dataValues, password: null });
   } catch (err) {
     logger.error(`Could not send email to user ${userAccount.id}`);
