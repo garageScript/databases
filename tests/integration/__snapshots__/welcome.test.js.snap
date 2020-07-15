@@ -201,9 +201,6 @@ exports[`test welcome page should render setPassword page correctly 1`] = `
 <script>
     const path = window.location.pathname.split('/')
     const token = path.pop()
-    console.log('path is', path)
-    console.log('toekn is', token)
-
     const password1 = document.querySelector('.password1')
     const password2 = document.querySelector('.password2')
     const submit = document.querySelector('.submit')
@@ -375,7 +372,6 @@ exports[`test welcome page should render sign up page correctly 1`] = `
   const email = document.querySelector('.email')
 
   submit.addEventListener('click', () => {
-    alert(\\"Check your email and set your password\\")
     fetch('/api/users', {
       method: 'POST',
       headers: {
@@ -385,8 +381,14 @@ exports[`test welcome page should render sign up page correctly 1`] = `
         username: username.value.toLowerCase(),
         email: email.value.toLowerCase()
       })
-    }).then(r => r.json()).then(() => {
-      return location.href = '/signin'
+    }).then(r => r.json()).then((res) => {
+      if (res.error) {
+        const message = res.error.message.split(':')
+        alert(message[1].trim())
+      } else {
+        alert(\\"Check your email and set your password\\")
+        return location.href = '/signin'
+      }
     })
   })
 </script>
