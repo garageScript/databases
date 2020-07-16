@@ -409,13 +409,13 @@ exports[`test welcome page should render welcome page correctly 1`] = `
       href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\"
     />
 
-    <link rel=\\"icon\\" type=\\"image/gif\\" href=\\"./databass.gif\\" />
+    <link rel=\\"icon\\" type=\\"image/gif\\" href=\\"../public/databass.gif\\" />
 
     <title>learndatabases.dev</title>
   </head>
   <body>
     <h1>Learn Databases</h1>
-    <p><a href=\\"/login\\">Login</a> / <a href=\\"/signup\\">Signup</a></p>
+    <p><a href=\\"/signin\\">Login</a> / <a href=\\"/signup\\">Signup</a></p>
 
     <h2>Learn and try out different databases!</h2>
     <ul>
