@@ -409,7 +409,7 @@ exports[`test welcome page should render welcome page correctly 1`] = `
       href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\"
     />
 
-    <link rel=\\"shortcut icon\\" type=\\"image/png\\" href=\\"\\" />
+    <link rel=\\"icon\\" type=\\"image/gif\\" href=\\"./databass.gif\\" />
 
     <title>learndatabases.dev</title>
   </head>

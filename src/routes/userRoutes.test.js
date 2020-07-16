@@ -116,51 +116,11 @@ describe("Testing resetPasswordEmail function", () => {
       };
     });
 
-<<<<<<< HEAD
-describe('Testing createUser function', () => {
-    beforeEach(() => {
-      jest.clearAllMocks()
-    })
-  it('should send error if sign up fails', async () => {
-      signUp.mockImplementation(() => {
-          throw new Error('email already exists')
-      })
-      const req = {
-          body: {
-              username: 'username',
-              email: 'em@i.l'
-          }
-      }
-      await createUser(req, res)
-      expect(res.status.mock.calls[0][0]).toEqual(400)
-      return expect(res.json.mock.calls[0][0].error.message).toEqual('email already exists')
-  })
-  it('should create user account', async () => {
-      signUp.mockImplementation(() => {
-        return {
-          dataValues: {
-            email: 'em@i.l'
-          }
-        }
-      })
-      const req = {
-        body: {
-          username: 'username',
-          email: 'em@i.l'
-        }
-      }
-      await createUser(req, res)
-      expect(res.status.mock.calls[0][0]).toEqual(200)
-      return expect(res.json.mock.calls[0][0].email).toEqual('em@i.l')
-  })
-})
-=======
     await resetPasswordEmail(req, res);
     expect(res.status.mock.calls[0][0]).toEqual(200);
     expect(res.json.mock.calls[0][0].email).toEqual("hello@world.com");
   });
 });
->>>>>>> 73bde9dc07d3f321bcb903e78f90e20b57d36309
 
 describe("Testing createUser function", () => {
   beforeEach(() => {
