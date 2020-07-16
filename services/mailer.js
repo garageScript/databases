@@ -1,32 +1,34 @@
-const mailgun = require('mailgun-js')
-const logger = require('../lib/log')(__filename)
-const getEnvVar = require('../lib/getEnvVar')
+const mailgun = require("mailgun-js");
+const logger = require("../lib/log")(__filename);
+const getEnvVar = require("../lib/getEnvVar");
 
-const mg = mailgun(getEnvVar('mailgun'))
+const mg = mailgun(getEnvVar("mailgun"));
 
-const mgModule = {}
+const mgModule = {};
 
 mgModule.sendPasswordResetEmail = (receiver, token) => {
-  const link = `https://learndatabases.dev/emailConfirmation/${token}`
+  const link = `https://learndatabases.dev/setPassword/${token}`;
   const data = {
-    from: 'admin@learndatabases.dev',
+    from: "admin@learndatabases.dev",
     to: receiver,
-    subject: 'Congratulations!',
-    text: 'Welcome to C0D3',
+    subject: "Congratulations!",
+    text: "Welcome to leardatabases.dev",
     html: `
-        <h1> Confirm your Email </h1>
-        <p>
-        <a href="${link}">Click Here</a>
-        </p>
+        <h1> Learn Databases </h1>
+        <h3> Set your password <a href="${link}">Here</a></h3>
         <p> Or visit this link: <a href="${link}">${link}</a></p>
-        `
-  }
-  return mg.messages().send(data).then((returnedData) => {
-    logger.info('Confirmation Email successfully sent', returnedData)
-  }).catch((err) => {
-    logger.error('Confirmation Email Error:', err)
-    return err
-  })
-}
+        `,
+  };
+  return mg
+    .messages()
+    .send(data)
+    .then((returnedData) => {
+      logger.info("Confirmation Email successfully sent", returnedData);
+    })
+    .catch((err) => {
+      logger.error("Confirmation Email Error:", err);
+      return err;
+    });
+};
 
-module.exports = mgModule
+module.exports = mgModule;

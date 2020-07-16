@@ -23,8 +23,27 @@ describe("test welcome page", () => {
     const result = await fetch(baseUrl + "signin").then((r) => r.text());
     expect(result).toMatchSnapshot();
   });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 73bde9dc07d3f321bcb903e78f90e20b57d36309
   test("should render sign up page correctly", async () => {
     const result = await fetch(baseUrl + "signup").then((r) => r.text());
     expect(result).toMatchSnapshot();
   });
+<<<<<<< HEAD
+=======
+
+  test("should render setPassword page correctly", async () => {
+    const result = await fetch(baseUrl + "setPassword/token").then((r) =>
+      r.text()
+    );
+    expect(result).toMatchSnapshot();
+  });
+
+  test("should render databases page correctly", async () => {
+    const result = await fetch(baseUrl + "databases").then((r) => r.text());
+    expect(result).toMatchSnapshot();
+  });
+>>>>>>> 73bde9dc07d3f321bcb903e78f90e20b57d36309
 });
