@@ -409,8 +409,6 @@ exports[`test welcome page should render welcome page correctly 1`] = `
       href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\"
     />
 
-    <link rel=\\"icon\\" type=\\"image/gif\\" href=\\"../public/databass.gif\\" />
-
     <title>learndatabases.dev</title>
   </head>
   <body>
@@ -435,8 +433,7 @@ exports[`test welcome page should render welcome page correctly 1`] = `
 
     <p>Want to add a new Database or Sponsor? <a href=\\"#\\">Contact Us</a></p>
 
-    <p>We collect anonymous analytics using Simple Analytics. View live: <a href=\\"\\">simpleanalytics.com/learndatabases.dev</a>
-    </p>
+    <p>We collect anonymous analytics using Simple Analytics. View live: <a href=\\"#\\">simpleanalytics.com/learndatabases.dev</a></p>
   </body>
 </html>
 "
