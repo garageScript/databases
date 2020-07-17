@@ -15,7 +15,7 @@ routes.resetPasswordEmail = async (req, res) => {
   if (!email && !username) {
     return res.status(400).json({ error: { message: "invalid input" } });
   }
-  let filter = { where: {} };
+  const filter = { where: {} };
   if (email) {
     filter.where.email = email;
   } else {
