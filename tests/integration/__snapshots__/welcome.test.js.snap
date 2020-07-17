@@ -90,9 +90,8 @@ exports[`test welcome page should render databases page correctly 1`] = `
 "
 `;
 
-exports[`test welcome page should render findAccount page correctly 1`] = `
-"
-<!--views/partials/head.ejs-->
+exports[`test welcome page should render resetPassword page correctly 1`] = `
+"<!--views/partials/head.ejs-->
 <meta charset='UTF-8'>
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
@@ -355,7 +354,7 @@ exports[`test welcome page should render sign in page correctly 1`] = `
             <button class=\\"submit\\">Submit</button>
         </div>
         <div class=\\"tale\\">
-            <div>Forgot account? <a href=\\"/findAccount\\">Find Account</a></div>
+            <div>Forgot password? <a href=\\"/resetPassword\\">Reset Password</a></div>
             <div>Don't have account? <a href=\\"/signup\\">Sign Up</a></div>
         </div>
     </div>
