@@ -26,6 +26,7 @@ const startServer = async (portNumber) => {
     app = express();
     app.set("view engine", "ejs");
     app.use(express.json());
+    app.use(express.static("public"));
     app.use(
       session({
         secret: process.env.SECRET,
