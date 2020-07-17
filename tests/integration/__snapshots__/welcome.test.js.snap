@@ -162,7 +162,10 @@ exports[`test welcome page should render resetPassword page correctly 1`] = `
       if (r.error) {
         alert(r.error.message)
       } else {
-        alert(\`Check your email(\${r.email}) and set your password\`)
+        alert(\`username: \${r.username}
+email: \${r.email}
+
+Check your email and set your password\`)
         return location.href = '/signin'
       }
     })
