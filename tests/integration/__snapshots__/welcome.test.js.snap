@@ -295,8 +295,9 @@ exports[`test welcome page should render sign in page correctly 1`] = `
                 password: password.value
             })
         }).then(r => r.json()).then((r) => {
-            if (r.dbPassword) return location.href = '/setDBPassword' //path name is not decided yet  
-            return location.href = '/databases' //path name is not decided yet
+            if (r.error) return alert(r.error.message)
+            if (r.dbPassword) return location.href = '/setDBPassword'
+            return location.href = '/databases'
         })
     })
 </script>
