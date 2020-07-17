@@ -11,18 +11,18 @@ const routes = {};
 
 routes.resetPasswordEmail = async (req, res) => {
   const email = req.body.email;
-  logger.info("request received to send notification");
-
-  if (!email) {
+  const username = req.body.username;
+  if (!email && !username) {
     return res.status(400).json({ error: { message: "invalid input" } });
   }
-  logger.info("user email is", email);
+  let filter = { where: {} };
+  if (email) {
+    filter.where.email = email;
+  } else {
+    filter.where.username = username;
+  }
   const { Accounts } = db.getModels();
-  const userAccount = await Accounts.findOne({
-    where: {
-      email: email,
-    },
-  });
+  const userAccount = await Accounts.findOne(filter);
   if (!userAccount) {
     return res
       .status(400)
