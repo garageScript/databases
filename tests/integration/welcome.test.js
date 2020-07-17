@@ -44,8 +44,8 @@ describe("test welcome page", () => {
     expect(result).toMatchSnapshot();
   });
 
-  test("should render findAccount page correctly", async () => {
-    const result = await fetch(baseUrl + "findAccount").then((r) => r.text());
+  test("should render resetPassword page correctly", async () => {
+    const result = await fetch(baseUrl + "resetPassword").then((r) => r.text());
     expect(result).toMatchSnapshot();
   });
 });

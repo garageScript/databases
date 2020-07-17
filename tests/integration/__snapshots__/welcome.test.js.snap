@@ -90,7 +90,7 @@ exports[`test welcome page should render databases page correctly 1`] = `
 "
 `;
 
-exports[`test welcome page should render findAccount page correctly 1`] = `
+exports[`test welcome page should render resetPassword page correctly 1`] = `
 "
 <!--views/partials/head.ejs-->
 <meta charset='UTF-8'>
@@ -128,47 +128,40 @@ exports[`test welcome page should render findAccount page correctly 1`] = `
             <h1 class=\\"title\\">Learn Databases</h1>
         </div>
         <div class=\\"body\\">
-            <div class=\\"subtitle\\">Find your account</div>
-            <input class=\\"username\\" placeholder=\\"username or email\\" /><br>
+            <div class=\\"subtitle\\">Please log in</div>
+            <input class=\\"username\\" placeholder=\\"username\\" /><br>
+            <input class=\\"password\\" placeholder=\\"password\\" type=\\"password\\"/>
             <button class=\\"submit\\">Submit</button>
         </div>
         <div class=\\"tale\\">
-            <div>Wanna go back? <a href=\\"/signin\\">Log In</a></div>
+            <div>Forgot password? <a href=\\"/resetPassword\\">Reset Password</a></div>
+            <div>Don't have account? <a href=\\"/signup\\">Sign Up</a></div>
         </div>
     </div>
 </main>
 
 <script>
-  const submit = document.querySelector('.submit');
-  const username = document.querySelector('.username');
-  
-  const getBody = (value) => {
-    const body = {}
-    if (value.includes(\\"@\\")) {
-      body.email = value
-      return body
-    }
-    body.username = value
-    return body
-  }
+    const username = document.querySelector('.username')
+    const password = document.querySelector('.password')
+    const submit = document.querySelector('.submit')
 
-  submit.addEventListener('click', () => {
-    fetch('/api/notifications', {
-      method: \\"POST\\",
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(getBody(username.value))
-    }).then(r => r.json()).then((r) => {
-      if (r.error) {
-        alert(r.error.message)
-      } else {
-        alert(\`Check your email(\${r.email}) and set your password\`)
-        return location.href = '/signin'
-      }
+    submit.addEventListener('click', () => {
+        fetch('/api/session', {
+            method: \\"POST\\",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username.value.toLowerCase(),
+                password: password.value
+            })
+        }).then(r => r.json()).then((r) => {
+            if (r.dbPassword) return location.href = '/setDBPassword' //path name is not decided yet  
+            return location.href = '/databases' //path name is not decided yet
+        })
     })
-  })
 </script>
+
 "
 `;
 
@@ -355,7 +348,7 @@ exports[`test welcome page should render sign in page correctly 1`] = `
             <button class=\\"submit\\">Submit</button>
         </div>
         <div class=\\"tale\\">
-            <div>Forgot account? <a href=\\"/findAccount\\">Find Account</a></div>
+            <div>Forgot password? <a href=\\"/resetPassword\\">Reset Password</a></div>
             <div>Don't have account? <a href=\\"/signup\\">Sign Up</a></div>
         </div>
     </div>
