@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/garageScript/databases#readme",
   "devDependencies": {
+    "cypress": "^4.10.0",
     "dotenv": "^8.2.0",
     "husky": "^4.2.3",
     "jest": "^25.3.0",
