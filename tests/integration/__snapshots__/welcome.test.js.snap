@@ -127,7 +127,7 @@ exports[`test welcome page should render resetPassword page correctly 1`] = `
             <h1 class=\\"title\\">Learn Databases</h1>
         </div>
         <div class=\\"body\\">
-            <div class=\\"subtitle\\">Find your account</div>
+            <div class=\\"subtitle\\">Reset your password</div>
             <input class=\\"username\\" placeholder=\\"username or email\\" /><br>
             <button class=\\"submit\\">Submit</button>
         </div>
