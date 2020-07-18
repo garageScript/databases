@@ -11,7 +11,7 @@
             <button class="submit">Submit</button>
         </div>
         <div class="tale">
-            <div>Forgot Password? <a href="#">Find Password</a></div>
+            <div>Forgot password? <a href="/resetPassword">Reset Password</a></div>
             <div>Don't have account? <a href="/signup">Sign Up</a></div>
         </div>
     </div>
@@ -33,8 +33,9 @@
                 password: password.value
             })
         }).then(r => r.json()).then((r) => {
-            if (r.dbPassword) return location.href = '/setDBPassword' //path name is not decided yet  
-            return location.href = '/databases' //path name is not decided yet
+            if (r.error) return alert(r.error.message)
+            if (r.dbPassword) return location.href = '/setDBPassword'
+            return location.href = '/databases'
         })
     })
 </script>
