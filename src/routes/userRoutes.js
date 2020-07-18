@@ -15,14 +15,14 @@ routes.resetPasswordEmail = async (req, res) => {
   if (!email && !username) {
     return res.status(400).json({ error: { message: "invalid input" } });
   }
-  const filter = { where: {} };
+  const query = { where: {} };
   if (email) {
-    filter.where.email = email;
+    query.where.email = email;
   } else {
-    filter.where.username = username;
+    query.where.username = username;
   }
   const { Accounts } = db.getModels();
-  const userAccount = await Accounts.findOne(filter);
+  const userAccount = await Accounts.findOne(query);
   if (!userAccount) {
     return res
       .status(400)
