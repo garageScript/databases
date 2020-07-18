@@ -41,7 +41,7 @@ describe("Testing resetPasswordEmail function", () => {
     jest.clearAllMocks();
   });
 
-  test("should send 400 error if req body does not have email", async () => {
+  test("should send 400 error if req body does not have email or username", async () => {
     const req = {
       body: {},
     };
@@ -53,10 +53,24 @@ describe("Testing resetPasswordEmail function", () => {
     });
   });
 
-  test("Should send 400 error if user account does not exist", async () => {
+  test("Should send 400 error if user account does not exist with provided email", async () => {
     const req = {
       body: {
         email: "hello@world.com",
+      },
+    };
+
+    await resetPasswordEmail(req, res);
+    expect(res.status.mock.calls[0][0]).toEqual(400);
+    expect(res.json.mock.calls[0][0]).toEqual({
+      error: { message: "Account does not exist" },
+    });
+  });
+
+  test("Should send 400 error if user account does not exist with provided username", async () => {
+    const req = {
+      body: {
+        username: "noexist",
       },
     };
 
