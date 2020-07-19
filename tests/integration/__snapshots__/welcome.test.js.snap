@@ -6,6 +6,7 @@ exports[`test welcome page should render databases page correctly 1`] = `
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+<link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
 <style>
     input {
         text-align: center;
@@ -37,18 +38,6 @@ exports[`test welcome page should render databases page correctly 1`] = `
 </style>
 <html lang=\\"en\\">
   <head>
-    <meta charset=\\"utf-8\\" />
-    <link
-      rel=\\"stylesheet\\"
-      href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\"
-    />
-    <link
-      rel=\\"stylesheet\\"
-      href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\"
-    />
-
-    <link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
-
     <title>learndatabases.dev</title>
   </head>
   <header>
@@ -138,6 +127,7 @@ exports[`test welcome page should render resetPassword page correctly 1`] = `
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+<link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
 <style>
     input {
         text-align: center;
@@ -169,18 +159,6 @@ exports[`test welcome page should render resetPassword page correctly 1`] = `
 </style>
 <html lang=\\"en\\">
   <head>
-    <meta charset=\\"utf-8\\" />
-    <link
-      rel=\\"stylesheet\\"
-      href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\"
-    />
-    <link
-      rel=\\"stylesheet\\"
-      href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\"
-    />
-
-    <link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
-
     <title>learndatabases.dev</title>
   </head>
   <header>
@@ -264,6 +242,7 @@ exports[`test welcome page should render setDBpassword page correctly 1`] = `
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+<link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
 <style>
     input {
         text-align: center;
@@ -295,18 +274,6 @@ exports[`test welcome page should render setDBpassword page correctly 1`] = `
 </style>
 <html lang=\\"en\\">
   <head>
-    <meta charset=\\"utf-8\\" />
-    <link
-      rel=\\"stylesheet\\"
-      href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\"
-    />
-    <link
-      rel=\\"stylesheet\\"
-      href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\"
-    />
-
-    <link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
-
     <title>learndatabases.dev</title>
   </head>
   <header>
@@ -370,6 +337,7 @@ exports[`test welcome page should render setPassword page correctly 1`] = `
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+<link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
 <style>
     input {
         text-align: center;
@@ -401,18 +369,6 @@ exports[`test welcome page should render setPassword page correctly 1`] = `
 </style>
 <html lang=\\"en\\">
   <head>
-    <meta charset=\\"utf-8\\" />
-    <link
-      rel=\\"stylesheet\\"
-      href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\"
-    />
-    <link
-      rel=\\"stylesheet\\"
-      href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\"
-    />
-
-    <link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
-
     <title>learndatabases.dev</title>
   </head>
   <header>
@@ -489,6 +445,7 @@ exports[`test welcome page should render sign in page correctly 1`] = `
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+<link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
 <style>
     input {
         text-align: center;
@@ -520,18 +477,6 @@ exports[`test welcome page should render sign in page correctly 1`] = `
 </style>
 <html lang=\\"en\\">
   <head>
-    <meta charset=\\"utf-8\\" />
-    <link
-      rel=\\"stylesheet\\"
-      href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\"
-    />
-    <link
-      rel=\\"stylesheet\\"
-      href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\"
-    />
-
-    <link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
-
     <title>learndatabases.dev</title>
   </head>
   <header>
@@ -606,6 +551,7 @@ exports[`test welcome page should render sign up page correctly 1`] = `
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+<link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
 <style>
     input {
         text-align: center;
@@ -637,18 +583,6 @@ exports[`test welcome page should render sign up page correctly 1`] = `
 </style>
 <html lang=\\"en\\">
   <head>
-    <meta charset=\\"utf-8\\" />
-    <link
-      rel=\\"stylesheet\\"
-      href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\"
-    />
-    <link
-      rel=\\"stylesheet\\"
-      href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\"
-    />
-
-    <link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
-
     <title>learndatabases.dev</title>
   </head>
   <header>
@@ -734,6 +668,7 @@ exports[`test welcome page should render welcome page correctly 1`] = `
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+<link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
 <style>
     input {
         text-align: center;
@@ -765,18 +700,6 @@ exports[`test welcome page should render welcome page correctly 1`] = `
 </style>
 <html lang=\\"en\\">
   <head>
-    <meta charset=\\"utf-8\\" />
-    <link
-      rel=\\"stylesheet\\"
-      href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\"
-    />
-    <link
-      rel=\\"stylesheet\\"
-      href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\"
-    />
-
-    <link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
-
     <title>learndatabases.dev</title>
   </head>
   <header>
