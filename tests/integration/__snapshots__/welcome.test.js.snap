@@ -90,6 +90,90 @@ exports[`test welcome page should render databases page correctly 1`] = `
 "
 `;
 
+exports[`test welcome page should render resetPassword page correctly 1`] = `
+"<!--views/partials/head.ejs-->
+<meta charset='UTF-8'>
+<!--CSS (load bootstrap from a CDN)-->
+<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
+<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+<style>
+    * {
+        text-align: center;
+    }
+    input {
+        width: 400px;
+        height: 40px;
+        margin: 5px;
+    }
+    button {
+        width: 400px;
+        height: 40px;
+        margin: 10px;
+    }
+    .card {
+        width: 450px;
+        margin: auto;
+    }
+    .subtitle {
+        margin: 10px;
+    }
+    .body {
+        margin: 10px;
+    }
+</style>
+<main>
+    <div class=\\"card\\">
+        <div class=\\"head\\">
+            <h1 class=\\"title\\">Learn Databases</h1>
+        </div>
+        <div class=\\"body\\">
+            <div class=\\"subtitle\\">Reset your password</div>
+            <input class=\\"username\\" placeholder=\\"username or email\\" /><br>
+            <button class=\\"submit\\">Submit</button>
+        </div>
+        <div class=\\"tale\\">
+            <div>Wanna go back? <a href=\\"/signin\\">Log In</a></div>
+        </div>
+    </div>
+</main>
+
+<script>
+  const submit = document.querySelector('.submit');
+  const username = document.querySelector('.username');
+  
+  const getBody = (value) => {
+    const body = {}
+    if (value.includes(\\"@\\")) {
+      body.email = value
+      return body
+    }
+    body.username = value
+    return body
+  }
+
+  submit.addEventListener('click', () => {
+    fetch('/api/notifications', {
+      method: \\"POST\\",
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(getBody(username.value))
+    }).then(r => r.json()).then((r) => {
+      if (r.error) {
+        alert(r.error.message)
+      } else {
+        alert(\`username: \${r.username}
+email: \${r.email}
+
+Check your email and set your password\`)
+        return location.href = '/signin'
+      }
+    })
+  })
+</script>
+"
+`;
+
 exports[`test welcome page should render setDBpassword page correctly 1`] = `
 "<!--views/partials/head.ejs-->
 <meta charset='UTF-8'>
@@ -273,7 +357,7 @@ exports[`test welcome page should render sign in page correctly 1`] = `
             <button class=\\"submit\\">Submit</button>
         </div>
         <div class=\\"tale\\">
-            <div>Forgot Password? <a href=\\"#\\">Find Password</a></div>
+            <div>Forgot password? <a href=\\"/resetPassword\\">Reset Password</a></div>
             <div>Don't have account? <a href=\\"/signup\\">Sign Up</a></div>
         </div>
     </div>
@@ -295,8 +379,9 @@ exports[`test welcome page should render sign in page correctly 1`] = `
                 password: password.value
             })
         }).then(r => r.json()).then((r) => {
-            if (r.dbPassword) return location.href = '/setDBPassword' //path name is not decided yet  
-            return location.href = '/databases' //path name is not decided yet
+            if (r.error) return alert(r.error.message)
+            if (r.dbPassword) return location.href = '/setDBPassword'
+            return location.href = '/databases'
         })
     })
 </script>
@@ -415,11 +500,16 @@ exports[`test welcome page should render welcome page correctly 1`] = `
   </head>
   <body>
     <header>
+<<<<<<< HEAD
     <h1> Learn Databases</h1>
+=======
+    <h1>Learn Databases</h1>
+>>>>>>> 78619f59aa35d0e1c492827903aae624d88ca07e
     <p><a href=\\"/signin\\">Login</a> / <a href=\\"/signup\\">Signup</a></p>
     </header>
 
     <h2>Learn and try out different databases!</h2>
+<<<<<<< HEAD
     <p>
       You can learn about databases for free without even creating an account. Instructions on how to install and setup your own databases are included in the tutorial.
     </p>
@@ -434,6 +524,27 @@ exports[`test welcome page should render welcome page correctly 1`] = `
       <blockquote>
       <p>Postgres, an SQL Database. <a href=\\"#\\">Learn PostGresSQL</a></p>
       </blockquote> 
+=======
+    <br>
+
+    <p>Instructions on how to install and setup your own databases are included in the tutorial.</p>
+    <p>If you don't want to install your own databases, you can use our databases and support us
+    by creating an account for $10. (In Progess)</p>
+
+      <blockquote>
+      <p>MongoDB, a NoSQL Database. <a href=\\"#\\">MongoDB</a></p>
+      </blockquote>
+
+      <blockquote>
+      <p>Postgres, an SQL Database. <a href=\\"#\\">PostGresSQL</a></p>
+      </blockquote> 
+
+      <blockquote>
+      <p>Neo4j, a Graph Database. <a href=\\"#\\">Neo4j</a></p>
+      </blockquote>
+
+      <p style=\\"text-align: center;\\">Everything we do is open source. Checkout our github: <a href=\\"https://github.com/garageScript/databases\\">here</a></p>
+>>>>>>> 78619f59aa35d0e1c492827903aae624d88ca07e
 
       <blockquote>
       <p>Neo4j, a Graph Database. <a href=\\"#\\">Learn Neo4j</a></p>
