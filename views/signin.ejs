@@ -34,7 +34,7 @@
             })
         }).then(r => r.json()).then((r) => {
             if (r.error) return alert(r.error.message)
-            if (r.dbPassword) return location.href = '/setDBPassword'
+            if (!r.dbPassword) return location.href = '/setDBPassword'
             return location.href = '/databases'
         })
     })
