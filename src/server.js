@@ -41,26 +41,26 @@ const startServer = async (portNumber) => {
     app.set("view engine", "ejs");
     app.use(express.json());
     app.get("/", (req, res) => {
-      res.render("welcome", { username: req.session.username });
+      res.render("welcome");
     });
     app.get("/signin", (req, res) => {
-      res.render("signin", { username: req.session.username });
+      res.render("signin");
     });
     app.get("/setDBpassword", (req, res) => {
-      res.render("setDBpassword", { username: req.session.username });
+      res.render("setDBpassword");
     });
     app.get("/signup", (req, res) => {
-      res.render("signup", { username: req.session.username });
+      res.render("signup");
     });
     app.get("/setPassword/:token", (req, res) => {
-      res.render("setPassword", { username: req.session.username });
+      res.render("setPassword");
     });
     app.get("/databases", (req, res) => {
       logger.error("session is", req.session);
-      res.render("databases", { username: req.session.username });
+      res.render("databases");
     });
     app.get("/resetPassword", (req, res) => {
-      res.render("resetPassword", { username: req.session.username });
+      res.render("resetPassword");
     });
     app.post("/api/notifications", resetPasswordEmail);
     app.post("/api/users", createUser);

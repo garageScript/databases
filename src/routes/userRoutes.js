@@ -107,7 +107,6 @@ routes.loginUser = async (req, res) => {
   try {
     const account = await logIn(userInfo);
     req.session.username = account.username;
-    logger.error("session is", req.session);
     logger.info("Logged in", account.username);
     return res.status(200).json({ ...account.dataValues, password: null });
   } catch (err) {
