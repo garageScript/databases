@@ -380,7 +380,7 @@ exports[`test welcome page should render sign in page correctly 1`] = `
             })
         }).then(r => r.json()).then((r) => {
             if (r.error) return alert(r.error.message)
-            if (r.dbPassword) return location.href = '/setDBPassword'
+            if (!r.dbPassword) return location.href = '/setDBPassword'
             return location.href = '/databases'
         })
     })
@@ -494,20 +494,36 @@ exports[`test welcome page should render welcome page correctly 1`] = `
       href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\"
     />
 
+    <link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
+
     <title>learndatabases.dev</title>
   </head>
   <body>
+    <header>
     <h1>Learn Databases</h1>
     <p><a href=\\"/signin\\">Login</a> / <a href=\\"/signup\\">Signup</a></p>
+    </header>
 
     <h2>Learn and try out different databases!</h2>
-    <ul>
-      <li>MongoDB, a NoSQL Database. <a href=\\"#\\">MongoDB</a></li>
-      <li>Postgres, an SQL Database. <a href=\\"#\\">PostGresSQL</a></li>
-      <li>Neo4j, a Graph Database. <a href=\\"#\\">Neo4j</a></li>
-    </ul>
+    <br>
 
-    <h1>Your Databases:</h1>
+    <p>Instructions on how to install and setup your own databases are included in the tutorial.</p>
+    <p>If you don't want to install your own databases, you can use our databases and support us
+    by creating an account for $10. (In Progess)</p>
+
+      <blockquote>
+      <p>MongoDB, a NoSQL Database. <a href=\\"#\\">MongoDB</a></p>
+      </blockquote>
+
+      <blockquote>
+      <p>Postgres, an SQL Database. <a href=\\"#\\">PostGresSQL</a></p>
+      </blockquote> 
+
+      <blockquote>
+      <p>Neo4j, a Graph Database. <a href=\\"#\\">Neo4j</a></p>
+      </blockquote>
+
+      <p style=\\"text-align: center;\\">Everything we do is open source. Checkout our github: <a href=\\"https://github.com/garageScript/databases\\">here</a></p>
 
     <h3>Sponsors</h3>
     <ul>
