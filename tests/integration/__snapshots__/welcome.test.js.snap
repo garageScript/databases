@@ -33,8 +33,7 @@ exports[`test welcome page should render databases page correctly 1`] = `
 </style>
 <style>
     .db-card {
-      border: solid 1px rgb(0,0,0);
-      background-color: rgb(15,15,15);
+      border: solid 1px rgb(0,0,0,0);
       margin-top: 15px;
       margin-bottom: 15px;
       padding: 10px;
@@ -53,18 +52,18 @@ exports[`test welcome page should render databases page correctly 1`] = `
             <h1 class=\\"title\\">Learn Databases</h1>
         </div>
         <div class=\\"body\\">
-            <div class=\\"db-card postgres\\">
+            <blockquote class=\\"db-card postgres\\">
               <h3 class=\\"db-title\\">PostgreSQL</h3>
               <div class=\\"db-discription\\">A relational database management system emphasizing extensibility and technical standards compliance.</div>
-            </div>
-            <div class=\\"db-card mongodb\\">
+            </blockquote>
+            <blockquote class=\\"db-card mongodb\\">
               <h3 class=\\"db-title\\">MongoDB</h3>
               <div class=\\"db-discription\\">An open source database management system that uses a document-oriented database model which supports various forms of data.</div>
-            </div>
-            <div class=\\"db-card neo4j\\">
+            </blockquote>
+            <blockquote class=\\"db-card neo4j\\">
               <h3 class=\\"db-title\\">Neo4j</h3>
               <div class=\\"db-discription\\">A graph database management system that is the most papular graph database and the 22nd most popular database overall.</div>
-            </div>
+            </blockquote>
         </div>
         <div class=\\"tale\\">
         </div>
