@@ -56,7 +56,6 @@ const startServer = async (portNumber) => {
       res.render("setPassword");
     });
     app.get("/databases", (req, res) => {
-      logger.error("session is", req.session);
       res.render("databases");
     });
     app.get("/resetPassword", (req, res) => {
