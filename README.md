@@ -40,7 +40,6 @@ https://github.com/garageScript/databases/issues
 Wiki 
 https://github.com/garageScript/databases/wiki
 
-
 If you have any questions message us on our chat:
 https://chat.c0d3.com/c0d3/channels/
 

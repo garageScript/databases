@@ -47,8 +47,9 @@
       })
     }).then(r => r.json()).then((res) => {
       if (res.error) {
-        const message = res.error.message.split(':')
-        alert(message[1].trim())
+        logger.error(res.error)
+        const message = res.error.message
+        alert(message)
       } else {
         alert("Check your email and set your password")
         return location.href = '/signin'
