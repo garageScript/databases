@@ -33,11 +33,13 @@ const startServer = async (portNumber) => {
         resave: false,
         saveUninitialized: true,
         cookie: {
-          secure: true,
+          secure: false,
           maxAge: 1000 * 60 * 5,
         },
       })
     );
+    app.set("view engine", "ejs");
+    app.use(express.json());
     app.get("/", (req, res) => {
       res.render("welcome");
     });
