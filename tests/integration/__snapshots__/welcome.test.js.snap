@@ -468,6 +468,7 @@ exports[`test welcome page should render sign up page correctly 1`] = `
       })
     }).then(r => r.json()).then((res) => {
       if (res.error) {
+        logger.error(res.error)
         const message = res.error.message
         alert(message)
       } else {
