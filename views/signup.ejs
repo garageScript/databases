@@ -47,7 +47,6 @@
       })
     }).then(r => r.json()).then((res) => {
       if (res.error) {
-        console.log(res.error)
         const message = res.error.message
         alert(message)
       } else {
