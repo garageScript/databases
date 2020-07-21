@@ -58,6 +58,19 @@ const startServer = async (portNumber) => {
     app.get("/databases", (req, res) => {
       res.render("databases", { username: req.session.username });
     });
+    app.get("/postgres", async (req, res) => {
+      if (!req.session.username) return res.redirect("/");
+      const { Accounts } = dbModule.getModels();
+      const userAccount = await Accounts.findOne({
+        where: {
+          username: req.session.username,
+        },
+      });
+      res.render("postgres", {
+        username: req.session.username,
+        dbPassword: userAccount.dbPassword,
+      });
+    });
     app.get("/resetPassword", (req, res) => {
       res.render("resetPassword", { username: req.session.username });
     });

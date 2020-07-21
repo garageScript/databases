@@ -1,0 +1,194 @@
+<%- include('./partials/head') %>
+<h1 id="0-credentials">0 Credentials</h1>
+<pre><code><span class="hljs-symbol">hostname:</span> <span class="hljs-number">165.227</span><span class="hljs-number">.55</span><span class="hljs-number">.105</span>
+<span class="hljs-symbol">username:</span> <%= username %>
+<span class="hljs-symbol">password:</span> <%= dbPassword %>
+</code></pre><p>or </p>
+<p>Create PG Credentials - Button</p>
+<h1 id="1-intro">1 Intro</h1>
+<p>Postgres is an application. More specifically, a database application for you to organize your data. It can store data for you and you can have multiple apps connect to your Postgres:</p>
+<div style="background-color: white; text-align: center"><img src="https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggTFJcblx0RFtBcHAxXSAtLT4gUG9zdGdyZXNcblx0RVtBcHAyXS0tPiBQb3N0Z3JlcyBcblx0RltBcHAzXSAtLT4gUG9zdGdyZXMiLCJtZXJtYWlkIjp7InRoZW1lIjoiZGVmYXVsdCJ9LCJ1cGRhdGVFZGl0b3IiOmZhbHNlfQ" alt="multiple apps connecting to postgres"></div>
+<h1 id="2-basics">2 Basics</h1>
+<p>To quickly help you get started, we will go over a few basic commands that you can follow along. Explanations and best practices will be covered in the section below.</p>
+<h2 id="2-1-connect">2.1 Connect</h2>
+<p>To connect to your app to Postgres, you need a module called <code>pg</code>. You need to specify where the postgres application is located (host and port), the name of your database, and your username / password to login to the database.</p>
+<pre><code><span class="hljs-keyword">const</span> { Client } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'pg'</span>)
+
+<span class="hljs-keyword">const</span> startApp = <span class="hljs-keyword">async</span> ()=&gt;{
+    client = <span class="hljs-keyword">new</span> Client({
+            <span class="hljs-attr">host</span>: <span class="hljs-string">'&lt;host name&gt;'</span>,
+                <span class="hljs-attr">port</span>: <span class="hljs-number">5432</span>,
+                    <span class="hljs-attr">user</span>: <span class="hljs-string">'&lt;username&gt;'</span>,
+                        <span class="hljs-attr">password</span>: <span class="hljs-string">'&lt;password&gt;'</span>,
+                            <span class="hljs-attr">database</span>: <span class="hljs-string">'&lt;database_name&gt;'</span>
+                              })
+      <span class="hljs-keyword">await</span> client.connect()
+          <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Connected'</span>)
+}
+
+startApp()
+  </code></pre><h2 id="2-2-simple-commands">2.2 Simple Commands</h2>
+  <p>After connecting to Postgres, you can now send commands that Postgres can understand. These commands are called Sequel Query Language (SQL). Here are a few:</p>
+  <ul>
+  <li><code>CREATE TABLE lesson( id serial PRIMARY KEY, title VARCHAR (256) );</code><ul>
+  <li>This creates a table called <code>lesson</code> that has 2 columns: <code>id</code> and <code>title</code></li>
+  <li><code>id</code> column is a primary key and the <code>serial</code> property means that it will automatically increase as you add rows into the table.</li>
+  <li><code>VARCHAR (256)</code> means that title is a string of up to 256 characters.</li>
+  <li><strong>Make sure you don&#39;t run this over and over again. You only need to run this command once</strong></li>
+  </ul>
+  </li>
+  <li><code>INSERT INTO lesson (title) VALUES (&#39;postgres tutorial&#39;)</code><ul>
+  <li>This creates a new row in the <code>lesson</code> table with a title of &#39;postgres tutorial&#39;.</li>
+  </ul>
+  </li>
+  <li><code>select * from lesson where title = &#39;postgres tutorial&#39;</code> <ul>
+  <li>This retrieves all the rows from the lesson table that has the title <code>&quot;postgres tutorial&#39;</code>.</li>
+  </ul>
+  </li>
+  <li><code>UPDATE lesson SET title = &#39;postgres demo&#39; WHERE id=1;</code><ul>
+  <li>Retrieves the row where <code>id =1</code>, and then changes the title to <code>&#39;postgres demo&#39;</code></li>
+  </ul>
+  </li>
+  <li><code>DELETE FROM lesson WHERE id=1;</code><ul>
+  <li>Deletes the row where <code>id = 1</code></li>
+  </ul>
+  </li>
+  </ul>
+  <p>To run a Query, you run <code>client.query(&#39; -- YOUR SQL HERE --&#39;)</code></p>
+  <p><strong>Make sure you await to resolve!</strong> All SQL commands involves sending a the SQL to your postgres application and then waiting for it to finish executing, so the commands will be asynchronous. Therefore any client actions will be asynchronous and returns a promise. To wait for a command to finish, you need an <code>await</code> or <code>.then</code> to wait for the query to resolve before continuing.</p>
+  <pre><code><span class="hljs-keyword">const</span> lessons = <span class="hljs-keyword">await</span> client.query(<span class="hljs-string">'SELECT * from lesson;'</span>); <span class="hljs-comment">// gets all the lessons</span>
+  <span class="hljs-built_in">console</span>.log( lessons.rows )
+  </code></pre><h2 id="2-3-usage-in-your-website">2.3 Usage in your website</h2>
+  <p>How would you execute these commands in your website? Here are a few sample code to build an API:</p>
+  <pre><code>app.post(<span class="hljs-string">'/api/lessons'</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+        <span class="hljs-keyword">await</span> client.query(`<span class="hljs-function">INSERT INTO <span class="hljs-title">lesson</span> (<span class="hljs-params">title</span>) <span class="hljs-title">VALUES</span> (<span class="hljs-params">$<span class="hljs-number">1</span></span>)`, [req.body.title])
+          res.<span class="hljs-title">status</span>(<span class="hljs-params"><span class="hljs-number">201</span></span>).<span class="hljs-title">send</span>(<span class="hljs-params"><span class="hljs-string">'lesson created'</span></span>)
+          })
+
+app.<span class="hljs-title">get</span>(<span class="hljs-params"><span class="hljs-string">'/api/lessons'</span>, <span class="hljs-keyword">async</span> (req, res</span>) </span>=&gt; {
+      <span class="hljs-keyword">const</span> lessons = <span class="hljs-keyword">await</span> client.query(`<span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> lesson;`)
+        res.json(lessons.rows)
+        })
+
+app.<span class="hljs-keyword">get</span>(<span class="hljs-string">'/api/lessons/:id'</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+      <span class="hljs-keyword">const</span> lessons = <span class="hljs-keyword">await</span> client.query(`<span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> lesson WHERE id=$<span class="hljs-number">1</span>;`, [req.<span class="hljs-keyword">params</span>.id])
+        res.json(lessons.rows[<span class="hljs-number">0</span>])
+        })
+
+app.put(<span class="hljs-string">'/api/lessons/:id'</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+      <span class="hljs-keyword">const</span> lessons = <span class="hljs-keyword">await</span> client.query(`UPDATE lesson SET title = $<span class="hljs-number">1</span> WHERE id=$<span class="hljs-number">2</span>;`, [req.body.title, req.<span class="hljs-keyword">params</span>.id])
+        res.send(<span class="hljs-string">'resource updated'</span>)
+        })
+
+app.delete(<span class="hljs-string">'/api/lessons/:id'</span>, <span class="hljs-keyword">async</span> (req, res) =&gt; {
+      <span class="hljs-keyword">await</span> client.query(`DELETE lesson WHERE id=$<span class="hljs-number">1</span>;`, [req.<span class="hljs-keyword">params</span>.id])
+        res.send(<span class="hljs-string">'resource deleted'</span>)
+        })
+</code></pre><h3 id="2-3-1-security">2.3.1 Security</h3>
+<p>Notice how we don&#39;t create a string from user input and directly execute that query like this:</p>
+<pre><code>client.query(`<span class="hljs-keyword">DELETE</span> lesson <span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">id</span>=${req.params.id};`)
+</code></pre><p>If you create an SQL query directly from user input, your database will have a security issue called (<strong>Injection vulnerability</strong>). A user could simply pass in the following as id: <code>1; UPDATE lesson SET title=&quot;my awesome title&quot; WHERE id=1</code>. The user could essentially do anything they want to your database, including deleting all your data. </p>
+<p>To prevent this awful attack, always make sure to pass user input as the second argument into <code>client.query</code>. The <code>client.query</code> function will help you clean the user input to prevent sql injection attacks.</p>
+<h1 id="3-database-design">3 Database Design</h1>
+<p>When it comes to Postgres and other SQL databases, you must be very intentional about your data and make sure it is clear and organized. If you are building a website like <a href="https://www.c0d3.com">c0d3</a> and you have a <code>user</code> table to store user information and a <code>lesson</code> table to store lesson information (like title and description), how do you store the user&#39;s progress for each lesson? </p>
+<p><strong>Option1</strong> Could you add a column to the <code>user</code> table? </p>
+<ul>
+<li>No. Imagine someone suggested this to you. Knowing what you know so far, explain why it does not make sense to add a column to the <code>user</code> table.</li>
+</ul>
+<p><strong>Option2</strong> Could you add a column to the <code>lesson</code> table? </p>
+<ul>
+<li>No. Imagine someone suggested this to you. Knowing what you know so far, explain why it does not make sense to add a column to the <code>lesson</code> table.</li>
+</ul>
+<p>Creating a new table. The best solution is to create a new table called <code>userlesson</code> that has 3 columns:</p>
+<ul>
+<li><code>userId</code> to retrieve user&#39;s information from the corresponding <code>user</code> table when needed.</li>
+<li><code>lessonId</code> to retrieve lesson&#39;s information from the corresponding <code>lesson</code> table when needed.</li>
+<li><code>status</code> that is a string, to store the user&#39;s status for the each lesson.</li>
+</ul>
+<p>In the above example, since <code>userId</code> and <code>lessonId</code> are used to retrieve the row from the user and lesson tables respectively, they are called <strong>foreign keys</strong>. <code>userId</code> is a <strong>foreign key</strong> to the <code>user</code> table.</p>
+<p>The <code>id</code> column in the <code>user</code> and <code>lesson</code> table that other tables reference to, is called the <strong>primary key</strong>. <code>id</code> column is a <strong>primary key</strong> for the lesson (or user) table.</p>
+<p>Let&#39;s say you want to see what the status is for lesson with id 5 for every user in your database. How would you do that?</p>
+<p><strong>Option 1</strong> : Get all the users from your database and then get their lesson status for each user:</p>
+<pre><code><span class="hljs-keyword">const</span> users =  <span class="hljs-keyword">await</span> client.query(<span class="hljs-string">`select * from user;`</span>)
+<span class="hljs-keyword">const</span> allStatuses = <span class="hljs-keyword">await</span> <span class="hljs-built_in">Promise</span>.all( users.rows.map( <span class="hljs-function">(<span class="hljs-params">user</span>) =&gt;</span> {
+        <span class="hljs-keyword">return</span> client.query(<span class="hljs-string">`select * from userlesson WHERE userid=$1 AND lessonid=$2;`</span>, [user.id, lessonId])
+        }))
+</code></pre><p><strong>Option 2</strong>: Run 1 query using <strong>join</strong>:</p>
+<pre><code>const result = client.query(`
+
+    SELECT
+        userlesson<span class="hljs-selector-class">.status</span>,
+            user<span class="hljs-selector-class">.email</span>,
+            FROM
+                userlesson
+                WHERE 
+                        userlesson<span class="hljs-selector-class">.lessonid</span> = $<span class="hljs-number">1</span>
+                        INNER JOIN user ON user<span class="hljs-selector-class">.id</span> = userlesson<span class="hljs-selector-class">.userid</span>
+
+                        `, [lessonId])
+</code></pre><h2 id="3-1-joins">3.1 Joins</h2>
+<p><strong>Join</strong> helps you combine these tables together and get data from all the tables in 1 query. If you forget how to use <strong>Join</strong>, remember that you can always use option 1 to get the data you need by running multiple queries. To understand why you need <strong>join</strong>, let&#39;s analyze the two options above. Let&#39;s say:</p>
+<ul>
+<li>You have 1000 users</li>
+<li>Each user took 7 lessons. So your <code>userlesson</code> table has 7000 rows.</li>
+</ul>
+<p><strong>Option1</strong>: 1000*7000 lookups. 7 Million lookups!</p>
+<ul>
+<li>Getting all the users, 1000 rows.</li>
+<li>For each user<ul>
+<li>Look through 7000 rows in the <code>userlesson</code> table to find the correct <code>userid</code> and <code>lessonid</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>Option2</strong>: 7000 lookup + magic time</p>
+<ul>
+<li>Get all the userlesson where lessonid matches. 7000 lookups</li>
+<li>Combine the result table with user table (magic time).</li>
+</ul>
+<p>Postgres&#39;s magic time is really fast. Option 2 will be significantly faster than option 1 and with a big database it could mean the difference between waiting months and waiting minutes. If you are a <strong>data analyst</strong>, part of your job is to figure out how to join tables efficiently to get the data you need quickly.</p>
+<p>Sometimes, you could unknowingly join tables in a way to make your query ALOT slower than option 1. The most painful part about this mistake is that when data is small, you don&#39;t notice the query taking a long time. However, as the company grows over the years and more data is accumulated, the code is forgotten and the application becomes really, really slow. This problem is very difficult to fix and to avoid writing <strong>joins</strong> directly, most companies use an Object Relational Mapping (ORM) library to generate the SQL queries for you. This not only avoids the problem of engineers joining the tables incorrectly but also allows developers to use the database without knowing SQL.</p>
+<h1 id="4-orm">4 ORM</h1>
+<p>In the previous section, you learned how to directly connect to your postgres database, execute simple queries, and execute more complex queries using <strong>join</strong>. These SQL queries are hard to remember, manage, and could be written incorrectly to make the queries really slow. To solve these problems, most production systems use an Object Relational Mapping (ORM)  library. We will use the most common one called <a href="https://sequelize.org/master/manual/getting-started.html">sequelize</a> in this section. Sequelize converts your JavaScript functions into SQL commands for you. </p>
+<h2 id="4-1-connection-and-models">4.1 Connection and models</h2>
+<p>To use sequelize, you must first connect to your database and then create the necessary tables.</p>
+<pre><code><span class="hljs-keyword">const</span> { Sequelize, DataTypes } = require(<span class="hljs-string">'sequelize'</span>)
+
+<span class="hljs-comment">// Defining your database connection</span>
+<span class="hljs-keyword">const</span> sequelize = <span class="hljs-keyword">new</span> Sequelize(<span class="hljs-string">'database'</span>, <span class="hljs-string">'username'</span>, <span class="hljs-string">'password'</span>, {
+      host: <span class="hljs-string">'&lt;host for database&gt;'</span>,
+        dialect: <span class="hljs-string">'postgres'</span>
+        });
+
+<span class="hljs-comment">// Creating a table called lesson</span>
+<span class="hljs-keyword">const</span> Lesson = <span class="hljs-keyword">await</span> sequelize.define(<span class="hljs-string">'lesson'</span>, {
+      title: {
+          type: DataTypes.STRING,
+              allowNull: <span class="hljs-literal">false</span>
+                }
+                })
+<span class="hljs-keyword">await</span> sequelize.sync({ alter: !!process.env.ALTER_DB })
+
+<span class="hljs-keyword">await</span> sequelize.authenticate()
+
+<span class="hljs-comment">// Update title</span>
+<span class="hljs-keyword">await</span> Lessons.update( {
+      title: <span class="hljs-string">"new value"</span>
+      }, {
+        <span class="hljs-keyword">where</span>: { id: <span class="hljs-number">1</span> }
+        })
+
+<span class="hljs-keyword">await</span> Lessons.destroy( {
+      <span class="hljs-keyword">where</span>: { id: <span class="hljs-number">1</span> }
+      })
+
+<span class="hljs-keyword">await</span> Lessons.findAll()
+
+<span class="hljs-keyword">await</span> Lessons.findAll( {
+      <span class="hljs-keyword">where</span>: { id: <span class="hljs-number">1</span> }
+      })
+
+<span class="hljs-keyword">await</span> Lessons.create({
+      title: <span class="hljs-string">'new title'</span>
+      })
+</code></pre><h1 id="5-scaling">5 Scaling</h1>
+

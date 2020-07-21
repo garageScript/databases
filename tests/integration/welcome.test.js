@@ -48,4 +48,9 @@ describe("test welcome page", () => {
     const result = await fetch(baseUrl + "resetPassword").then((r) => r.text());
     expect(result).toMatchSnapshot();
   });
+
+  test("should render postgres page correctly", async () => {
+    const result = await fetch(baseUrl + "postgres").then((r) => r.text());
+    expect(result).toMatchSnapshot();
+  });
 });
