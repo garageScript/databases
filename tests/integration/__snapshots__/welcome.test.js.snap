@@ -6,11 +6,10 @@ exports[`test welcome page should render databases page correctly 1`] = `
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+<link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
 <style>
-    * {
-        text-align: center;
-    }
     input {
+        text-align: center;
         width: 400px;
         height: 40px;
         margin: 5px;
@@ -20,9 +19,15 @@ exports[`test welcome page should render databases page correctly 1`] = `
         height: 40px;
         margin: 10px;
     }
+    .home {
+        cursor: pointer;
+    }
     .card {
         width: 450px;
         margin: auto;
+    }
+    .card > * {
+        text-align: center;
     }
     .subtitle {
         margin: 10px;
@@ -31,10 +36,38 @@ exports[`test welcome page should render databases page correctly 1`] = `
         margin: 10px;
     }
 </style>
+<html lang=\\"en\\">
+  <head>
+    <title>learndatabases.dev</title>
+  </head>
+  <header>
+    <h1 class=\\"home\\">Learn Databases</h1>
+    
+    
+      <p><a href=\\"/signin\\">Login</a> / <a href=\\"/signup\\">Signup</a></p>
+    
+  </header>
+</html>
+<script>
+  const home = document.querySelector('.home')
+  const logout = document.querySelector('.logout')
+
+  home.addEventListener('click', () => {
+    return location.href = '/'
+  })
+
+  logout.addEventListener('click', () => {
+    fetch(\\"/api/session\\", {
+      method: \\"DELETE\\"
+    }).then((r) => {
+      return location.href = '/'
+    })
+  })
+</script>
+
 <style>
     .db-card {
-      border: solid 1px rgb(0,0,0);
-      background-color: rgb(15,15,15);
+      border: solid 1px rgb(0,0,0,0);
       margin-top: 15px;
       margin-bottom: 15px;
       padding: 10px;
@@ -49,22 +82,19 @@ exports[`test welcome page should render databases page correctly 1`] = `
 
 <main>
     <div class=\\"card\\">
-        <div class=\\"head\\">
-            <h1 class=\\"title\\">Learn Databases</h1>
-        </div>
         <div class=\\"body\\">
-            <div class=\\"db-card postgres\\">
+            <blockquote class=\\"db-card postgres\\">
               <h3 class=\\"db-title\\">PostgreSQL</h3>
               <div class=\\"db-discription\\">A relational database management system emphasizing extensibility and technical standards compliance.</div>
-            </div>
-            <div class=\\"db-card mongodb\\">
+            </blockquote>
+            <blockquote class=\\"db-card mongodb\\">
               <h3 class=\\"db-title\\">MongoDB</h3>
               <div class=\\"db-discription\\">An open source database management system that uses a document-oriented database model which supports various forms of data.</div>
-            </div>
-            <div class=\\"db-card neo4j\\">
+            </blockquote>
+            <blockquote class=\\"db-card neo4j\\">
               <h3 class=\\"db-title\\">Neo4j</h3>
               <div class=\\"db-discription\\">A graph database management system that is the most papular graph database and the 22nd most popular database overall.</div>
-            </div>
+            </blockquote>
         </div>
         <div class=\\"tale\\">
         </div>
@@ -96,11 +126,10 @@ exports[`test welcome page should render resetPassword page correctly 1`] = `
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+<link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
 <style>
-    * {
-        text-align: center;
-    }
     input {
+        text-align: center;
         width: 400px;
         height: 40px;
         margin: 5px;
@@ -110,9 +139,15 @@ exports[`test welcome page should render resetPassword page correctly 1`] = `
         height: 40px;
         margin: 10px;
     }
+    .home {
+        cursor: pointer;
+    }
     .card {
         width: 450px;
         margin: auto;
+    }
+    .card > * {
+        text-align: center;
     }
     .subtitle {
         margin: 10px;
@@ -121,14 +156,40 @@ exports[`test welcome page should render resetPassword page correctly 1`] = `
         margin: 10px;
     }
 </style>
+<html lang=\\"en\\">
+  <head>
+    <title>learndatabases.dev</title>
+  </head>
+  <header>
+    <h1 class=\\"home\\">Learn Databases</h1>
+    
+    
+      <p><a href=\\"/signin\\">Login</a> / <a href=\\"/signup\\">Signup</a></p>
+    
+  </header>
+</html>
+<script>
+  const home = document.querySelector('.home')
+  const logout = document.querySelector('.logout')
+
+  home.addEventListener('click', () => {
+    return location.href = '/'
+  })
+
+  logout.addEventListener('click', () => {
+    fetch(\\"/api/session\\", {
+      method: \\"DELETE\\"
+    }).then((r) => {
+      return location.href = '/'
+    })
+  })
+</script>
+
 <main>
     <div class=\\"card\\">
-        <div class=\\"head\\">
-            <h1 class=\\"title\\">Learn Databases</h1>
-        </div>
         <div class=\\"body\\">
-            <div class=\\"subtitle\\">Reset your password</div>
-            <input class=\\"username\\" placeholder=\\"username or email\\" /><br>
+            <h3 class=\\"subtitle\\">Reset your password</h3>
+            <input class=\\"username\\" placeholder=\\"Username or Email\\" /><br>
             <button class=\\"submit\\">Submit</button>
         </div>
         <div class=\\"tale\\">
@@ -180,11 +241,10 @@ exports[`test welcome page should render setDBpassword page correctly 1`] = `
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+<link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
 <style>
-    * {
-        text-align: center;
-    }
     input {
+        text-align: center;
         width: 400px;
         height: 40px;
         margin: 5px;
@@ -194,9 +254,15 @@ exports[`test welcome page should render setDBpassword page correctly 1`] = `
         height: 40px;
         margin: 10px;
     }
+    .home {
+        cursor: pointer;
+    }
     .card {
         width: 450px;
         margin: auto;
+    }
+    .card > * {
+        text-align: center;
     }
     .subtitle {
         margin: 10px;
@@ -205,13 +271,40 @@ exports[`test welcome page should render setDBpassword page correctly 1`] = `
         margin: 10px;
     }
 </style>
+<html lang=\\"en\\">
+  <head>
+    <title>learndatabases.dev</title>
+  </head>
+  <header>
+    <h1 class=\\"home\\">Learn Databases</h1>
+    
+    
+      <p><a href=\\"/signin\\">Login</a> / <a href=\\"/signup\\">Signup</a></p>
+    
+  </header>
+</html>
+<script>
+  const home = document.querySelector('.home')
+  const logout = document.querySelector('.logout')
+
+  home.addEventListener('click', () => {
+    return location.href = '/'
+  })
+
+  logout.addEventListener('click', () => {
+    fetch(\\"/api/session\\", {
+      method: \\"DELETE\\"
+    }).then((r) => {
+      return location.href = '/'
+    })
+  })
+</script>
+
 <main>
     <div class=\\"card\\">
-        <div class=\\"header\\">
-            <h1 class=\\"title\\">Learn Databases</h1>
-        </div>
         <div class=\\"body\\">
-            <input class=\\"dbPassword\\" placeholder=\\"password\\">
+            <h3 class=\\"subtitle\\">Set DB Password</h3>
+            <input class=\\"DB Password\\" placeholder=\\"password\\">
             <button class=\\"setButton\\">Set</button>
         </div>
     </div>
@@ -243,11 +336,10 @@ exports[`test welcome page should render setPassword page correctly 1`] = `
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+<link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
 <style>
-    * {
-        text-align: center;
-    }
     input {
+        text-align: center;
         width: 400px;
         height: 40px;
         margin: 5px;
@@ -257,9 +349,15 @@ exports[`test welcome page should render setPassword page correctly 1`] = `
         height: 40px;
         margin: 10px;
     }
+    .home {
+        cursor: pointer;
+    }
     .card {
         width: 450px;
         margin: auto;
+    }
+    .card > * {
+        text-align: center;
     }
     .subtitle {
         margin: 10px;
@@ -268,13 +366,39 @@ exports[`test welcome page should render setPassword page correctly 1`] = `
         margin: 10px;
     }
 </style>
+<html lang=\\"en\\">
+  <head>
+    <title>learndatabases.dev</title>
+  </head>
+  <header>
+    <h1 class=\\"home\\">Learn Databases</h1>
+    
+    
+      <p><a href=\\"/signin\\">Login</a> / <a href=\\"/signup\\">Signup</a></p>
+    
+  </header>
+</html>
+<script>
+  const home = document.querySelector('.home')
+  const logout = document.querySelector('.logout')
+
+  home.addEventListener('click', () => {
+    return location.href = '/'
+  })
+
+  logout.addEventListener('click', () => {
+    fetch(\\"/api/session\\", {
+      method: \\"DELETE\\"
+    }).then((r) => {
+      return location.href = '/'
+    })
+  })
+</script>
+
 <main>
     <div class=\\"card\\">
-        <div class=\\"head\\">
-            <h1 class=\\"title\\">Learn Databases</h1>
-        </div>
         <div class=\\"body\\">
-            <div class=\\"subtitle\\">Set your password</div>
+            <h3 class=\\"subtitle\\">Set your password</h3>
             <input class=\\"password1\\" placeholder=\\"create new password\\" type=\\"password\\"/><br>
             <input class=\\"password2\\" placeholder=\\"confirm password\\" type=\\"password\\"/>
             <button class=\\"submit\\">Submit</button>
@@ -320,11 +444,10 @@ exports[`test welcome page should render sign in page correctly 1`] = `
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+<link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
 <style>
-    * {
-        text-align: center;
-    }
     input {
+        text-align: center;
         width: 400px;
         height: 40px;
         margin: 5px;
@@ -334,9 +457,15 @@ exports[`test welcome page should render sign in page correctly 1`] = `
         height: 40px;
         margin: 10px;
     }
+    .home {
+        cursor: pointer;
+    }
     .card {
         width: 450px;
         margin: auto;
+    }
+    .card > * {
+        text-align: center;
     }
     .subtitle {
         margin: 10px;
@@ -345,15 +474,41 @@ exports[`test welcome page should render sign in page correctly 1`] = `
         margin: 10px;
     }
 </style>
+<html lang=\\"en\\">
+  <head>
+    <title>learndatabases.dev</title>
+  </head>
+  <header>
+    <h1 class=\\"home\\">Learn Databases</h1>
+    
+    
+      <p><a href=\\"/signin\\">Login</a> / <a href=\\"/signup\\">Signup</a></p>
+    
+  </header>
+</html>
+<script>
+  const home = document.querySelector('.home')
+  const logout = document.querySelector('.logout')
+
+  home.addEventListener('click', () => {
+    return location.href = '/'
+  })
+
+  logout.addEventListener('click', () => {
+    fetch(\\"/api/session\\", {
+      method: \\"DELETE\\"
+    }).then((r) => {
+      return location.href = '/'
+    })
+  })
+</script>
+
 <main>
     <div class=\\"card\\">
-        <div class=\\"head\\">
-            <h1 class=\\"title\\">Learn Databases</h1>
-        </div>
         <div class=\\"body\\">
-            <div class=\\"subtitle\\">Please log in</div>
-            <input class=\\"username\\" placeholder=\\"username\\" /><br>
-            <input class=\\"password\\" placeholder=\\"password\\" type=\\"password\\"/>
+            <h3 class=\\"subtitle\\">Please log in</h3>
+            <input class=\\"username\\" placeholder=\\"Username\\" /><br>
+            <input class=\\"password\\" placeholder=\\"Password\\" type=\\"password\\"/>
             <button class=\\"submit\\">Submit</button>
         </div>
         <div class=\\"tale\\">
@@ -380,7 +535,7 @@ exports[`test welcome page should render sign in page correctly 1`] = `
             })
         }).then(r => r.json()).then((r) => {
             if (r.error) return alert(r.error.message)
-            if (r.dbPassword) return location.href = '/setDBPassword'
+            if (!r.dbPassword) return location.href = '/setDBPassword'
             return location.href = '/databases'
         })
     })
@@ -395,11 +550,10 @@ exports[`test welcome page should render sign up page correctly 1`] = `
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+<link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
 <style>
-    * {
-        text-align: center;
-    }
     input {
+        text-align: center;
         width: 400px;
         height: 40px;
         margin: 5px;
@@ -409,9 +563,15 @@ exports[`test welcome page should render sign up page correctly 1`] = `
         height: 40px;
         margin: 10px;
     }
+    .home {
+        cursor: pointer;
+    }
     .card {
         width: 450px;
         margin: auto;
+    }
+    .card > * {
+        text-align: center;
     }
     .subtitle {
         margin: 10px;
@@ -420,35 +580,55 @@ exports[`test welcome page should render sign up page correctly 1`] = `
         margin: 10px;
     }
 </style>
-<h1>Learn Databases</h1>
+<html lang=\\"en\\">
+  <head>
+    <title>learndatabases.dev</title>
+  </head>
+  <header>
+    <h1 class=\\"home\\">Learn Databases</h1>
+    
+    
+      <p><a href=\\"/signin\\">Login</a> / <a href=\\"/signup\\">Signup</a></p>
+    
+  </header>
+</html>
+<script>
+  const home = document.querySelector('.home')
+  const logout = document.querySelector('.logout')
 
-<p>Create Account</p>
+  home.addEventListener('click', () => {
+    return location.href = '/'
+  })
 
-<div>
-  <input
-    class=\\"email\\"
-    type=\\"email\\"
-    placeholder=\\"Email Address\\"
-    required
-    />
-</div>
+  logout.addEventListener('click', () => {
+    fetch(\\"/api/session\\", {
+      method: \\"DELETE\\"
+    }).then((r) => {
+      return location.href = '/'
+    })
+  })
+</script>
 
-<div>
-  <input
-    class=\\"username\\"
-    type=\\"text\\"
-    placeholder=\\"Username\\"
-    required
-    />
-</div>
-
-<div>
-  <button class=\\"submit\\">Create Account</button>
-</div>
-
-<div>
-  Already have an account? <a href=\\"/signin\\">Login</a>
-</div>
+<div class=\\"card\\">
+  <div class=\\"body\\">
+    <h3 class=\\"subtitle\\">Create Account</h3>
+    <input
+      class=\\"email\\"
+      type=\\"email\\"
+      placeholder=\\"Email Address\\"
+      required
+      />
+    <input
+      class=\\"username\\"
+      type=\\"text\\"
+      placeholder=\\"Username\\"
+      required
+      />
+    <button class=\\"submit\\">Create Account</button>
+  </div>
+  <div class=\\"tale\\">
+    Already have an account? <a href=\\"/signin\\">Login</a>
+  </div>
 
 <script>
   const submit = document.querySelector('.submit');
@@ -482,28 +662,73 @@ exports[`test welcome page should render sign up page correctly 1`] = `
 
 exports[`test welcome page should render welcome page correctly 1`] = `
 "<!DOCTYPE html>
+<!--views/partials/head.ejs-->
+<meta charset='UTF-8'>
+<!--CSS (load bootstrap from a CDN)-->
+<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
+<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+<link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
+<style>
+    input {
+        text-align: center;
+        width: 400px;
+        height: 40px;
+        margin: 5px;
+    }
+    button {
+        width: 400px;
+        height: 40px;
+        margin: 10px;
+    }
+    .home {
+        cursor: pointer;
+    }
+    .card {
+        width: 450px;
+        margin: auto;
+    }
+    .card > * {
+        text-align: center;
+    }
+    .subtitle {
+        margin: 10px;
+    }
+    .body {
+        margin: 10px;
+    }
+</style>
 <html lang=\\"en\\">
   <head>
-    <meta charset=\\"utf-8\\" />
-    <link
-      rel=\\"stylesheet\\"
-      href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\"
-    />
-    <link
-      rel=\\"stylesheet\\"
-      href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\"
-    />
-
-    <link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
-
     <title>learndatabases.dev</title>
   </head>
-  <body>
-    <header>
-    <h1>Learn Databases</h1>
-    <p><a href=\\"/signin\\">Login</a> / <a href=\\"/signup\\">Signup</a></p>
-    </header>
+  <header>
+    <h1 class=\\"home\\">Learn Databases</h1>
+    
+    
+      <p><a href=\\"/signin\\">Login</a> / <a href=\\"/signup\\">Signup</a></p>
+    
+  </header>
+</html>
+<script>
+  const home = document.querySelector('.home')
+  const logout = document.querySelector('.logout')
 
+  home.addEventListener('click', () => {
+    return location.href = '/'
+  })
+
+  logout.addEventListener('click', () => {
+    fetch(\\"/api/session\\", {
+      method: \\"DELETE\\"
+    }).then((r) => {
+      return location.href = '/'
+    })
+  })
+</script>
+
+<html lang=\\"en\\">
+  </head>
+  <body>
     <h2>Learn and try out different databases!</h2>
     <p>Instructions on how to install and setup your own databases are included in the tutorial.</p>
     <p>If you don't want to install your own databases, you can use our databases and support us

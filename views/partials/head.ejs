@@ -3,11 +3,10 @@
 <!--CSS (load bootstrap from a CDN)-->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
+<link rel="icon" type="image/gif" href="/database.gif">
 <style>
-    * {
-        text-align: center;
-    }
     input {
+        text-align: center;
         width: 400px;
         height: 40px;
         margin: 5px;
@@ -17,9 +16,15 @@
         height: 40px;
         margin: 10px;
     }
+    .home {
+        cursor: pointer;
+    }
     .card {
         width: 450px;
         margin: auto;
+    }
+    .card > * {
+        text-align: center;
     }
     .subtitle {
         margin: 10px;
@@ -28,3 +33,33 @@
         margin: 10px;
     }
 </style>
+<html lang="en">
+  <head>
+    <title>learndatabases.dev</title>
+  </head>
+  <header>
+    <h1 class="home">Learn Databases</h1>
+    <% if (username) { %>
+      <p>Welcome <%= username %>! <a class="logout" href="#">Logout</a></p>
+    <% } %>
+    <% if (!username) { %>
+      <p><a href="/signin">Login</a> / <a href="/signup">Signup</a></p>
+    <% } %>
+  </header>
+</html>
+<script>
+  const home = document.querySelector('.home')
+  const logout = document.querySelector('.logout')
+
+  home.addEventListener('click', () => {
+    return location.href = '/'
+  })
+
+  logout.addEventListener('click', () => {
+    fetch("/api/session", {
+      method: "DELETE"
+    }).then((r) => {
+      return location.href = '/'
+    })
+  })
+</script>
