@@ -428,6 +428,7 @@ exports[`test welcome page should render setPassword page correctly 1`] = `
             })
         }).then(r => r.json()).then((r) => {
             if (r.error) return alert(r.error.message)
+            if (r.dbPassword) return location.href = '/'
             return location.href = '/setDBPassword'
         }).catch((err) => {
             alert(\\"Setting password has failed. Please try again.\\", err)
