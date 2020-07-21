@@ -304,7 +304,7 @@ exports[`test welcome page should render setDBpassword page correctly 1`] = `
     <div class=\\"card\\">
         <div class=\\"body\\">
             <h3 class=\\"subtitle\\">Set DB Password</h3>
-            <input class=\\"DB Password\\" placeholder=\\"password\\">
+            <input class=\\"dbPassword\\" placeholder=\\"password\\">
             <button class=\\"setButton\\">Set</button>
         </div>
     </div>
