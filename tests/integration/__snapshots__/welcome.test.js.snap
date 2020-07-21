@@ -50,19 +50,11 @@ exports[`test welcome page should render databases page correctly 1`] = `
 </html>
 <script>
   const home = document.querySelector('.home')
-  const logout = document.querySelector('.logout')
-
   home.addEventListener('click', () => {
     return location.href = '/'
   })
 
-  logout.addEventListener('click', () => {
-    fetch(\\"/api/session\\", {
-      method: \\"DELETE\\"
-    }).then((r) => {
-      return location.href = '/'
-    })
-  })
+  
 </script>
 
 <style>
@@ -170,19 +162,11 @@ exports[`test welcome page should render resetPassword page correctly 1`] = `
 </html>
 <script>
   const home = document.querySelector('.home')
-  const logout = document.querySelector('.logout')
-
   home.addEventListener('click', () => {
     return location.href = '/'
   })
 
-  logout.addEventListener('click', () => {
-    fetch(\\"/api/session\\", {
-      method: \\"DELETE\\"
-    }).then((r) => {
-      return location.href = '/'
-    })
-  })
+  
 </script>
 
 <main>
@@ -285,19 +269,11 @@ exports[`test welcome page should render setDBpassword page correctly 1`] = `
 </html>
 <script>
   const home = document.querySelector('.home')
-  const logout = document.querySelector('.logout')
-
   home.addEventListener('click', () => {
     return location.href = '/'
   })
 
-  logout.addEventListener('click', () => {
-    fetch(\\"/api/session\\", {
-      method: \\"DELETE\\"
-    }).then((r) => {
-      return location.href = '/'
-    })
-  })
+  
 </script>
 
 <main>
@@ -380,19 +356,11 @@ exports[`test welcome page should render setPassword page correctly 1`] = `
 </html>
 <script>
   const home = document.querySelector('.home')
-  const logout = document.querySelector('.logout')
-
   home.addEventListener('click', () => {
     return location.href = '/'
   })
 
-  logout.addEventListener('click', () => {
-    fetch(\\"/api/session\\", {
-      method: \\"DELETE\\"
-    }).then((r) => {
-      return location.href = '/'
-    })
-  })
+  
 </script>
 
 <main>
@@ -489,19 +457,11 @@ exports[`test welcome page should render sign in page correctly 1`] = `
 </html>
 <script>
   const home = document.querySelector('.home')
-  const logout = document.querySelector('.logout')
-
   home.addEventListener('click', () => {
     return location.href = '/'
   })
 
-  logout.addEventListener('click', () => {
-    fetch(\\"/api/session\\", {
-      method: \\"DELETE\\"
-    }).then((r) => {
-      return location.href = '/'
-    })
-  })
+  
 </script>
 
 <main>
@@ -595,19 +555,11 @@ exports[`test welcome page should render sign up page correctly 1`] = `
 </html>
 <script>
   const home = document.querySelector('.home')
-  const logout = document.querySelector('.logout')
-
   home.addEventListener('click', () => {
     return location.href = '/'
   })
 
-  logout.addEventListener('click', () => {
-    fetch(\\"/api/session\\", {
-      method: \\"DELETE\\"
-    }).then((r) => {
-      return location.href = '/'
-    })
-  })
+  
 </script>
 
 <div class=\\"card\\">
@@ -713,19 +665,11 @@ exports[`test welcome page should render welcome page correctly 1`] = `
 </html>
 <script>
   const home = document.querySelector('.home')
-  const logout = document.querySelector('.logout')
-
   home.addEventListener('click', () => {
     return location.href = '/'
   })
 
-  logout.addEventListener('click', () => {
-    fetch(\\"/api/session\\", {
-      method: \\"DELETE\\"
-    }).then((r) => {
-      return location.href = '/'
-    })
-  })
+  
 </script>
 
 <html lang=\\"en\\">

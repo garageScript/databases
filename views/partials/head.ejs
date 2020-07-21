@@ -49,12 +49,12 @@
 </html>
 <script>
   const home = document.querySelector('.home')
-  const logout = document.querySelector('.logout')
-
   home.addEventListener('click', () => {
     return location.href = '/'
   })
 
+  <% if (username) { %>
+  const logout = document.querySelector('.logout')
   logout.addEventListener('click', () => {
     fetch("/api/session", {
       method: "DELETE"
@@ -62,4 +62,5 @@
       return location.href = '/'
     })
   })
+  <% } %>
 </script>
