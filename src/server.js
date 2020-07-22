@@ -10,6 +10,7 @@ const {
   logoutUser,
   userResetPassword,
   updateDBPassword,
+  createDatabase,
 } = require("./routes/userRoutes");
 
 require("dotenv").config();
@@ -68,6 +69,7 @@ const startServer = async (portNumber) => {
     app.post("/api/session", loginUser);
     app.delete("/api/session", logoutUser);
     app.post("/api/passwordReset", userResetPassword);
+    app.post("/api/createDatabase", createDatabase);
 
     server = app.listen(portNumber, () => {
       resolve(app);

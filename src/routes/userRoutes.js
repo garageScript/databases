@@ -174,4 +174,19 @@ routes.userResetPassword = async (req, res) => {
   }
 };
 
+routes.createDatabase = async (req, res) => {
+  const username = req.session.username;
+
+  if (!username) {
+    logger.info("User must be signed in to create database");
+    return res.status(403).json({
+      error: { message: "You must be signed in to create a database" },
+    });
+  }
+
+  return res
+    .status(200)
+    .json({ success: { message: "Create Database success" } });
+};
+
 module.exports = routes;

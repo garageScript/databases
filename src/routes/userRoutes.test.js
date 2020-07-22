@@ -11,7 +11,9 @@ const {
   logoutUser,
   userResetPassword,
   updateDBPassword,
+  createDatabase,
 } = require("./userRoutes");
+
 const {
   sendPasswordResetEmail,
   signUp,
@@ -428,6 +430,36 @@ describe("testing userResetPassword", () => {
     await userResetPassword(req, res);
     return expect(res.json.mock.calls[0][0].error.message).toEqual(
       "Reset user password failed. Please try again"
+    );
+  });
+});
+
+describe("should test creating a database", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it("should return 403 if there is not username", async () => {
+    const req = {
+      session: {
+        username: null,
+      },
+    };
+
+    await createDatabase(req, res);
+    return expect(res.json.mock.calls[0][0].error.message).toEqual(
+      "You must be signed in to create a database"
+    );
+  });
+  it("should return 200 if there is a username", async () => {
+    const req = {
+      session: {
+        username: "Larry Page",
+      },
+    };
+
+    await createDatabase(req, res);
+    return expect(res.json.mock.calls[0][0].success.message).toEqual(
+      "Create Database success"
     );
   });
 });
