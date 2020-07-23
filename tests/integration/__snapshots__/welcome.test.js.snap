@@ -50,19 +50,11 @@ exports[`test welcome page should render databases page correctly 1`] = `
 </html>
 <script>
   const home = document.querySelector('.home')
-  const logout = document.querySelector('.logout')
-
   home.addEventListener('click', () => {
     return location.href = '/'
   })
 
-  logout.addEventListener('click', () => {
-    fetch(\\"/api/session\\", {
-      method: \\"DELETE\\"
-    }).then((r) => {
-      return location.href = '/'
-    })
-  })
+  
 </script>
 
 <style>
@@ -275,19 +267,11 @@ exports[`test welcome page should render resetPassword page correctly 1`] = `
 </html>
 <script>
   const home = document.querySelector('.home')
-  const logout = document.querySelector('.logout')
-
   home.addEventListener('click', () => {
     return location.href = '/'
   })
 
-  logout.addEventListener('click', () => {
-    fetch(\\"/api/session\\", {
-      method: \\"DELETE\\"
-    }).then((r) => {
-      return location.href = '/'
-    })
-  })
+  
 </script>
 
 <main>
@@ -390,26 +374,18 @@ exports[`test welcome page should render setDBpassword page correctly 1`] = `
 </html>
 <script>
   const home = document.querySelector('.home')
-  const logout = document.querySelector('.logout')
-
   home.addEventListener('click', () => {
     return location.href = '/'
   })
 
-  logout.addEventListener('click', () => {
-    fetch(\\"/api/session\\", {
-      method: \\"DELETE\\"
-    }).then((r) => {
-      return location.href = '/'
-    })
-  })
+  
 </script>
 
 <main>
     <div class=\\"card\\">
         <div class=\\"body\\">
             <h3 class=\\"subtitle\\">Set DB Password</h3>
-            <input class=\\"DB Password\\" placeholder=\\"password\\">
+            <input class=\\"dbPassword\\" placeholder=\\"password\\">
             <button class=\\"setButton\\">Set</button>
         </div>
     </div>
@@ -485,19 +461,11 @@ exports[`test welcome page should render setPassword page correctly 1`] = `
 </html>
 <script>
   const home = document.querySelector('.home')
-  const logout = document.querySelector('.logout')
-
   home.addEventListener('click', () => {
     return location.href = '/'
   })
 
-  logout.addEventListener('click', () => {
-    fetch(\\"/api/session\\", {
-      method: \\"DELETE\\"
-    }).then((r) => {
-      return location.href = '/'
-    })
-  })
+  
 </script>
 
 <main>
@@ -533,6 +501,7 @@ exports[`test welcome page should render setPassword page correctly 1`] = `
             })
         }).then(r => r.json()).then((r) => {
             if (r.error) return alert(r.error.message)
+            if (r.dbPassword) return location.href = '/'
             return location.href = '/setDBPassword'
         }).catch((err) => {
             alert(\\"Setting password has failed. Please try again.\\", err)
@@ -593,19 +562,11 @@ exports[`test welcome page should render sign in page correctly 1`] = `
 </html>
 <script>
   const home = document.querySelector('.home')
-  const logout = document.querySelector('.logout')
-
   home.addEventListener('click', () => {
     return location.href = '/'
   })
 
-  logout.addEventListener('click', () => {
-    fetch(\\"/api/session\\", {
-      method: \\"DELETE\\"
-    }).then((r) => {
-      return location.href = '/'
-    })
-  })
+  
 </script>
 
 <main>
@@ -699,19 +660,11 @@ exports[`test welcome page should render sign up page correctly 1`] = `
 </html>
 <script>
   const home = document.querySelector('.home')
-  const logout = document.querySelector('.logout')
-
   home.addEventListener('click', () => {
     return location.href = '/'
   })
 
-  logout.addEventListener('click', () => {
-    fetch(\\"/api/session\\", {
-      method: \\"DELETE\\"
-    }).then((r) => {
-      return location.href = '/'
-    })
-  })
+  
 </script>
 
 <div class=\\"card\\">
@@ -817,19 +770,11 @@ exports[`test welcome page should render welcome page correctly 1`] = `
 </html>
 <script>
   const home = document.querySelector('.home')
-  const logout = document.querySelector('.logout')
-
   home.addEventListener('click', () => {
     return location.href = '/'
   })
 
-  logout.addEventListener('click', () => {
-    fetch(\\"/api/session\\", {
-      method: \\"DELETE\\"
-    }).then((r) => {
-      return location.href = '/'
-    })
-  })
+  
 </script>
 
 <html lang=\\"en\\">
