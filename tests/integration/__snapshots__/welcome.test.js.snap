@@ -163,19 +163,11 @@ exports[`test welcome page should render postgres page correctly 1`] = `
 </html>
 <script>
   const home = document.querySelector('.home')
-  const logout = document.querySelector('.logout')
-
   home.addEventListener('click', () => {
     return location.href = '/'
   })
 
-  logout.addEventListener('click', () => {
-    fetch(\\"/api/session\\", {
-      method: \\"DELETE\\"
-    }).then((r) => {
-      return location.href = '/'
-    })
-  })
+  
 </script>
 
 <html lang=\\"en\\">

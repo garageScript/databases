@@ -1,5 +1,15 @@
+// jest.mock("express-session");
+const session = require("express-session");
 const { startServer, stopServer } = require("../../src/server");
 const fetch = require("node-fetch");
+
+/*
+const sessionObj = { username: null };
+session.mockImplementation((req, res, next) => {
+  req.session = sessionObj;
+  next(req, res);
+});
+*/
 
 describe("test welcome page", () => {
   const testPort = process.env.TEST_PORT || 20200;
