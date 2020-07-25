@@ -30,11 +30,12 @@ const startServer = async (portNumber) => {
     app.use(
       session({
         secret: process.env.SECRET,
-        resave: false,
-        saveUninitialized: true,
+        resave: true,
+        saveUninitialized: false,
+        rolling: true,
         cookie: {
           secure: false,
-          maxAge: 1000 * 60 * 5,
+          maxAge: 1000 * 60 * 60 * 24 * 7,
         },
       })
     );
