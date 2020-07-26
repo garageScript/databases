@@ -207,7 +207,7 @@ describe("Testing deleteUser function", () => {
   it("should send error if user session does not match", async () => {
     const req = {
       params: { id: 99999999 },
-      session: { username: "testuserA" },
+      session: { id: 99999998 },
     };
     mockFindOne.mockReturnValue({
       username: "testuserB",
@@ -221,19 +221,19 @@ describe("Testing deleteUser function", () => {
   it("should delete user", async () => {
     const req = {
       params: { id: 99999999 },
-      session: { username: "testuserA" },
+      session: { id: 99999999 },
     };
     mockFindOne.mockReturnValue({
-      username: "testuserA",
+      id: 99999999,
       destroy: () => {},
       dataValues: {
-        username: "testuserA",
+        id: 99999999,
         password: "as1f6lurdh8f632la",
       },
     });
     await deleteUser(req, res);
     expect(res.status.mock.calls[0][0]).toEqual(200);
-    return expect(res.json.mock.calls[0][0].username).toEqual("testuserA");
+    return expect(res.json.mock.calls[0][0].id).toEqual(99999999);
   });
   it("should send error if delete user fails", async () => {
     const req = {
@@ -260,7 +260,7 @@ describe("testing upDBPassword function", () => {
   });
   it("should send 400 error if invalid input of userid and password", async () => {
     const req = {
-      session: { username: null },
+      session: { id: null },
       body: { password: null },
     };
     await updateDBPassword(req, res);
@@ -272,7 +272,7 @@ describe("testing upDBPassword function", () => {
   it("should send 400 error if user account does not exist", async () => {
     mockFindOne.mockReturnValue(undefined);
     const req = {
-      session: { username: "testname" },
+      session: { id: 99999999 },
       body: { password: 88900900 },
     };
     await updateDBPassword(req, res);
@@ -283,11 +283,11 @@ describe("testing upDBPassword function", () => {
   });
   it("should send 200 success and update user password", async () => {
     const userAccount = {
-      username: "testname",
+      username: 99999999,
     };
     mockFindOne.mockReturnValue(userAccount);
     const req = {
-      session: { username: "testname" },
+      session: { id: 99999999 },
       body: { password: 12345678 },
     };
     setDBPassword.mockImplementation(() => {
@@ -309,7 +309,7 @@ describe("testing upDBPassword function", () => {
     };
     mockFindOne.mockReturnValue(userAccount);
     const req = {
-      session: { username: "testname" },
+      session: { id: 99999999 },
       body: { password: "noexist" },
     };
     setDBPassword.mockImplementation(() => {
@@ -371,11 +371,10 @@ describe("testing loginUser function", () => {
 describe("testing logoutUser function", () => {
   it("should clear session", () => {
     const req = {
-      params: { id: 99999999 },
-      session: { username: "username" },
+      session: { id: 99999999 },
     };
     logoutUser(req, res);
-    expect(req.session.username).toEqual("");
+    expect(req.session.id).toEqual("");
   });
 });
 

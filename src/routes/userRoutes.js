@@ -78,11 +78,11 @@ routes.deleteUser = async (req, res) => {
       logger.info("Cannot find user", req.params.id);
       return res.status(404).json({ error: { message: "Cannot find user" } });
     }
-    if (account.username !== req.session.username) {
+    if (account.id !== req.session.id) {
       logger.error(
         "Username does not match to cookie",
-        account.username,
-        req.session.username
+        account.id,
+        req.session.id
       );
       return res
         .status(403)
@@ -107,6 +107,7 @@ routes.loginUser = async (req, res) => {
   };
   try {
     const account = await logIn(userInfo);
+    req.session.id = account.id;
     req.session.username = account.username;
     logger.info("Logged in", account.username);
     return res.status(200).json({ ...account.dataValues, password: null });
@@ -118,9 +119,9 @@ routes.loginUser = async (req, res) => {
   }
 };
 routes.updateDBPassword = async (req, res) => {
-  const username = req.session.username;
+  const id = req.session.id;
   const password = req.body.password;
-  if (!username || !password) {
+  if (!id || !password) {
     logger.info("invalid input");
     return res
       .status(400)
@@ -129,7 +130,7 @@ routes.updateDBPassword = async (req, res) => {
   const { Accounts } = db.getModels();
   const userAccount = await Accounts.findOne({
     where: {
-      username: username,
+      id: id,
     },
   });
   if (!userAccount) {
@@ -144,7 +145,7 @@ routes.updateDBPassword = async (req, res) => {
       .status(200)
       .json({ ...updatedAccount.dataValues, password: null });
   } catch (err) {
-    logger.error("Password update failed. Please try again", username, err);
+    logger.error("Password update failed. Please try again", id, err);
     return res
       .status(500)
       .json({ error: { message: "Password update failed. Please try again" } });
@@ -152,6 +153,7 @@ routes.updateDBPassword = async (req, res) => {
 };
 
 routes.logoutUser = (req, res) => {
+  req.session.id = "";
   req.session.username = "";
 
   logger.info("user logged out");
@@ -167,7 +169,7 @@ routes.userResetPassword = async (req, res) => {
   try {
     const account = await resetUserPassword(token, password);
     logger.info("User password reset for", account.username);
-    req.session.username = account.username;
+    req.session.id = account.id;
     return res.status(200).json({ ...account.dataValues, password: null });
   } catch (err) {
     logger.error("user reset password error:", err);
