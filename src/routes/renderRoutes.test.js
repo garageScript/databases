@@ -26,6 +26,7 @@ describe("Testing render router", () => {
   });
   test("postgres function should call res.render if session user is found", async () => {
     mockRequest.session.username = "testuser";
+    mockRequest.session.userid = 99999999;
     const userAccount = {
       dbPassword: "testdbpw",
     };

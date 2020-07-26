@@ -6,7 +6,7 @@ routes.postgres = async (req, res) => {
   const { Accounts } = db.getModels();
   const userAccount = await Accounts.findOne({
     where: {
-      username: req.session.username,
+      id: req.session.userid,
     },
   });
   res.render("postgres", {

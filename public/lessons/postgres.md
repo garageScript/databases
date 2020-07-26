@@ -1,8 +1,8 @@
 # 0 Credentials
 ```
 hostname: 165.227.55.105
-username: account username
-password: account setDbPassword value
+username: <%= username %> 
+password: <%= dbPassword %>
 ```
 
 # 1 Intro
