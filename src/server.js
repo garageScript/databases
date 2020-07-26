@@ -2,6 +2,7 @@ const express = require("express");
 const logger = require("../lib/log")(__filename);
 const dbModule = require("../sequelize/db");
 const session = require("express-session");
+const pgModule = require("../database/postgres/pg");
 const {
   resetPasswordEmail,
   createUser,
@@ -23,6 +24,7 @@ const getApp = () => {
 
 const startServer = async (portNumber) => {
   await dbModule.start();
+  await pgModule.startPGDB();
   return new Promise((resolve, reject) => {
     app = express();
     app.set("view engine", "ejs");

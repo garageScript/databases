@@ -22,7 +22,10 @@ const {
   setDBPassword,
 } = require("../../lib/users");
 
+const pgModule = require("../../database/postgres/pg");
+
 const mockFindOne = jest.fn();
+
 db.getModels = () => {
   return {
     Accounts: {
@@ -438,10 +441,11 @@ describe("should test creating a database", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  it("should return 403 if there is not username", async () => {
+  it("should return error if there is not a username", async () => {
     const req = {
       session: {
         username: null,
+        dbPassword: "Google",
       },
     };
 
@@ -450,16 +454,51 @@ describe("should test creating a database", () => {
       "You must be signed in to create a database"
     );
   });
-  it("should return 200 if there is a username", async () => {
+  it("should return error if there is not a password", async () => {
     const req = {
       session: {
-        username: "Larry Page",
+        username: "Larry page",
+        dbPassword: null,
       },
     };
 
     await createDatabase(req, res);
+    return expect(res.json.mock.calls[0][0].error.message).toEqual(
+      "You must use your database password to create a database"
+    );
+  });
+  it("should return success if there is a username", async () => {
+    const req = {
+      session: {
+        username: "Larry Page",
+        dbPassword: "Google",
+      },
+    };
+
+    pgModule.createPgAccount.mockImplementation = jest.fn();
+
+    await createDatabase(req, res);
+
+    console.log(res.json.mock.calls[0][0]);
     return expect(res.json.mock.calls[0][0].success.message).toEqual(
       "Create Database success"
+    );
+  });
+  it("should throw and error if pgModule fails to create database", async () => {
+    const req = {
+      session: {
+        username: "Sergey Brin",
+        dbPassword: "Google",
+      },
+    };
+
+    pgModule.createPgAccount.mockImplementation(() => {
+      throw new Error("a new error");
+    });
+
+    await createDatabase(req, res);
+    return expect(res.json.mock.calls[0][0].error.message).toEqual(
+      "Database creation was not implemented"
     );
   });
 });
