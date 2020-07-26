@@ -1,10 +1,3 @@
-# 0 Credentials
-```
-hostname: 165.227.55.105
-username: <%= username %> 
-password: <%= dbPassword %>
-```
-
 # 1 Intro
 Postgres is an application. More specifically, a database application for you to organize your data. It can store data for you and you can have multiple apps connect to your Postgres:
 
