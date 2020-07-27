@@ -202,7 +202,7 @@ describe("Testing deleteUser function", () => {
   it("should send error if user session does not match", async () => {
     const req = {
       params: { id: 99999999 },
-      session: { id: 99999998 },
+      session: { userid: 99999998 },
     };
     mockFindOne.mockReturnValue({
       username: "testuserB",
@@ -216,7 +216,7 @@ describe("Testing deleteUser function", () => {
   it("should delete user", async () => {
     const req = {
       params: { id: 99999999 },
-      session: { id: 99999999 },
+      session: { userid: 99999999 },
     };
     mockFindOne.mockReturnValue({
       id: 99999999,
@@ -255,7 +255,7 @@ describe("testing upDBPassword function", () => {
   });
   it("should send 400 error if invalid input of userid and password", async () => {
     const req = {
-      session: { id: null },
+      session: { userid: null },
       body: { password: null },
     };
     await updateDBPassword(req, res);
@@ -267,7 +267,7 @@ describe("testing upDBPassword function", () => {
   it("should send 400 error if user account does not exist", async () => {
     mockFindOne.mockReturnValue(undefined);
     const req = {
-      session: { id: 99999999 },
+      session: { userid: 99999999 },
       body: { password: 88900900 },
     };
     await updateDBPassword(req, res);
@@ -282,7 +282,7 @@ describe("testing upDBPassword function", () => {
     };
     mockFindOne.mockReturnValue(userAccount);
     const req = {
-      session: { id: 99999999 },
+      session: { userid: 99999999 },
       body: { password: 12345678 },
     };
     setDBPassword.mockImplementation(() => {
@@ -304,7 +304,7 @@ describe("testing upDBPassword function", () => {
     };
     mockFindOne.mockReturnValue(userAccount);
     const req = {
-      session: { id: 99999999 },
+      session: { userid: 99999999 },
       body: { password: "noexist" },
     };
     setDBPassword.mockImplementation(() => {
@@ -366,10 +366,10 @@ describe("testing loginUser function", () => {
 describe("testing logoutUser function", () => {
   it("should clear session", () => {
     const req = {
-      session: { id: 99999999 },
+      session: { userid: 99999999 },
     };
     logoutUser(req, res);
-    expect(req.session.id).toEqual("");
+    expect(req.session.userid).toEqual("");
   });
 });
 

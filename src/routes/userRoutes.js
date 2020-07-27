@@ -76,11 +76,11 @@ routes.deleteUser = async (req, res) => {
       logger.info("Cannot find user", req.params.id);
       return res.status(404).json({ error: { message: "Cannot find user" } });
     }
-    if (account.id !== req.session.id) {
+    if (account.id !== req.session.userid) {
       logger.error(
         "Username does not match to cookie",
         account.id,
-        req.session.id
+        req.session.userid
       );
       return res
         .status(403)
@@ -105,7 +105,7 @@ routes.loginUser = async (req, res) => {
   };
   try {
     const account = await logIn(userInfo);
-    req.session.id = account.id;
+    req.session.userid = account.id;
     req.session.username = account.username;
     logger.info("Logged in", account.username);
     return res.status(200).json({ ...account.dataValues, password: null });
@@ -117,7 +117,7 @@ routes.loginUser = async (req, res) => {
   }
 };
 routes.updateDBPassword = async (req, res) => {
-  const id = req.session.id;
+  const id = req.session.userid;
   const password = req.body.password;
   if (!id || !password) {
     logger.info("invalid input");
@@ -151,7 +151,7 @@ routes.updateDBPassword = async (req, res) => {
 };
 
 routes.logoutUser = (req, res) => {
-  req.session.id = "";
+  req.session.userid = "";
   req.session.username = "";
   logger.info("user logged out");
   return res.status(200).json({
@@ -166,7 +166,7 @@ routes.userResetPassword = async (req, res) => {
   try {
     const account = await resetUserPassword(token, password);
     logger.info("User password reset for", account.username);
-    req.session.id = account.id;
+    req.session.userid = account.id;
     return res.status(200).json({ ...account.dataValues, password: null });
   } catch (err) {
     logger.error("user reset password error:", err);

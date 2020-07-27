@@ -99,16 +99,113 @@ exports[`test welcome page should render databases page correctly 1`] = `
     const neo4j = document.querySelector('.neo4j')
 
     postgres.addEventListener('click', () => {
-      location.href = '/databases/postgres'
+      location.href = '/postgres'
     })
     mongodb.addEventListener('click', () => {
-      location.href = '/databases/mongodb'
+      location.href = '/mongodb'
     })
     neo4j.addEventListener('click', () => {
-      location.href = '/databases/neo4j'
+      location.href = '/neo4j'
     })
 </script>
 
+"
+`;
+
+exports[`test welcome page should render postgres page correctly 1`] = `
+"<!DOCTYPE html>
+<!--views/partials/head.ejs-->
+<meta charset='UTF-8'>
+<!--CSS (load bootstrap from a CDN)-->
+<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
+<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+<link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
+<style>
+    input {
+        text-align: center;
+        width: 400px;
+        height: 40px;
+        margin: 5px;
+    }
+    button {
+        width: 400px;
+        height: 40px;
+        margin: 10px;
+    }
+    .home {
+        cursor: pointer;
+    }
+    .card {
+        width: 450px;
+        margin: auto;
+    }
+    .card > * {
+        text-align: center;
+    }
+    .subtitle {
+        margin: 10px;
+    }
+    .body {
+        margin: 10px;
+    }
+</style>
+<html lang=\\"en\\">
+  <head>
+    <title>learndatabases.dev</title>
+  </head>
+  <header>
+    <h1 class=\\"home\\">Learn Databases</h1>
+    
+    
+      <p><a href=\\"/signin\\">Login</a> / <a href=\\"/signup\\">Signup</a></p>
+    
+  </header>
+</html>
+<script>
+  const home = document.querySelector('.home')
+  home.addEventListener('click', () => {
+    return location.href = '/'
+  })
+
+  
+</script>
+
+<html lang=\\"en\\">
+  </head>
+  <body>
+    <h2>Learn and try out different databases!</h2>
+    <p>Instructions on how to install and setup your own databases are included in the tutorial.</p>
+    <p>If you don't want to install your own databases, you can use our databases and support us
+    by creating an account for $10. (In Progess)</p>
+
+      <blockquote>
+      <p>MongoDB, a NoSQL Database. <a href=\\"#\\">MongoDB</a></p>
+      </blockquote>
+
+      <blockquote>
+      <p>Postgres, an SQL Database. <a href=\\"#\\">PostGresSQL</a></p>
+      </blockquote> 
+
+      <blockquote>
+      <p>Neo4j, a Graph Database. <a href=\\"#\\">Neo4j</a></p>
+      </blockquote>
+
+    <p style=\\"text-align:center;\\">Everything we do here is open source. Checkout our github
+    <a href=\\"https://github.com/garageScript/databases\\">Here</a></p>
+    <hr>
+    <h3>Sponsors</h3>
+    <ul>
+      <li>
+        <p><a href=\\"https://c0d3.com\\">C0d3</a> (They taught us to code)</p>
+      </li>
+    </ul>
+
+    <p>Want to add a new Database or Sponsor? <a href=\\"#\\">Contact Us</a></p>
+
+    <p>We collect anonymous analytics using Simple Analytics. View live: <a href=\\"#\\">simpleanalytics.com/learndatabases.dev</a></p>
+
+  </body>
+</html>
 "
 `;
 
