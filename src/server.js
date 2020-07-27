@@ -42,8 +42,23 @@ const startServer = async (portNumber) => {
     );
     app.set("view engine", "ejs");
     app.use(express.json());
-    app.get("/", (req, res) => {
-      res.render("welcome", { username: req.session.username });
+    app.get("/", async(req, res) => {
+      if(!req.session.username){
+        return res.render('welcome')
+      }
+      const { Accounts } = dbModule.getModels()
+      const user = await Accounts.findOne({
+        where: {
+          username: req.session.username
+        }
+      })
+      if(!user){
+        return res.render('welcome')
+      }
+      if(!user.dbPassword){
+        return res.render('setDbpassword', {username: req.session.username})
+      }
+      return res.render('databases',{username: req.session.username})
     });
     app.get("/signin", (req, res) => {
       res.render("signin", { username: req.session.username });
