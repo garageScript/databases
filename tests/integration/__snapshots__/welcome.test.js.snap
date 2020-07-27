@@ -712,97 +712,14 @@ exports[`test welcome page should render sign up page correctly 1`] = `
 
 exports[`test welcome page should render welcome page correctly 1`] = `
 "<!DOCTYPE html>
-<!--views/partials/head.ejs-->
-<meta charset='UTF-8'>
-<!--CSS (load bootstrap from a CDN)-->
-<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
-<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
-<link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
-<style>
-    input {
-        text-align: center;
-        width: 400px;
-        height: 40px;
-        margin: 5px;
-    }
-    button {
-        width: 400px;
-        height: 40px;
-        margin: 10px;
-    }
-    .home {
-        cursor: pointer;
-    }
-    .card {
-        width: 450px;
-        margin: auto;
-    }
-    .card > * {
-        text-align: center;
-    }
-    .subtitle {
-        margin: 10px;
-    }
-    .body {
-        margin: 10px;
-    }
-</style>
 <html lang=\\"en\\">
-  <head>
-    <title>learndatabases.dev</title>
-  </head>
-  <header>
-    <h1 class=\\"home\\">Learn Databases</h1>
-    
-    
-      <p><a href=\\"/signin\\">Login</a> / <a href=\\"/signup\\">Signup</a></p>
-    
-  </header>
-</html>
-<script>
-  const home = document.querySelector('.home')
-  home.addEventListener('click', () => {
-    return location.href = '/'
-  })
-
-  
-</script>
-
-<html lang=\\"en\\">
-  </head>
-  <body>
-    <h2>Learn and try out different databases!</h2>
-    <p>Instructions on how to install and setup your own databases are included in the tutorial.</p>
-    <p>If you don't want to install your own databases, you can use our databases and support us
-    by creating an account for $10. (In Progess)</p>
-
-      <blockquote>
-      <p>MongoDB, a NoSQL Database. <a href=\\"#\\">MongoDB</a></p>
-      </blockquote>
-
-      <blockquote>
-      <p>Postgres, an SQL Database. <a href=\\"#\\">PostGresSQL</a></p>
-      </blockquote> 
-
-      <blockquote>
-      <p>Neo4j, a Graph Database. <a href=\\"#\\">Neo4j</a></p>
-      </blockquote>
-
-    <p style=\\"text-align:center;\\">Everything we do here is open source. Checkout our github
-    <a href=\\"https://github.com/garageScript/databases\\">Here</a></p>
-    <hr>
-    <h3>Sponsors</h3>
-    <ul>
-      <li>
-        <p><a href=\\"https://c0d3.com\\">C0d3</a> (They taught us to code)</p>
-      </li>
-    </ul>
-
-    <p>Want to add a new Database or Sponsor? <a href=\\"#\\">Contact Us</a></p>
-
-    <p>We collect anonymous analytics using Simple Analytics. View live: <a href=\\"#\\">simpleanalytics.com/learndatabases.dev</a></p>
-
-  </body>
+<head>
+<meta charset=\\"utf-8\\">
+<title>Error</title>
+</head>
+<body>
+<pre>ReferenceError: /Users/alicefanz/Desktop/js/databases/views/welcome.ejs:2<br> &nbsp; &nbsp;1| &lt;!DOCTYPE html&gt;<br> &gt;&gt; 2| &lt;%- include(&#39;./partials/head&#39;) %&gt;<br> &nbsp; &nbsp;3| &lt;html lang=&quot;en&quot;&gt;<br> &nbsp; &nbsp;4| &nbsp; &lt;/head&gt;<br> &nbsp; &nbsp;5| &nbsp; &lt;body&gt;<br><br>/Users/alicefanz/Desktop/js/databases/views/partials/head.ejs:42<br> &nbsp; &nbsp;40| &nbsp; &lt;header&gt;<br> &nbsp; &nbsp;41| &nbsp; &nbsp; &lt;h1 class=&quot;home&quot;&gt;Learn Databases&lt;/h1&gt;<br> &gt;&gt; 42| &nbsp; &nbsp; &lt;% if (username) { %&gt;<br> &nbsp; &nbsp;43| &nbsp; &nbsp; &nbsp; &lt;p&gt;Welcome &lt;%= username %&gt;! &lt;a class=&quot;logout&quot; href=&quot;#&quot;&gt;Logout&lt;/a&gt;&lt;/p&gt;<br> &nbsp; &nbsp;44| &nbsp; &nbsp; &lt;% } %&gt;<br> &nbsp; &nbsp;45| &nbsp; &nbsp; &lt;% if (!username) { %&gt;<br><br>username is not defined<br> &nbsp; &nbsp;at eval (/Users/alicefanz/Desktop/js/databases/views/partials/head.ejs:12:8)<br> &nbsp; &nbsp;at head (/Users/alicefanz/Desktop/js/databases/node_modules/ejs/lib/ejs.js:691:17)<br> &nbsp; &nbsp;at include (/Users/alicefanz/Desktop/js/databases/node_modules/ejs/lib/ejs.js:689:39)<br> &nbsp; &nbsp;at eval (/Users/alicefanz/Desktop/js/databases/views/welcome.ejs:12:17)<br> &nbsp; &nbsp;at welcome (/Users/alicefanz/Desktop/js/databases/node_modules/ejs/lib/ejs.js:691:17)<br> &nbsp; &nbsp;at tryHandleCache (/Users/alicefanz/Desktop/js/databases/node_modules/ejs/lib/ejs.js:272:36)<br> &nbsp; &nbsp;at View.Object.&lt;anonymous&gt;.exports.renderFile [as engine] (/Users/alicefanz/Desktop/js/databases/node_modules/ejs/lib/ejs.js:489:10)<br> &nbsp; &nbsp;at View.render (/Users/alicefanz/Desktop/js/databases/node_modules/express/lib/view.js:135:8)<br> &nbsp; &nbsp;at tryRender (/Users/alicefanz/Desktop/js/databases/node_modules/express/lib/application.js:640:10)<br> &nbsp; &nbsp;at Function.render (/Users/alicefanz/Desktop/js/databases/node_modules/express/lib/application.js:592:3)<br> &nbsp; &nbsp;at ServerResponse.render (/Users/alicefanz/Desktop/js/databases/node_modules/express/lib/response.js:1012:7)<br> &nbsp; &nbsp;at app.get (/Users/alicefanz/Desktop/js/databases/src/server.js:45:20)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/Users/alicefanz/Desktop/js/databases/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at next (/Users/alicefanz/Desktop/js/databases/node_modules/express/lib/router/route.js:137:13)<br> &nbsp; &nbsp;at Route.dispatch (/Users/alicefanz/Desktop/js/databases/node_modules/express/lib/router/route.js:112:3)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/Users/alicefanz/Desktop/js/databases/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at /Users/alicefanz/Desktop/js/databases/node_modules/express/lib/router/index.js:281:22<br> &nbsp; &nbsp;at Function.process_params (/Users/alicefanz/Desktop/js/databases/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/Users/alicefanz/Desktop/js/databases/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at jsonParser (/Users/alicefanz/Desktop/js/databases/node_modules/body-parser/lib/types/json.js:110:7)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/Users/alicefanz/Desktop/js/databases/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/Users/alicefanz/Desktop/js/databases/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /Users/alicefanz/Desktop/js/databases/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/Users/alicefanz/Desktop/js/databases/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/Users/alicefanz/Desktop/js/databases/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at session (/Users/alicefanz/Desktop/js/databases/node_modules/express-session/index.js:475:7)<br> &nbsp; &nbsp;at Layer.handle [as handle_request] (/Users/alicefanz/Desktop/js/databases/node_modules/express/lib/router/layer.js:95:5)<br> &nbsp; &nbsp;at trim_prefix (/Users/alicefanz/Desktop/js/databases/node_modules/express/lib/router/index.js:317:13)<br> &nbsp; &nbsp;at /Users/alicefanz/Desktop/js/databases/node_modules/express/lib/router/index.js:284:7<br> &nbsp; &nbsp;at Function.process_params (/Users/alicefanz/Desktop/js/databases/node_modules/express/lib/router/index.js:335:12)<br> &nbsp; &nbsp;at next (/Users/alicefanz/Desktop/js/databases/node_modules/express/lib/router/index.js:275:10)<br> &nbsp; &nbsp;at SendStream.error (/Users/alicefanz/Desktop/js/databases/node_modules/serve-static/index.js:121:7)<br> &nbsp; &nbsp;at SendStream.emit (events.js:198:13)<br> &nbsp; &nbsp;at SendStream.error (/Users/alicefanz/Desktop/js/databases/node_modules/send/index.js:270:17)<br> &nbsp; &nbsp;at SendStream.onStatError (/Users/alicefanz/Desktop/js/databases/node_modules/send/index.js:421:12)<br> &nbsp; &nbsp;at next (/Users/alicefanz/Desktop/js/databases/node_modules/send/index.js:763:28)<br> &nbsp; &nbsp;at /Users/alicefanz/Desktop/js/databases/node_modules/send/index.js:771:23<br> &nbsp; &nbsp;at FSReqWrap.oncomplete (fs.js:153:21)</pre>
+</body>
 </html>
 "
 `;
