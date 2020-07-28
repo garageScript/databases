@@ -204,6 +204,11 @@ exports[`test welcome page should render postgres page correctly 1`] = `
 
     <p>We collect anonymous analytics using Simple Analytics. View live: <a href=\\"#\\">simpleanalytics.com/learndatabases.dev</a></p>
 
+    <script>
+
+
+    </script>
+
   </body>
 </html>
 "
@@ -804,12 +809,6 @@ exports[`test welcome page should render welcome page correctly 1`] = `
 
     <script>
 
-      fetch('/api/createDatabase', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
 
     </script>
 

@@ -474,9 +474,7 @@ describe("should test creating a database", () => {
       },
     };
 
-    pgModule.createPgAccount.mockImplementation = jest
-      .fn()
-      .mockReturnValue(Promise.resolve());
+    pgModule.createPgAccount.mockReturnValue(Promise.resolve());
 
     db.getModels = () => {
       return {
@@ -496,16 +494,13 @@ describe("should test creating a database", () => {
       "Create Database success"
     );
   });
+
   it("should throw and error if pgModule fails to create database", async () => {
     const req = {
       session: {
         username: "Sergey Brin",
       },
     };
-
-    pgModule.createPgAccount.mockImplementation(() => {
-      throw new Error("a new error");
-    });
 
     db.getModels = () => {
       return {
@@ -519,6 +514,10 @@ describe("should test creating a database", () => {
         },
       };
     };
+
+    pgModule.createPgAccount.mockReturnValue(
+      Promise.reject("cannot create account")
+    );
 
     await createDatabase(req, res);
     return expect(res.json.mock.calls[0][0].error.message).toEqual(

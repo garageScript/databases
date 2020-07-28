@@ -40,8 +40,6 @@ pgModule.createPgAccount = async (username, password) => {
       username
     );
 
-    console.log("user", username);
-
     await client.query(sqlQuery1);
     await client.query(sqlQuery2);
     await client.query(sqlQuery3);
