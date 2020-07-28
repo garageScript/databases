@@ -16,6 +16,7 @@ userRoutes.deleteUser = jest.fn();
 userRoutes.resetUserPassword = jest.fn();
 userRoutes.updateDBPassword = jest.fn();
 renderRoutes.postgres = jest.fn();
+renderRoutes.landingpage = jest.fn();
 // router functions should be mocked before requiring server
 const { startServer, stopServer, getApp } = require("./server");
 
@@ -93,9 +94,16 @@ describe("Testing render routes", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
+ 
   test("should call render router functions", async () => {
     await startServer();
     await app.get.mock.calls[7][1]();
     expect(renderRoutes.postgres).toHaveBeenCalled();
   });
+  test("should call render router functions", async () => {
+    await startServer();
+    await app.get.mock.calls[0][1]();
+    expect(renderRoutes.landingpage).toHaveBeenCalled();
+  });
+
 });

@@ -11,7 +11,7 @@ const {
   userResetPassword,
   updateDBPassword,
 } = require("./routes/userRoutes");
-const { postgres } = require("./routes/renderRoutes");  
+const { postgres,landingpage } = require("./routes/renderRoutes");  
 require("dotenv").config();
 let server = null;
 let app = null;
@@ -41,24 +41,7 @@ const startServer = async (portNumber) => {
     );
     app.set("view engine", "ejs");
     app.use(express.json());
-    app.get("/", async(req, res) => {
-      if(!req.session.username){
-        return res.render('welcome')
-      } 
-      const { Accounts } = dbModule.getModels()
-      const user = await Accounts.findOne({
-        where: {
-          id: req.session.id
-        }
-      })
-      if(!user){
-        return res.render('welcome')
-      }
-      if(!user.dbPassword){
-        return res.render('setDbpassword', {username: req.session.username})
-      }
-      return res.render('databases',{username: req.session.username})
-    });
+    app.get("/", landingpage)
     app.get("/signin", (req, res) => {
       res.render("signin", { username: req.session.username });
     });
