@@ -13,6 +13,7 @@ const {
   updateDBPassword,
   createDatabase,
 } = require("./routes/userRoutes");
+const { postgres } = require("./routes/renderRoutes");
 
 require("dotenv").config();
 let server = null;
@@ -66,6 +67,7 @@ const startServer = async (portNumber) => {
     app.get("/resetPassword", (req, res) => {
       res.render("resetPassword", { username: req.session.username });
     });
+    app.get("/postgres", postgres);
     app.post("/api/notifications", resetPasswordEmail);
     app.post("/api/users", createUser);
     app.patch("/api/users/:id", updateDBPassword);

@@ -1,4 +1,8 @@
 jest.mock("./routes/userRoutes");
+<<<<<<< HEAD
+=======
+jest.mock("./routes/renderRoutes");
+>>>>>>> a9de6dcc08b643183a022b87223fb4ad523c43db
 jest.mock("express");
 jest.mock("mailgun-js");
 jest.mock("../sequelize/db");
@@ -6,23 +10,41 @@ jest.mock("../sequelize/db");
 const express = require("express");
 const dbModule = require("../sequelize/db");
 const userRoutes = require("./routes/userRoutes");
+<<<<<<< HEAD
+=======
+const renderRoutes = require("./routes/renderRoutes");
+>>>>>>> a9de6dcc08b643183a022b87223fb4ad523c43db
 
 userRoutes.createUser = jest.fn();
 userRoutes.loginUser = jest.fn();
 userRoutes.logoutUser = jest.fn();
+<<<<<<< HEAD
 userRoutes.deleteUser = jest.fn(); // userRoutes should be mocked before requiring server
 userRoutes.resetUserPassword = jest.fn();
 userRoutes.updateDBPassword = jest.fn();
 
 const { startServer, stopServer, getApp } = require("./server");
 
+=======
+userRoutes.deleteUser = jest.fn();
+userRoutes.resetUserPassword = jest.fn();
+userRoutes.updateDBPassword = jest.fn();
+renderRoutes.postgres = jest.fn();
+// router functions should be mocked before requiring server
+const { startServer, stopServer, getApp } = require("./server");
+
+>>>>>>> a9de6dcc08b643183a022b87223fb4ad523c43db
 dbModule.start = jest.fn();
 dbModule.close = jest.fn();
 
 const app = {
   set: () => {},
   use: () => {},
+<<<<<<< HEAD
   get: () => {},
+=======
+  get: jest.fn(),
+>>>>>>> a9de6dcc08b643183a022b87223fb4ad523c43db
   patch: jest.fn(),
   post: jest.fn(),
   delete: jest.fn(),
@@ -62,6 +84,7 @@ describe("Testing the server", () => {
     expect(server.close).toHaveBeenCalled();
   });
 });
+<<<<<<< HEAD
 
 describe("Testing routes", () => {
   beforeEach(() => {
@@ -85,5 +108,39 @@ describe("Testing routes", () => {
     expect(userRoutes.userResetPassword).toHaveBeenCalled();
     await app.post.mock.calls[4][1]();
     expect(userRoutes.createDatabase).toHaveBeenCalled();
+=======
+
+describe("Testing user routes", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  test("should call user router functions", async () => {
+    await startServer();
+    await app.patch.mock.calls[0][1]();
+    expect(userRoutes.updateDBPassword).toHaveBeenCalled();
+    await app.post.mock.calls[0][1]();
+    expect(userRoutes.resetPasswordEmail).toHaveBeenCalled();
+    await app.post.mock.calls[1][1]();
+    expect(userRoutes.createUser).toHaveBeenCalled();
+    await app.delete.mock.calls[0][1]();
+    expect(userRoutes.deleteUser).toHaveBeenCalled();
+    await app.post.mock.calls[2][1]();
+    expect(userRoutes.loginUser).toHaveBeenCalled();
+    await app.delete.mock.calls[1][1]();
+    expect(userRoutes.logoutUser).toHaveBeenCalled();
+    await app.post.mock.calls[3][1]();
+    expect(userRoutes.userResetPassword).toHaveBeenCalled();
+  });
+});
+
+describe("Testing render routes", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  test("should call render router functions", async () => {
+    await startServer();
+    await app.get.mock.calls[7][1]();
+    expect(renderRoutes.postgres).toHaveBeenCalled();
+>>>>>>> a9de6dcc08b643183a022b87223fb4ad523c43db
   });
 });
