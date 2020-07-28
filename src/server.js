@@ -11,8 +11,7 @@ const {
   userResetPassword,
   updateDBPassword,
 } = require("./routes/userRoutes");
-const { postgres } = require("./routes/renderRoutes");
-
+const { postgres } = require("./routes/renderRoutes");  
 require("dotenv").config();
 let server = null;
 let app = null;
@@ -45,11 +44,11 @@ const startServer = async (portNumber) => {
     app.get("/", async(req, res) => {
       if(!req.session.username){
         return res.render('welcome')
-      }
+      } 
       const { Accounts } = dbModule.getModels()
       const user = await Accounts.findOne({
         where: {
-          username: req.session.username
+          id: req.session.id
         }
       })
       if(!user){
