@@ -25,6 +25,7 @@ const getApp = () => {
 const startServer = async (portNumber) => {
   await dbModule.start();
   await pgModule.startPGDB();
+
   return new Promise((resolve, reject) => {
     app = express();
     app.set("view engine", "ejs");

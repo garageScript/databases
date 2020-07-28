@@ -33,6 +33,7 @@ pgModule.createPgAccount = async (username, password) => {
       username,
       password
     );
+
     const sqlQuery3 = escape(
       `GRANT ALL PRIVILEGES ON DATABASE %s TO %s`,
       username,
@@ -40,7 +41,7 @@ pgModule.createPgAccount = async (username, password) => {
     );
 
     console.log("user", username);
-'
+
     await client.query(sqlQuery1);
     await client.query(sqlQuery2);
     await client.query(sqlQuery3);

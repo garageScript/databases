@@ -1,6 +1,7 @@
 jest.mock("mailgun-js");
 jest.mock("../../lib/users");
 jest.mock("../../sequelize/db");
+jest.mock("../../database/postgres/pg");
 
 const db = require("../../sequelize/db");
 const {
@@ -470,15 +471,27 @@ describe("should test creating a database", () => {
     const req = {
       session: {
         username: "Larry Page",
-        dbPassword: "Google",
       },
     };
 
-    pgModule.createPgAccount.mockImplementation = jest.fn();
+    pgModule.createPgAccount.mockImplementation = jest
+      .fn()
+      .mockReturnValue(Promise.resolve());
+
+    db.getModels = () => {
+      return {
+        Accounts: {
+          findOne: () => {
+            return {
+              username: "Larry Page",
+              dbPassword: "Google",
+            };
+          },
+        },
+      };
+    };
 
     await createDatabase(req, res);
-
-    console.log(res.json.mock.calls[0][0]);
     return expect(res.json.mock.calls[0][0].success.message).toEqual(
       "Create Database success"
     );
@@ -487,13 +500,25 @@ describe("should test creating a database", () => {
     const req = {
       session: {
         username: "Sergey Brin",
-        dbPassword: "Google",
       },
     };
 
     pgModule.createPgAccount.mockImplementation(() => {
       throw new Error("a new error");
     });
+
+    db.getModels = () => {
+      return {
+        Accounts: {
+          findOne: () => {
+            return {
+              username: "Sergey Brin",
+              dbPassword: "Google",
+            };
+          },
+        },
+      };
+    };
 
     await createDatabase(req, res);
     return expect(res.json.mock.calls[0][0].error.message).toEqual(
