@@ -204,11 +204,6 @@ exports[`test welcome page should render postgres page correctly 1`] = `
 
     <p>We collect anonymous analytics using Simple Analytics. View live: <a href=\\"#\\">simpleanalytics.com/learndatabases.dev</a></p>
 
-    <script>
-
-
-    </script>
-
   </body>
 </html>
 "
@@ -806,11 +801,6 @@ exports[`test welcome page should render welcome page correctly 1`] = `
     <p>Want to add a new Database or Sponsor? <a href=\\"#\\">Contact Us</a></p>
 
     <p>We collect anonymous analytics using Simple Analytics. View live: <a href=\\"#\\">simpleanalytics.com/learndatabases.dev</a></p>
-
-    <script>
-
-
-    </script>
 
   </body>
 </html>
