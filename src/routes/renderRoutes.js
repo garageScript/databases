@@ -15,22 +15,22 @@ routes.postgres = async (req, res) => {
   });
 };
 routes.landingpage = async (req, res) => {
-  if(!req.session.username){
-    return res.render('welcome')
-  } 
-  const { Accounts } = db.getModels()
+  if (!req.session.username) {
+    return res.render("welcome", { username: null });
+  }
+  const { Accounts } = db.getModels();
   const user = await Accounts.findOne({
     where: {
-      id: req.session.id
+      id: req.session.userid,
     },
-  })
-  if(!user){
-     return res.render('welcome')
+  });
+  if (!user) {
+    return res.render("welcome", { username: req.session.username });
   }
-  if(!user.dbPassword){
-     return res.render('setDBpassword', {username: req.session.username})
+  if (!user.dbPassword) {
+    return res.render("setDBpassword", { username: req.session.username });
   }
-  res.render('databases',{username: req.session.username})
-}
+  res.render("databases", { username: req.session.username });
+};
 
 module.exports = routes;
