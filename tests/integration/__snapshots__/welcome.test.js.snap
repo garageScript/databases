@@ -97,19 +97,6 @@ exports[`test welcome page should render postgres page correctly 1`] = `
     <p>If you don't want to install your own databases, you can use our databases and support us
     by creating an account for $10. (In Progess)</p>
 
-      <blockquote>
-      <p>MongoDB, a NoSQL Database. <a href=\\"#\\">MongoDB</a></p>
-      </blockquote>
-
-      <blockquote>
-      <p>Postgres, an SQL Database. <a href=\\"#\\">PostGresSQL</a></p>
-      </blockquote> 
-
-      <blockquote>
-      <p>Neo4j, a Graph Database. <a href=\\"#\\">Neo4j</a></p>
-      </blockquote>
-
-
       <main>
         <div class=\\"card\\">
           <div class=\\"body\\">
@@ -559,7 +546,7 @@ exports[`test welcome page should render sign in page correctly 1`] = `
         }).then(r => r.json()).then((r) => {
             if (r.error) return alert(r.error.message)
             if (!r.dbPassword) return location.href = '/setDBPassword'
-            return location.href = '/databases'
+            return location.href = '/'
         })
     })
 </script>
@@ -757,19 +744,6 @@ exports[`test welcome page should render welcome page correctly 1`] = `
     <p>Instructions on how to install and setup your own databases are included in the tutorial.</p>
     <p>If you don't want to install your own databases, you can use our databases and support us
     by creating an account for $10. (In Progess)</p>
-
-      <blockquote>
-      <p>MongoDB, a NoSQL Database. <a href=\\"#\\">MongoDB</a></p>
-      </blockquote>
-
-      <blockquote>
-      <p>Postgres, an SQL Database. <a href=\\"#\\">PostGresSQL</a></p>
-      </blockquote> 
-
-      <blockquote>
-      <p>Neo4j, a Graph Database. <a href=\\"#\\">Neo4j</a></p>
-      </blockquote>
-
 
       <main>
         <div class=\\"card\\">
