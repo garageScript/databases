@@ -15,4 +15,12 @@ routes.postgres = async (req, res) => {
   });
 };
 
+routes.mongodb = async (req, res) => {
+  return res.render("mongodb");
+};
+
+routes.neo4j = async (req, res) => {
+  return res.render("neo4j");
+};
+
 module.exports = routes;

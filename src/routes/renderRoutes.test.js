@@ -1,7 +1,7 @@
 jest.mock("../../sequelize/db");
 
 const db = require("../../sequelize/db");
-const { postgres } = require("./renderRoutes");
+const { postgres, mongodb, neo4j } = require("./renderRoutes");
 
 const mockFindOne = jest.fn();
 db.getModels = () => {
@@ -32,6 +32,21 @@ describe("Testing render router", () => {
     };
     mockFindOne.mockReturnValue(userAccount);
     await postgres(mockRequest, mockResponse);
+    expect(mockResponse.render).toHaveBeenCalled();
+  });
+
+  test("mongodb function should return response", async () => {
+    const mockRequest = {
+      session: {},
+    };
+    await mongodb(mockRequest, mockResponse);
+    expect(mockResponse.render).toHaveBeenCalled();
+  });
+  test("neo4j function should return response", async () => {
+    const mockRequest = {
+      session: {},
+    };
+    await neo4j(mockRequest, mockResponse);
     expect(mockResponse.render).toHaveBeenCalled();
   });
 });
