@@ -76,20 +76,27 @@ describe("Testing user routes", () => {
   });
   test("should call user router functions", async () => {
     await startServer();
+
     await app.patch.mock.calls[0][1]();
     expect(userRoutes.updateDBPassword).toHaveBeenCalled();
+
     await app.post.mock.calls[0][1]();
     expect(userRoutes.resetPasswordEmail).toHaveBeenCalled();
+
     await app.post.mock.calls[1][1]();
     expect(userRoutes.createUser).toHaveBeenCalled();
-    await app.delete.mock.calls[0][1]();
-    expect(userRoutes.deleteUser).toHaveBeenCalled();
-    await app.post.mock.calls[2][1]();
-    expect(userRoutes.loginUser).toHaveBeenCalled();
-    await app.delete.mock.calls[1][1]();
-    expect(userRoutes.logoutUser).toHaveBeenCalled();
+
     await app.post.mock.calls[3][1]();
     expect(userRoutes.userResetPassword).toHaveBeenCalled();
+
+    await app.post.mock.calls[2][1]();
+    expect(userRoutes.loginUser).toHaveBeenCalled();
+
+    await app.delete.mock.calls[0][1]();
+    expect(userRoutes.deleteUser).toHaveBeenCalled();
+
+    await app.delete.mock.calls[1][1]();
+    expect(userRoutes.logoutUser).toHaveBeenCalled();
   });
 });
 
@@ -99,7 +106,6 @@ describe("Testing render routes", () => {
   });
   test("should call render router functions", async () => {
     await startServer();
-
     await app.get.mock.calls[6][1]();
     expect(renderRoutes.postgres).toHaveBeenCalled();
     await app.get.mock.calls[7][1]();

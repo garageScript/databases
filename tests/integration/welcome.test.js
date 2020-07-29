@@ -49,11 +49,6 @@ describe("test welcome page", () => {
     expect(result).toMatchSnapshot();
   });
 
-  test("should render databases page correctly", async () => {
-    const result = await fetch(baseUrl + "databases").then((r) => r.text());
-    expect(result).toMatchSnapshot();
-  });
-
   test("should render resetPassword page correctly", async () => {
     const result = await fetch(baseUrl + "resetPassword").then((r) => r.text());
     expect(result).toMatchSnapshot();
@@ -61,6 +56,16 @@ describe("test welcome page", () => {
 
   test("should render postgres page correctly", async () => {
     const result = await fetch(baseUrl + "postgres").then((r) => r.text());
+    expect(result).toMatchSnapshot();
+  });
+
+  test("should render mongodb page correctly", async () => {
+    const result = await fetch(baseUrl + "mongodb").then((r) => r.text());
+    expect(result).toMatchSnapshot();
+  });
+
+  test("should render neo4j page correctly", async () => {
+    const result = await fetch(baseUrl + "neo4j").then((r) => r.text());
     expect(result).toMatchSnapshot();
   });
 });
