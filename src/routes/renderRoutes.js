@@ -1,7 +1,7 @@
 const db = require("../../sequelize/db");
 const routes = {};
 
-routes.database = async (req, res) => {
+routes.postgres = async (req, res) => {
   if (!req.session.username) return res.redirect("/");
   const { Accounts } = db.getModels();
   const userAccount = await Accounts.findOne({
@@ -9,7 +9,7 @@ routes.database = async (req, res) => {
       id: req.session.userid,
     },
   });
-  res.render("database", {
+  res.render("postgres", {
     username: req.session.username,
     dbPassword: userAccount.dbPassword,
   });
