@@ -37,7 +37,7 @@ Phase 4: UI (aka frontend)
 What needs to worked on 
 https://github.com/garageScript/databases/issues
 
-Wiki 
+Wiki
 https://github.com/garageScript/databases/wiki
 
 If you have any questions message us on our chat:
