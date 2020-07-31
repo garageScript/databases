@@ -18,8 +18,12 @@ userRoutes.resetUserPassword = jest.fn();
 userRoutes.updateDBPassword = jest.fn();
 
 renderRoutes.postgres = jest.fn();
+<<<<<<< HEAD
 renderRoutes.mongodb = jest.fn();
 renderRoutes.neo4j = jest.fn();
+=======
+renderRoutes.landingpage = jest.fn();
+>>>>>>> 13a0ea1fd35abe9ed29dbdd5dd432485ff9b1135
 // router functions should be mocked before requiring server
 const { startServer, stopServer, getApp } = require("./server");
 
@@ -104,6 +108,7 @@ describe("Testing render routes", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
+ 
   test("should call render router functions", async () => {
     await startServer();
     await app.get.mock.calls[6][1]();
@@ -113,4 +118,10 @@ describe("Testing render routes", () => {
     await app.get.mock.calls[8][1]();
     expect(renderRoutes.neo4j).toHaveBeenCalled();
   });
+  test("should call render router functions", async () => {
+    await startServer();
+    await app.get.mock.calls[0][1]();
+    expect(renderRoutes.landingpage).toHaveBeenCalled();
+  });
+
 });

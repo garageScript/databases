@@ -11,9 +11,13 @@ const {
   userResetPassword,
   updateDBPassword,
 } = require("./routes/userRoutes");
+<<<<<<< HEAD
 
 const { database } = require("./routes/renderRoutes");
 
+=======
+const { postgres,landingpage } = require("./routes/renderRoutes");  
+>>>>>>> 13a0ea1fd35abe9ed29dbdd5dd432485ff9b1135
 require("dotenv").config();
 let server = null;
 let app = null;
@@ -41,9 +45,15 @@ const startServer = async (portNumber) => {
         },
       })
     );
+<<<<<<< HEAD
     app.get("/", (req, res) => {
       res.render("welcome", { username: req.session.username });
     });
+=======
+    app.set("view engine", "ejs");
+    app.use(express.json());
+    app.get("/", landingpage)
+>>>>>>> 13a0ea1fd35abe9ed29dbdd5dd432485ff9b1135
     app.get("/signin", (req, res) => {
       res.render("signin", { username: req.session.username });
     });
