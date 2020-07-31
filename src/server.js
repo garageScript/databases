@@ -12,7 +12,7 @@ const {
   updateDBPassword,
 } = require("./routes/userRoutes");
 
-const { postgres, mongodb, neo4j } = require("./routes/renderRoutes");
+const { database } = require("./routes/renderRoutes");
 
 require("dotenv").config();
 let server = null;
@@ -59,9 +59,6 @@ const startServer = async (portNumber) => {
     app.get("/resetPassword", (req, res) => {
       res.render("resetPassword", { username: req.session.username });
     });
-    app.get("/postgres", postgres);
-    app.get("/mongodb", mongodb);
-    app.get("/neo4j", neo4j);
     app.post("/api/notifications", resetPasswordEmail);
     app.post("/api/users", createUser);
     app.patch("/api/users/:id", updateDBPassword);
@@ -69,6 +66,8 @@ const startServer = async (portNumber) => {
     app.post("/api/session", loginUser);
     app.delete("/api/session", logoutUser);
     app.post("/api/passwordReset", userResetPassword);
+
+    app.get("/:database", database);
 
     server = app.listen(portNumber, () => {
       resolve(app);
