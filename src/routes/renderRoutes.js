@@ -30,7 +30,10 @@ routes.landingpage = async (req, res) => {
   if (!user.dbPassword) {
     return res.render("setDBpassword", { username: req.session.username });
   }
-  res.render("databases", { username: req.session.username });
+  res.render("database", {
+    username: req.session.username,
+    dbPassword: user.dbPassword,
+  });
 };
 
 module.exports = routes;
