@@ -2,6 +2,7 @@ const express = require("express");
 const logger = require("../lib/log")(__filename);
 const dbModule = require("../sequelize/db");
 const session = require("express-session");
+const pgModule = require("../database/postgres/pg");
 const {
   resetPasswordEmail,
   createUser,
@@ -10,6 +11,7 @@ const {
   logoutUser,
   userResetPassword,
   updateDBPassword,
+  createDatabase,
 } = require("./routes/userRoutes");
 const { postgres,landingpage } = require("./routes/renderRoutes");  
 require("dotenv").config();
@@ -22,6 +24,8 @@ const getApp = () => {
 
 const startServer = async (portNumber) => {
   await dbModule.start();
+  await pgModule.startPGDB();
+
   return new Promise((resolve, reject) => {
     app = express();
     app.set("view engine", "ejs");
@@ -68,6 +72,7 @@ const startServer = async (portNumber) => {
     app.post("/api/session", loginUser);
     app.delete("/api/session", logoutUser);
     app.post("/api/passwordReset", userResetPassword);
+    app.post("/api/createDatabase", createDatabase);
 
     server = app.listen(portNumber, () => {
       resolve(app);

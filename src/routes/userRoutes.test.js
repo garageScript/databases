@@ -1,6 +1,7 @@
 jest.mock("mailgun-js");
 jest.mock("../../lib/users");
 jest.mock("../../sequelize/db");
+jest.mock("../../database/postgres/pg");
 
 const db = require("../../sequelize/db");
 const {
@@ -11,7 +12,9 @@ const {
   logoutUser,
   userResetPassword,
   updateDBPassword,
+  createDatabase,
 } = require("./userRoutes");
+
 const {
   sendPasswordResetEmail,
   signUp,
@@ -20,7 +23,10 @@ const {
   setDBPassword,
 } = require("../../lib/users");
 
+const pgModule = require("../../database/postgres/pg");
+
 const mockFindOne = jest.fn();
+
 db.getModels = () => {
   return {
     Accounts: {
@@ -427,6 +433,95 @@ describe("testing userResetPassword", () => {
     await userResetPassword(req, res);
     return expect(res.json.mock.calls[0][0].error.message).toEqual(
       "Reset user password failed. Please try again"
+    );
+  });
+});
+
+describe("should test creating a database", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it("should return error if there is not a username", async () => {
+    const req = {
+      session: {
+        username: null,
+        dbPassword: "Google",
+      },
+    };
+
+    await createDatabase(req, res);
+    return expect(res.json.mock.calls[0][0].error.message).toEqual(
+      "You must be signed in to create a database"
+    );
+  });
+  it("should return error if there is not a password", async () => {
+    const req = {
+      session: {
+        username: "Larry page",
+        dbPassword: null,
+      },
+    };
+
+    await createDatabase(req, res);
+    return expect(res.json.mock.calls[0][0].error.message).toEqual(
+      "You must use your database password to create a database"
+    );
+  });
+  it("should return success if there is a username", async () => {
+    const req = {
+      session: {
+        username: "Larry Page",
+      },
+    };
+
+    pgModule.createPgAccount.mockReturnValue(Promise.resolve());
+
+    db.getModels = () => {
+      return {
+        Accounts: {
+          findOne: () => {
+            return {
+              username: "Larry Page",
+              dbPassword: "Google",
+            };
+          },
+        },
+      };
+    };
+
+    await createDatabase(req, res);
+    return expect(res.json.mock.calls[0][0].success.message).toEqual(
+      "Create Database success"
+    );
+  });
+
+  it("should throw and error if pgModule fails to create database", async () => {
+    const req = {
+      session: {
+        username: "Sergey Brin",
+      },
+    };
+
+    db.getModels = () => {
+      return {
+        Accounts: {
+          findOne: () => {
+            return {
+              username: "Sergey Brin",
+              dbPassword: "Google",
+            };
+          },
+        },
+      };
+    };
+
+    pgModule.createPgAccount.mockReturnValue(
+      Promise.reject("cannot create account")
+    );
+
+    await createDatabase(req, res);
+    return expect(res.json.mock.calls[0][0].error.message).toEqual(
+      "Database creation was not implemented"
     );
   });
 });

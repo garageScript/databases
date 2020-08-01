@@ -1,4 +1,5 @@
 const logger = require("./../../lib/log")(__filename);
+const escape = require("pg-escape");
 const { Client } = require("pg");
 require("dotenv").config();
 
@@ -9,7 +10,7 @@ pgModule.startPGDB = () => {
   client = new Client({
     host: process.env.HOST,
     port: process.env.PORT,
-    user: process.env.USERNAME,
+    user: process.env.PG_USER,
     password: process.env.PASSWORD,
     database: process.env.DATABASE,
   });
@@ -23,12 +24,25 @@ pgModule.closePGDB = () => {
 pgModule.createPgAccount = async (username, password) => {
   if (!username || !password) return;
   try {
-    await client.query(`CREATE DATABASE $1`, [username]);
-    await client.query(`CREATE USER $1 WITH ENCRYPTED password $2`, [
+    // Could not escape user input by using $1 $2
+    //   https://github.com/brianc/node-postgres/issues/539
+
+    const sqlQuery1 = escape(`CREATE DATABASE %s;`, username);
+    const sqlQuery2 = escape(
+      `create user %s with encrypted password %Q`,
       username,
-      password,
-    ]);
-    await client.query(`GRANT ALL PRIVILEGES ON DATABASE $1 TO $1`, [username]);
+      password
+    );
+
+    const sqlQuery3 = escape(
+      `GRANT ALL PRIVILEGES ON DATABASE %s TO %s`,
+      username,
+      username
+    );
+
+    await client.query(sqlQuery1);
+    await client.query(sqlQuery2);
+    await client.query(sqlQuery3);
   } catch (err) {
     logger.error(err);
     throw new Error(`failed to createPgAccount for user: $1`, [username]);

@@ -5,8 +5,10 @@ const {
   resetUserPassword,
   setDBPassword,
 } = require("../../lib/users");
+
 const logger = require("../../lib/log")(__filename);
 const db = require("../../sequelize/db");
+const pgModule = require("../../database/postgres/pg");
 const routes = {};
 
 routes.resetPasswordEmail = async (req, res) => {
@@ -153,6 +155,7 @@ routes.updateDBPassword = async (req, res) => {
 routes.logoutUser = (req, res) => {
   req.session.userid = "";
   req.session.username = "";
+
   logger.info("user logged out");
   return res.status(200).json({
     message: `Logout succeeded`,
@@ -173,6 +176,44 @@ routes.userResetPassword = async (req, res) => {
     return res.status(500).json({
       error: { message: "Reset user password failed. Please try again" },
     });
+  }
+};
+
+routes.createDatabase = async (req, res) => {
+  if (!req.session.username) {
+    logger.info("User must be signed in to create database");
+    return res.status(403).json({
+      error: { message: "You must be signed in to create a database" },
+    });
+  }
+
+  const { Accounts } = db.getModels();
+  const user = await Accounts.findOne({
+    where: { id: req.session.id },
+  });
+
+  const { username, dbPassword } = user;
+
+  if (!dbPassword) {
+    logger.info("User must use password to create database");
+    return res.status(400).json({
+      error: {
+        message: "You must use your database password to create a database",
+      },
+    });
+  }
+
+  try {
+    await pgModule.createPgAccount(username, dbPassword);
+
+    return res
+      .status(200)
+      .json({ success: { message: "Create Database success" } });
+  } catch (err) {
+    logger.error("Error with creating database:", err);
+    return res
+      .status(501)
+      .json({ error: { message: "Database creation was not implemented" } });
   }
 };
 

@@ -50,16 +50,18 @@ describe("Test PG DB", () => {
         await createPgAccount("username", "password");
         expect(mockClient.query).toHaveBeenCalledTimes(3);
         expect(mockClient.query.mock.calls[0]).toEqual([
-          `CREATE DATABASE $1`,
-          ["username"],
+          `CREATE DATABASE username;`,
         ]);
-        expect(mockClient.query.mock.calls[1]).toEqual([
-          `CREATE USER $1 WITH ENCRYPTED password $2`,
-          ["username", "password"],
-        ]);
+
+        const createQueryRegex = new RegExp(
+          /create user username with encrypted password \$.\$password\$.\$/
+        );
+        expect(
+          createQueryRegex.test(mockClient.query.mock.calls[1][0])
+        ).toEqual(true);
+
         expect(mockClient.query.mock.calls[2]).toEqual([
-          `GRANT ALL PRIVILEGES ON DATABASE $1 TO $1`,
-          ["username"],
+          `GRANT ALL PRIVILEGES ON DATABASE username TO username`,
         ]);
       });
       it("it should not execute any queries in createPgAccount if required arguments are not passed in", async () => {
