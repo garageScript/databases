@@ -125,23 +125,6 @@ A graph database management system that is the most papular graph database and t
 
     <p>We collect anonymous analytics using Simple Analytics. View live: <a href=\\"#\\">simpleanalytics.com/learndatabases.dev</a></p>
 
-      <script>
-  const postgres = document.querySelector('.postgres')
-  const mongodb = document.querySelector('.mongodb')
-  const neo4j = document.querySelector('.neo4j')
-
-  postgres.addEventListener('click', () => {
-    location.href = '/postgres'
-  })
-
-  mongodb.addEventListener('click', () => {
-    location.href = '/mongodb'
-  })
-
-  neo4j.addEventListener('click', () => {
-    location.href = '/neo4j'
-  })
-    </script>
   </body>
 </html>
 "
@@ -272,23 +255,6 @@ A graph database management system that is the most papular graph database and t
 
     <p>We collect anonymous analytics using Simple Analytics. View live: <a href=\\"#\\">simpleanalytics.com/learndatabases.dev</a></p>
 
-      <script>
-  const postgres = document.querySelector('.postgres')
-  const mongodb = document.querySelector('.mongodb')
-  const neo4j = document.querySelector('.neo4j')
-
-  postgres.addEventListener('click', () => {
-    location.href = '/postgres'
-  })
-
-  mongodb.addEventListener('click', () => {
-    location.href = '/mongodb'
-  })
-
-  neo4j.addEventListener('click', () => {
-    location.href = '/neo4j'
-  })
-    </script>
   </body>
 </html>
 "
@@ -419,23 +385,6 @@ A graph database management system that is the most papular graph database and t
 
     <p>We collect anonymous analytics using Simple Analytics. View live: <a href=\\"#\\">simpleanalytics.com/learndatabases.dev</a></p>
 
-      <script>
-  const postgres = document.querySelector('.postgres')
-  const mongodb = document.querySelector('.mongodb')
-  const neo4j = document.querySelector('.neo4j')
-
-  postgres.addEventListener('click', () => {
-    location.href = '/postgres'
-  })
-
-  mongodb.addEventListener('click', () => {
-    location.href = '/mongodb'
-  })
-
-  neo4j.addEventListener('click', () => {
-    location.href = '/neo4j'
-  })
-    </script>
   </body>
 </html>
 "
@@ -1067,23 +1016,6 @@ A graph database management system that is the most papular graph database and t
 
     <p>We collect anonymous analytics using Simple Analytics. View live: <a href=\\"#\\">simpleanalytics.com/learndatabases.dev</a></p>
 
-      <script>
-  const postgres = document.querySelector('.postgres')
-  const mongodb = document.querySelector('.mongodb')
-  const neo4j = document.querySelector('.neo4j')
-
-  postgres.addEventListener('click', () => {
-    location.href = '/postgres'
-  })
-
-  mongodb.addEventListener('click', () => {
-    location.href = '/mongodb'
-  })
-
-  neo4j.addEventListener('click', () => {
-    location.href = '/neo4j'
-  })
-    </script>
   </body>
 </html>
 "
