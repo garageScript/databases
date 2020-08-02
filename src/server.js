@@ -47,9 +47,6 @@ const startServer = async (portNumber) => {
     app.get("/signin", (req, res) => {
       res.render("signin", { username: req.session.username });
     });
-    app.get("/setDBpassword", (req, res) => {
-      res.render("setDBpassword", { username: req.session.username });
-    });
     app.get("/signup", (req, res) => {
       res.render("signup", { username: req.session.username });
     });
