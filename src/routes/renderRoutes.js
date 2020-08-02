@@ -32,7 +32,6 @@ routes.landingpage = async (req, res) => {
   }
   res.render("welcome", {
     username: req.session.username,
-    dbPassword: user.dbPassword,
   });
 };
 
