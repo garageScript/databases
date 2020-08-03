@@ -9,7 +9,6 @@ let client;
 pgModule.startPGDB = () => {
   client = new Client({
     host: process.env.HOST,
-    port: process.env.PORT,
     user: process.env.PG_USER,
     password: process.env.PASSWORD,
     database: process.env.DATABASE,
