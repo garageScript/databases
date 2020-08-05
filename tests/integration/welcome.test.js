@@ -49,11 +49,6 @@ describe("test welcome page", () => {
     expect(result).toMatchSnapshot();
   });
 
-  test("should render databases page correctly", async () => {
-    const result = await fetch(baseUrl + "databases").then((r) => r.text());
-    expect(result).toMatchSnapshot();
-  });
-
   test("should render resetPassword page correctly", async () => {
     const result = await fetch(baseUrl + "resetPassword").then((r) => r.text());
     expect(result).toMatchSnapshot();
