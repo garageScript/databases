@@ -1,117 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test welcome page should render databases page correctly 1`] = `
-"<!--views/partials/head.ejs-->
-<meta charset='UTF-8'>
-<!--CSS (load bootstrap from a CDN)-->
-<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
-<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
-<link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
-<style>
-    input {
-        text-align: center;
-        width: 400px;
-        height: 40px;
-        margin: 5px;
-    }
-    button {
-        width: 400px;
-        height: 40px;
-        margin: 10px;
-    }
-    .home {
-        cursor: pointer;
-    }
-    .card {
-        width: 450px;
-        margin: auto;
-    }
-    .card > * {
-        text-align: center;
-    }
-    .subtitle {
-        margin: 10px;
-    }
-    .body {
-        margin: 10px;
-    }
-</style>
-<html lang=\\"en\\">
-  <head>
-    <title>learndatabases.dev</title>
-  </head>
-  <header>
-    <h1 class=\\"home\\">Learn Databases</h1>
-    
-    
-      <p><a href=\\"/signin\\">Login</a> / <a href=\\"/signup\\">Signup</a></p>
-    
-  </header>
-</html>
-<script>
-  const home = document.querySelector('.home')
-  home.addEventListener('click', () => {
-    return location.href = '/'
-  })
-
-  
-</script>
-
-<style>
-    .db-card {
-      border: solid 1px rgb(0,0,0,0);
-      margin-top: 15px;
-      margin-bottom: 15px;
-      padding: 10px;
-      padding-bottom: 20px;
-      border-radius: 5pX;
-      cursor: pointer;
-    }
-    .db-card:hover {
-      border: solid 1px rgb(10, 70, 120);
-    }
-</style>
-
-<main>
-    <div class=\\"card\\">
-        <div class=\\"body\\">
-            <blockquote class=\\"db-card postgres\\">
-              <h3 class=\\"db-title\\">PostgreSQL</h3>
-              <div class=\\"db-discription\\">A relational database management system emphasizing extensibility and technical standards compliance.</div>
-            </blockquote>
-            <blockquote class=\\"db-card mongodb\\">
-              <h3 class=\\"db-title\\">MongoDB</h3>
-              <div class=\\"db-discription\\">An open source database management system that uses a document-oriented database model which supports various forms of data.</div>
-            </blockquote>
-            <blockquote class=\\"db-card neo4j\\">
-              <h3 class=\\"db-title\\">Neo4j</h3>
-              <div class=\\"db-discription\\">A graph database management system that is the most papular graph database and the 22nd most popular database overall.</div>
-            </blockquote>
-        </div>
-        <div class=\\"tale\\">
-        </div>
-    </div>
-</main>
-
-<script>
-    const postgres = document.querySelector('.postgres')
-    const mongodb = document.querySelector('.mongodb')
-    const neo4j = document.querySelector('.neo4j')
-
-    postgres.addEventListener('click', () => {
-      location.href = '/postgres'
-    })
-    mongodb.addEventListener('click', () => {
-      location.href = '/mongodb'
-    })
-    neo4j.addEventListener('click', () => {
-      location.href = '/neo4j'
-    })
-</script>
-
-"
-`;
-
 exports[`test welcome page should render postgres page correctly 1`] = `
 "<!DOCTYPE html>
 <!--views/partials/head.ejs-->
@@ -178,16 +66,17 @@ exports[`test welcome page should render postgres page correctly 1`] = `
     <p>If you don't want to install your own databases, you can use our databases and support us
     by creating an account for $10. (In Progess)</p>
 
-      <blockquote>
-      <p>MongoDB, a NoSQL Database. <a href=\\"#\\">MongoDB</a></p>
+      <blockquote class=\\"db-card postgres\\">
+        <h3 class=\\"db-title\\">PostgreSQL</h3>
+        <p class=\\"db-discription\\">A relational database management system emphasizing extensibility and technical standards compliance.</p>
       </blockquote>
-
-      <blockquote>
-      <p>Postgres, an SQL Database. <a href=\\"#\\">PostGresSQL</a></p>
-      </blockquote> 
-
-      <blockquote>
-      <p>Neo4j, a Graph Database. <a href=\\"#\\">Neo4j</a></p>
+      <blockquote class=\\"db-card mongodb\\">
+        <h3 class=\\"db-title\\">MongoDB</h3>
+        <p class=\\"db-discription\\">An open source database management system using a document-oriented database model that supports various forms of data.<p>
+      </blockquote>
+      <blockquote class=\\"db-card neo4j\\">
+        <h3 class=\\"db-title\\">Neo4j</h3>
+        <p class=\\"db-discription\\">A graph database management system that is the most popular graph database and the 22nd most popular database overall.</p>
       </blockquote>
 
     <p style=\\"text-align:center;\\">Everything we do here is open source. Checkout our github
@@ -205,6 +94,31 @@ exports[`test welcome page should render postgres page correctly 1`] = `
     <p>We collect anonymous analytics using Simple Analytics. View live: <a href=\\"#\\">simpleanalytics.com/learndatabases.dev</a></p>
 
   </body>
+
+  <style>
+    .db-card {
+      cursor: pointer;
+    }
+    .db-card:hover {
+      border-left: solid 5px rgb(10, 70, 120);
+    }
+  </style>
+  <script>
+    const postgres = document.querySelector('.postgres')
+    const mongodb = document.querySelector('.mongodb')
+    const neo4j = document.querySelector('.neo4j')
+
+    postgres.addEventListener('click', () => {
+      location.href = '/postgres'
+    })
+    mongodb.addEventListener('click', () => {
+      location.href = '/mongodb'
+    })
+    neo4j.addEventListener('click', () => {
+      location.href = '/neo4j'
+    })
+  </script>
+
 </html>
 "
 `;
@@ -396,7 +310,7 @@ exports[`test welcome page should render setDBpassword page correctly 1`] = `
                 password:dbPassword.value
             })
         }).then(r=>r.json()).then(r=>{
-            return location.href = '/databases'
+            return location.href = '/'
         })
     })
 </script>
@@ -594,7 +508,7 @@ exports[`test welcome page should render sign in page correctly 1`] = `
         }).then(r => r.json()).then((r) => {
             if (r.error) return alert(r.error.message)
             if (!r.dbPassword) return location.href = '/setDBPassword'
-            return location.href = '/databases'
+            return location.href = '/'
         })
     })
 </script>
@@ -776,16 +690,17 @@ exports[`test welcome page should render welcome page correctly 1`] = `
     <p>If you don't want to install your own databases, you can use our databases and support us
     by creating an account for $10. (In Progess)</p>
 
-      <blockquote>
-      <p>MongoDB, a NoSQL Database. <a href=\\"#\\">MongoDB</a></p>
+      <blockquote class=\\"db-card postgres\\">
+        <h3 class=\\"db-title\\">PostgreSQL</h3>
+        <p class=\\"db-discription\\">A relational database management system emphasizing extensibility and technical standards compliance.</p>
       </blockquote>
-
-      <blockquote>
-      <p>Postgres, an SQL Database. <a href=\\"#\\">PostGresSQL</a></p>
-      </blockquote> 
-
-      <blockquote>
-      <p>Neo4j, a Graph Database. <a href=\\"#\\">Neo4j</a></p>
+      <blockquote class=\\"db-card mongodb\\">
+        <h3 class=\\"db-title\\">MongoDB</h3>
+        <p class=\\"db-discription\\">An open source database management system using a document-oriented database model that supports various forms of data.<p>
+      </blockquote>
+      <blockquote class=\\"db-card neo4j\\">
+        <h3 class=\\"db-title\\">Neo4j</h3>
+        <p class=\\"db-discription\\">A graph database management system that is the most popular graph database and the 22nd most popular database overall.</p>
       </blockquote>
 
     <p style=\\"text-align:center;\\">Everything we do here is open source. Checkout our github
@@ -803,6 +718,31 @@ exports[`test welcome page should render welcome page correctly 1`] = `
     <p>We collect anonymous analytics using Simple Analytics. View live: <a href=\\"#\\">simpleanalytics.com/learndatabases.dev</a></p>
 
   </body>
+
+  <style>
+    .db-card {
+      cursor: pointer;
+    }
+    .db-card:hover {
+      border-left: solid 5px rgb(10, 70, 120);
+    }
+  </style>
+  <script>
+    const postgres = document.querySelector('.postgres')
+    const mongodb = document.querySelector('.mongodb')
+    const neo4j = document.querySelector('.neo4j')
+
+    postgres.addEventListener('click', () => {
+      location.href = '/postgres'
+    })
+    mongodb.addEventListener('click', () => {
+      location.href = '/mongodb'
+    })
+    neo4j.addEventListener('click', () => {
+      location.href = '/neo4j'
+    })
+  </script>
+
 </html>
 "
 `;
