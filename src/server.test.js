@@ -95,16 +95,10 @@ describe("Testing render routes", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
- 
+
   test("should call render router functions", async () => {
     await startServer();
-    await app.get.mock.calls[7][1]();
+    await app.get.mock.calls[6][1]();
     expect(renderRoutes.postgres).toHaveBeenCalled();
   });
-  test("should call render router functions", async () => {
-    await startServer();
-    await app.get.mock.calls[0][1]();
-    expect(renderRoutes.landingpage).toHaveBeenCalled();
-  });
-
 });

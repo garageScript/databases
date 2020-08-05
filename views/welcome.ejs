@@ -8,16 +8,17 @@
     <p>If you don't want to install your own databases, you can use our databases and support us
     by creating an account for $10. (In Progess)</p>
 
-      <blockquote>
-      <p>MongoDB, a NoSQL Database. <a href="#">MongoDB</a></p>
+      <blockquote class="db-card postgres">
+        <h3 class="db-title">PostgreSQL</h3>
+        <p class="db-discription">A relational database management system emphasizing extensibility and technical standards compliance.</p>
       </blockquote>
-
-      <blockquote>
-      <p>Postgres, an SQL Database. <a href="#">PostGresSQL</a></p>
-      </blockquote> 
-
-      <blockquote>
-      <p>Neo4j, a Graph Database. <a href="#">Neo4j</a></p>
+      <blockquote class="db-card mongodb">
+        <h3 class="db-title">MongoDB</h3>
+        <p class="db-discription">An open source database management system that uses a document-oriented database model which supports various forms of data.<p>
+      </blockquote>
+      <blockquote class="db-card neo4j">
+        <h3 class="db-title">Neo4j</h3>
+        <p class="db-discription">A graph database management system that is the most papular graph database and the 22nd most popular database overall.</p>
       </blockquote>
 
     <p style="text-align:center;">Everything we do here is open source. Checkout our github
@@ -35,4 +36,29 @@
     <p>We collect anonymous analytics using Simple Analytics. View live: <a href="#">simpleanalytics.com/learndatabases.dev</a></p>
 
   </body>
+
+  <style>
+    .db-card {
+      cursor: pointer;
+    }
+    .db-card:hover {
+      border-left: solid 5px rgb(10, 70, 120);
+    }
+  </style>
+  <script>
+    const postgres = document.querySelector('.postgres')
+    const mongodb = document.querySelector('.mongodb')
+    const neo4j = document.querySelector('.neo4j')
+
+    postgres.addEventListener('click', () => {
+      location.href = '/postgres'
+    })
+    mongodb.addEventListener('click', () => {
+      location.href = '/mongodb'
+    })
+    neo4j.addEventListener('click', () => {
+      location.href = '/neo4j'
+    })
+  </script>
+
 </html>
