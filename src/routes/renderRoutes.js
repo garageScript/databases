@@ -2,7 +2,7 @@ const db = require("../../sequelize/db");
 const routes = {};
 
 routes.postgres = async (req, res) => {
-  if (!req.session.username) return res.redirect("/");
+  if (!req.session.email) return res.redirect("/");
   const { Accounts } = db.getModels();
   const userAccount = await Accounts.findOne({
     where: {
