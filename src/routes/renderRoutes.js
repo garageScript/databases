@@ -10,7 +10,7 @@ routes.postgres = async (req, res) => {
     },
   });
   res.render("postgres", {
-    username: req.session.username,
+    email: req.session.email,
     dbPassword: userAccount.dbPassword,
   });
 };
