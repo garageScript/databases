@@ -3,7 +3,7 @@
     <div class="card">
         <div class="body">
             <h3 class="subtitle">Please log in</h3>
-            <input class="username" placeholder="Username" /><br>
+            <input class="email" placeholder="Email" /><br>
             <input class="password" placeholder="Password" type="password"/>
             <button class="submit">Submit</button>
         </div>
@@ -15,7 +15,7 @@
 </main>
 
 <script>
-    const username = document.querySelector('.username')
+    const email = document.querySelector('.email')
     const password = document.querySelector('.password')
     const submit = document.querySelector('.submit')
 
@@ -26,7 +26,7 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                username: username.value.toLowerCase(),
+                email: email.value.toLowerCase(),
                 password: password.value
             })
         }).then(r => r.json()).then((r) => {

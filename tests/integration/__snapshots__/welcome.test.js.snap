@@ -184,7 +184,7 @@ exports[`test welcome page should render resetPassword page correctly 1`] = `
     <div class=\\"card\\">
         <div class=\\"body\\">
             <h3 class=\\"subtitle\\">Reset your password</h3>
-            <input class=\\"username\\" placeholder=\\"Username or Email\\" /><br>
+            <input class=\\"email\\" placeholder=\\"Email\\" /><br>
             <button class=\\"submit\\">Submit</button>
         </div>
         <div class=\\"tale\\">
@@ -195,17 +195,7 @@ exports[`test welcome page should render resetPassword page correctly 1`] = `
 
 <script>
   const submit = document.querySelector('.submit');
-  const username = document.querySelector('.username');
-  
-  const getBody = (value) => {
-    const body = {}
-    if (value.includes(\\"@\\")) {
-      body.email = value
-      return body
-    }
-    body.username = value
-    return body
-  }
+  const email = document.querySelector('.email');
 
   submit.addEventListener('click', () => {
     fetch('/api/notifications', {
@@ -213,15 +203,14 @@ exports[`test welcome page should render resetPassword page correctly 1`] = `
       headers: {
         'content-type': 'application/json'
       },
-      body: JSON.stringify(getBody(username.value))
+      body: JSON.stringify({
+        email: email.value
+      })
     }).then(r => r.json()).then((r) => {
       if (r.error) {
         alert(r.error.message)
       } else {
-        alert(\`username: \${r.username}
-email: \${r.email}
-
-Check your email and set your password\`)
+        alert(\\"Check your email and set your password\\")
         return location.href = '/signin'
       }
     })
@@ -479,7 +468,7 @@ exports[`test welcome page should render sign in page correctly 1`] = `
     <div class=\\"card\\">
         <div class=\\"body\\">
             <h3 class=\\"subtitle\\">Please log in</h3>
-            <input class=\\"username\\" placeholder=\\"Username\\" /><br>
+            <input class=\\"email\\" placeholder=\\"Email\\" /><br>
             <input class=\\"password\\" placeholder=\\"Password\\" type=\\"password\\"/>
             <button class=\\"submit\\">Submit</button>
         </div>
@@ -491,7 +480,7 @@ exports[`test welcome page should render sign in page correctly 1`] = `
 </main>
 
 <script>
-    const username = document.querySelector('.username')
+    const email = document.querySelector('.email')
     const password = document.querySelector('.password')
     const submit = document.querySelector('.submit')
 
@@ -502,7 +491,7 @@ exports[`test welcome page should render sign in page correctly 1`] = `
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                username: username.value.toLowerCase(),
+                email: email.value.toLowerCase(),
                 password: password.value
             })
         }).then(r => r.json()).then((r) => {
@@ -582,12 +571,6 @@ exports[`test welcome page should render sign up page correctly 1`] = `
       placeholder=\\"Email Address\\"
       required
       />
-    <input
-      class=\\"username\\"
-      type=\\"text\\"
-      placeholder=\\"Username\\"
-      required
-      />
     <button class=\\"submit\\">Create Account</button>
   </div>
   <div class=\\"tale\\">
@@ -597,7 +580,6 @@ exports[`test welcome page should render sign up page correctly 1`] = `
 <script>
   const submit = document.querySelector('.submit');
   const check = document.querySelector('.check');
-  const username = document.querySelector('.username')
   const email = document.querySelector('.email')
 
   submit.addEventListener('click', () => {
@@ -607,7 +589,6 @@ exports[`test welcome page should render sign up page correctly 1`] = `
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username: username.value.toLowerCase(),
         email: email.value.toLowerCase()
       })
     }).then(r => r.json()).then((res) => {
