@@ -25,7 +25,7 @@ describe("Testing postgres router", () => {
     expect(mockResponse.redirect).toHaveBeenCalled();
   });
   test("postgres function should call res.render if session user is found", async () => {
-    mockRequest.session.username = "testuser";
+    mockRequest.session.email = "em@i.l";
     mockRequest.session.userid = 99999999;
     const userAccount = {
       dbPassword: "testdbpw",
