@@ -39,10 +39,10 @@
   </head>
   <header>
     <h1 class="home">Learn Databases</h1>
-    <% if (username) { %>
-      <p>Welcome <%= username %>! <a class="logout" href="#">Logout</a></p>
+    <% if (email) { %>
+      <p>Welcome <%= email %>! <a class="logout" href="#">Logout</a></p>
     <% } %>
-    <% if (!username) { %>
+    <% if (!email) { %>
       <p><a href="/signin">Login</a> / <a href="/signup">Signup</a></p>
     <% } %>
   </header>
@@ -53,7 +53,7 @@
     return location.href = '/'
   })
 
-  <% if (username) { %>
+  <% if (email) { %>
   const logout = document.querySelector('.logout')
   logout.addEventListener('click', () => {
     fetch("/api/session", {

@@ -13,16 +13,10 @@ const routes = {};
 
 routes.resetPasswordEmail = async (req, res) => {
   const email = req.body.email;
-  const username = req.body.username;
-  if (!email && !username) {
+  if (!email) {
     return res.status(400).json({ error: { message: "invalid input" } });
   }
-  const query = { where: {} };
-  if (email) {
-    query.where.email = email;
-  } else {
-    query.where.username = username;
-  }
+  const query = { where: { email: email } };
   const { Accounts } = db.getModels();
   const userAccount = await Accounts.findOne(query);
   if (!userAccount) {
@@ -47,15 +41,14 @@ routes.resetPasswordEmail = async (req, res) => {
 
 routes.createUser = async (req, res) => {
   const userInfo = {
-    username: req.body.username,
     email: req.body.email,
   };
   try {
     const account = await signUp(userInfo);
-    logger.info("Succeded creating user account", userInfo.username);
+    logger.info("Succeded creating user account", userInfo.email);
     return res.status(200).json({ ...account.dataValues });
   } catch (err) {
-    logger.error("Creating user failed", userInfo.username, err);
+    logger.error("Creating user failed", userInfo.email, err);
     return res.status(400).json({ error: { message: err.message } });
   }
 };
@@ -101,15 +94,14 @@ routes.deleteUser = async (req, res) => {
 
 routes.loginUser = async (req, res) => {
   const userInfo = {
-    username: req.body.username,
-    password: req.body.password,
     email: req.body.email,
+    password: req.body.password,
   };
   try {
     const account = await logIn(userInfo);
     req.session.userid = account.id;
-    req.session.username = account.username;
-    logger.info("Logged in", account.username);
+    req.session.email = account.email;
+    logger.info("Logged in", account.email);
     return res.status(200).json({ ...account.dataValues, password: null });
   } catch (err) {
     logger.info(err);
@@ -125,7 +117,7 @@ routes.updateDBPassword = async (req, res) => {
     logger.info("invalid input");
     return res
       .status(400)
-      .json({ error: { message: "invalid input of username and password" } });
+      .json({ error: { message: "invalid input of email and password" } });
   }
   const { Accounts } = db.getModels();
   const userAccount = await Accounts.findOne({
@@ -154,7 +146,7 @@ routes.updateDBPassword = async (req, res) => {
 
 routes.logoutUser = (req, res) => {
   req.session.userid = "";
-  req.session.username = "";
+  req.session.email = "";
 
   logger.info("user logged out");
   return res.status(200).json({
@@ -168,7 +160,7 @@ routes.userResetPassword = async (req, res) => {
 
   try {
     const account = await resetUserPassword(token, password);
-    logger.info("User password reset for", account.username);
+    logger.info("User password reset for", account.email);
     req.session.userid = account.id;
     return res.status(200).json({ ...account.dataValues, password: null });
   } catch (err) {
@@ -180,7 +172,7 @@ routes.userResetPassword = async (req, res) => {
 };
 
 routes.createDatabase = async (req, res) => {
-  if (!req.session.username) {
+  if (!req.session.email) {
     logger.info("User must be signed in to create database");
     return res.status(403).json({
       error: { message: "You must be signed in to create a database" },
@@ -192,7 +184,7 @@ routes.createDatabase = async (req, res) => {
     where: { id: req.session.id },
   });
 
-  const { username, dbPassword } = user;
+  const { email, dbPassword } = user;
 
   if (!dbPassword) {
     logger.info("User must use password to create database");
@@ -204,7 +196,7 @@ routes.createDatabase = async (req, res) => {
   }
 
   try {
-    await pgModule.createPgAccount(username, dbPassword);
+    await pgModule.createPgAccount(email, dbPassword);
 
     return res
       .status(200)

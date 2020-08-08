@@ -47,7 +47,7 @@ describe("Testing resetPasswordEmail function", () => {
     jest.clearAllMocks();
   });
 
-  test("should send 400 error if req body does not have email or username", async () => {
+  test("should send 400 error if req body does not have email", async () => {
     const req = {
       body: {},
     };
@@ -63,20 +63,6 @@ describe("Testing resetPasswordEmail function", () => {
     const req = {
       body: {
         email: "hello@world.com",
-      },
-    };
-
-    await resetPasswordEmail(req, res);
-    expect(res.status.mock.calls[0][0]).toEqual(400);
-    expect(res.json.mock.calls[0][0]).toEqual({
-      error: { message: "Account does not exist" },
-    });
-  });
-
-  test("Should send 400 error if user account does not exist with provided username", async () => {
-    const req = {
-      body: {
-        username: "noexist",
       },
     };
 
@@ -152,7 +138,6 @@ describe("Testing createUser function", () => {
     });
     const req = {
       body: {
-        username: "username",
         email: "em@i.l",
       },
     };
@@ -170,7 +155,6 @@ describe("Testing createUser function", () => {
     });
     const req = {
       body: {
-        username: "username",
         email: "em@i.l",
       },
     };
@@ -211,7 +195,7 @@ describe("Testing deleteUser function", () => {
       session: { userid: 99999998 },
     };
     mockFindOne.mockReturnValue({
-      username: "testuserB",
+      email: "em@i.l",
     });
     await deleteUser(req, res);
     expect(res.status.mock.calls[0][0]).toEqual(403);
@@ -239,10 +223,10 @@ describe("Testing deleteUser function", () => {
   it("should send error if delete user fails", async () => {
     const req = {
       params: { id: 99999999 },
-      session: { username: "testuserA" },
+      session: { email: "em@i.l" },
     };
     mockFindOne.mockReturnValue({
-      username: "testuserA",
+      email: "em@i.l",
       destroy: () => {
         throw new Error("Error");
       },
@@ -267,7 +251,7 @@ describe("testing upDBPassword function", () => {
     await updateDBPassword(req, res);
     expect(res.status.mock.calls[0][0]).toEqual(400);
     expect(res.json.mock.calls[0][0].error.message).toEqual(
-      "invalid input of username and password"
+      "invalid input of email and password"
     );
   });
   it("should send 400 error if user account does not exist", async () => {
@@ -284,7 +268,7 @@ describe("testing upDBPassword function", () => {
   });
   it("should send 200 success and update user password", async () => {
     const userAccount = {
-      username: 99999999,
+      email: "em@i.l",
     };
     mockFindOne.mockReturnValue(userAccount);
     const req = {
@@ -306,7 +290,7 @@ describe("testing upDBPassword function", () => {
 
   it("should send 500 error if password update failed", async () => {
     const userAccount = {
-      username: "testname",
+      email: "em@i.l",
     };
     mockFindOne.mockReturnValue(userAccount);
     const req = {
@@ -334,7 +318,6 @@ describe("testing loginUser function", () => {
     });
     const req = {
       body: {
-        username: "username",
         email: "em@i.l",
         password: "1q2w3e4r",
       },
@@ -348,16 +331,15 @@ describe("testing loginUser function", () => {
   it("should login user", async () => {
     logIn.mockImplementation(() => {
       return {
-        username: "username",
+        email: "em@i.l",
         dataValues: {
-          username: "username",
+          email: "em@i.l",
           password: "iehpuf6712hifsd1",
         },
       };
     });
     const req = {
       body: {
-        username: "username",
         email: "em@i.l",
         password: "1q2w3e4r",
       },
@@ -365,7 +347,7 @@ describe("testing loginUser function", () => {
     };
     await loginUser(req, res);
     expect(res.status.mock.calls[0][0]).toEqual(200);
-    return expect(res.json.mock.calls[0][0].username).toEqual("username");
+    return expect(res.json.mock.calls[0][0].email).toEqual("em@i.l");
   });
 });
 
@@ -383,14 +365,14 @@ describe("testing userResetPassword", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  it("should return username if success", async () => {
+  it("should return email if success", async () => {
     const userInfo = {
       id: 2,
-      username: "testuser",
+      email: "em@i.l",
       password: "hello",
       dataValues: {
         id: 2,
-        username: "testuser",
+        email: "em@i.l",
         password: "hello",
       },
     };
@@ -403,7 +385,7 @@ describe("testing userResetPassword", () => {
         password: "testPassword",
       },
       session: {
-        username: "testuser",
+        email: "em@i.l",
       },
     };
 
@@ -411,7 +393,7 @@ describe("testing userResetPassword", () => {
     return expect(res.json.mock.calls[0][0]).toEqual({
       password: null,
       id: 2,
-      username: "testuser",
+      email: "em@i.l",
     });
   });
   it("should return error if reset user password fails", async () => {
@@ -441,10 +423,10 @@ describe("should test creating a database", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  it("should return error if there is not a username", async () => {
+  it("should return error if there is not a email", async () => {
     const req = {
       session: {
-        username: null,
+        email: null,
         dbPassword: "Google",
       },
     };
@@ -457,7 +439,7 @@ describe("should test creating a database", () => {
   it("should return error if there is not a password", async () => {
     const req = {
       session: {
-        username: "Larry page",
+        email: "testm@i.l",
         dbPassword: null,
       },
     };
@@ -467,10 +449,10 @@ describe("should test creating a database", () => {
       "You must use your database password to create a database"
     );
   });
-  it("should return success if there is a username", async () => {
+  it("should return success if there is a email", async () => {
     const req = {
       session: {
-        username: "Larry Page",
+        email: "testm@i.l",
       },
     };
 
@@ -481,7 +463,7 @@ describe("should test creating a database", () => {
         Accounts: {
           findOne: () => {
             return {
-              username: "Larry Page",
+              email: "testm@i.l",
               dbPassword: "Google",
             };
           },
@@ -498,7 +480,7 @@ describe("should test creating a database", () => {
   it("should throw and error if pgModule fails to create database", async () => {
     const req = {
       session: {
-        username: "Sergey Brin",
+        email: "testm@i.l",
       },
     };
 
@@ -507,7 +489,7 @@ describe("should test creating a database", () => {
         Accounts: {
           findOne: () => {
             return {
-              username: "Sergey Brin",
+              email: "testm@i.l",
               dbPassword: "Google",
             };
           },

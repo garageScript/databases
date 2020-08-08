@@ -8,12 +8,6 @@
       placeholder="Email Address"
       required
       />
-    <input
-      class="username"
-      type="text"
-      placeholder="Username"
-      required
-      />
     <button class="submit">Create Account</button>
   </div>
   <div class="tale">
@@ -23,7 +17,6 @@
 <script>
   const submit = document.querySelector('.submit');
   const check = document.querySelector('.check');
-  const username = document.querySelector('.username')
   const email = document.querySelector('.email')
 
   submit.addEventListener('click', () => {
@@ -33,7 +26,6 @@
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username: username.value.toLowerCase(),
         email: email.value.toLowerCase()
       })
     }).then(r => r.json()).then((res) => {
