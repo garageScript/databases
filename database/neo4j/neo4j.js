@@ -11,7 +11,7 @@ neo4jModule.startNeo4j = () => {
 }
 
 neo4jModule.closeNeo4j = async () => {
-  return await driver.close()
+  await driver.close()
 }
 
 module.exports = neo4jModule
