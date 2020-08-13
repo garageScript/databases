@@ -1,10 +1,19 @@
-let { closeNeo4j } = require('./neo4j')
+const { startNeo4j, closeNeo4j } = require('./neo4j')
+const neo4j = require('neo4j-driver')
 
 describe('Neo4j database', () => {
-	closeNeo4j = jest.fn().mockReturnValue(Promise.resolve())
-	let driver.close = jest.fn().mockReturnValue(1)
-  it('it should call end when closing neo4j', async () => {
-    await closeNeo4j()
-    expect(closeNeo4j).toHaveBeenCalledTimes(1)
+  //needed for startNeo4j
+  neo4j.driver = jest.fn().mockReturnValue({})
+
+  //needed for closeNeo4j
+  const driver = neo4j.driver()
+
+  beforeEach(startNeo4j)
+
+  driver.close = jest.fn().mockReturnValue(Promise.resolve())
+
+  test('Should resolve when closeNeo4j is called', async () => {
+    const res = await closeNeo4j()
+    expect(res).resolves
   })
 })
