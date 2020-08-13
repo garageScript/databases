@@ -1,6 +1,6 @@
 const neo4j = require('neo4j-driver')
 let driver
-// require('dotenv').config()
+require('dotenv').config()
 const neo4jModule = {}
 
 neo4jModule.startNeo4j = () => {
@@ -8,7 +8,6 @@ neo4jModule.startNeo4j = () => {
     'neo4j://104.168.169.204',
     neo4j.auth.basic('neo4j', 'neo4j')
   )
-  console.log(driver + 'LOL')
 }
 
 neo4jModule.closeNeo4j = async () => {
