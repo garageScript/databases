@@ -1,6 +1,7 @@
 const neo4j = require('neo4j-driver')
-let driver
 require('dotenv').config()
+
+let driver
 const neo4jModule = {}
 
 neo4jModule.startNeo4j = () => {
