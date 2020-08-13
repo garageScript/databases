@@ -1,5 +1,6 @@
+jest.mock('neo4j-driver')
 const { startNeo4j, closeNeo4j } = require('./neo4j')
-const neo4j = {}
+const neo4j = require('neo4j-driver')
 
 //needed for startNeo4j
 neo4j.driver = jest.fn().mockReturnValue({})
@@ -12,11 +13,11 @@ describe('Neo4j database', () => {
   /*
 	startNeo4j initializes the `driver` variable with a value,
 	so it must always be called before running any neo4j related tests.
-	*/
+  */
   beforeEach(startNeo4j)
 
   test('Should resolve when closeNeo4j is called', async () => {
-    const res = await closeNeo4j()
-    expect(res).resolves
+    await closeNeo4j()
+    expect(driver.close).toHaveBeenCalledTimes(1)
   })
 })
