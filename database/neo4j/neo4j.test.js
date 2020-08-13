@@ -3,11 +3,12 @@ const { startNeo4j, closeNeo4j } = require('./neo4j')
 const neo4j = require('neo4j-driver')
 
 // needed for startNeo4j
-neo4j.driver = jest.fn().mockReturnValue({})
+neo4j.driver = jest.fn().mockReturnValue({
+  close: jest.fn().mockReturnValue(Promise.resolve()),
+})
 
 // driver and driver.close needed for closeNeo4j
 const driver = neo4j.driver()
-driver.close = jest.fn().mockReturnValue(Promise.resolve())
 
 describe('Neo4j database', () => {
   /*
