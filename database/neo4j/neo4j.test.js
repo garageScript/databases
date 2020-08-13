@@ -16,7 +16,7 @@ describe('Neo4j database', () => {
   */
   beforeEach(startNeo4j)
 
-  test('Should resolve when closeNeo4j is called', async () => {
+  test('Should call driver.close when closeNeo4j is called', async () => {
     await closeNeo4j()
     expect(driver.close).toHaveBeenCalledTimes(1)
   })
