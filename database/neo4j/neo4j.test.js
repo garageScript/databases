@@ -2,7 +2,7 @@ jest.mock('neo4j-driver')
 const { startNeo4j, closeNeo4j } = require('./neo4j')
 const neo4j = require('neo4j-driver')
 
-//needed for startNeo4j
+// needed for startNeo4j
 neo4j.driver = jest.fn().mockReturnValue({})
 
 // driver and driver.close needed for closeNeo4j
