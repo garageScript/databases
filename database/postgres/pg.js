@@ -22,21 +22,22 @@ pgModule.closePGDB = () => {
 
 pgModule.createPgAccount = async (username, password) => {
   if (!username || !password) return;
+  const usernameAlphabetical = username.replace("@", "").replace(".", "");
   try {
     // Could not escape user input by using $1 $2
     //   https://github.com/brianc/node-postgres/issues/539
 
-    const sqlQuery1 = escape(`CREATE DATABASE %s;`, username);
+    const sqlQuery1 = escape(`CREATE DATABASE %s;`, usernameAlphabetical);
     const sqlQuery2 = escape(
       `create user %s with encrypted password %Q`,
-      username,
+      usernameAlphabetical,
       password
     );
 
     const sqlQuery3 = escape(
       `GRANT ALL PRIVILEGES ON DATABASE %s TO %s`,
-      username,
-      username
+      usernameAlphabetical,
+      usernameAlphabetical
     );
 
     await client.query(sqlQuery1);
@@ -44,19 +45,22 @@ pgModule.createPgAccount = async (username, password) => {
     await client.query(sqlQuery3);
   } catch (err) {
     logger.error(err);
-    throw new Error(`failed to createPgAccount for user: $1`, [username]);
+    throw new Error(`failed to createPgAccount for user: $1`, [
+      usernameAlphabetical,
+    ]);
   }
 };
 
 pgModule.deletePgAccount = async (username) => {
   if (!username) return;
+  const usernameAlphabetical = username.replace("@", "").replace(".", "");
   try {
-    await client.query(`DROP DATABASE IF EXISTS $1`, [username]);
-    await client.query(`DROP USER IF EXISTS $1`, [username]);
+    await client.query(`DROP DATABASE IF EXISTS $1`, [usernameAlphabetical]);
+    await client.query(`DROP USER IF EXISTS $1`, [usernameAlphabetical]);
   } catch (err) {
     logger.error(err);
     throw new Error(`failed to deletePgAccount for database and user: $1`, [
-      username,
+      usernameAlphabetical,
     ]);
   }
 };
