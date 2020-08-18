@@ -181,7 +181,7 @@ routes.createDatabase = async (req, res) => {
 
   const { Accounts } = db.getModels();
   const user = await Accounts.findOne({
-    where: { id: req.session.id },
+    where: { id: req.session.userid },
   });
 
   const { email, dbPassword } = user;
