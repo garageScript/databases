@@ -384,17 +384,18 @@ describe("testing userResetPassword", () => {
         token: userInfo,
         password: "testPassword",
       },
-      session: {
-        email: "em@i.l",
-      },
+      session: {},
     };
 
     await userResetPassword(req, res);
-    return expect(res.json.mock.calls[0][0]).toEqual({
+    expect(req.session.userid).toEqual(userInfo.id);
+    expect(req.session.email).toEqual(userInfo.email);
+    expect(res.json.mock.calls[0][0]).toEqual({
       password: null,
       id: 2,
       email: "em@i.l",
     });
+    return;
   });
   it("should return error if reset user password fails", async () => {
     const userInfo = {
