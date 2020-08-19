@@ -185,7 +185,7 @@ routes.createDatabase = async (req, res) => {
     where: { id: req.session.userid },
   });
 
-  const { email, dbPassword } = user;
+  const { username, dbPassword } = user;
 
   if (!dbPassword) {
     logger.info("User must use password to create database");
@@ -197,7 +197,7 @@ routes.createDatabase = async (req, res) => {
   }
 
   try {
-    await pgModule.createPgAccount(email, dbPassword);
+    await pgModule.createPgAccount(username, dbPassword);
 
     return res
       .status(200)
