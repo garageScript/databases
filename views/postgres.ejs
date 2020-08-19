@@ -4,10 +4,10 @@
 <script>
   const content = document.getElementById("content")
   fetch('/lessons/postgres.md').then(r => r.text()).then((r) => {
-    const email = "<%= email %>"
+    const username = "<%= username %>"
     const dbPassword = "<%= dbPassword %>"
     const markedHTML = marked(r)
-    const markedHTMLwithUserData = markedHTML.replace(/@email/gi, email).replace(/@dbPassword/gi,dbPassword)
+    const markedHTMLwithUserData = markedHTML.replace(/@username/gi, username).replace(/@dbPassword/gi,dbPassword)
     content.innerHTML = markedHTMLwithUserData
   })
   const createDb = () => {
