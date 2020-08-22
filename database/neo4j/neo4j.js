@@ -4,9 +4,9 @@ require("dotenv").config();
 let driver;
 const neo4jModule = {};
 
-neo4jModule.startNeo4j = () => {
+neo4jModule.startNeo4j = async () => {
   driver = neo4j.driver(
-    "neo4j://104.168.169.204",
+    process.env.NEO4J_URL,
     neo4j.auth.basic(process.env.NEO4J_USER, process.env.NEO4J_PASSWORD)
   );
 };
