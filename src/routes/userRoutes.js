@@ -3,7 +3,6 @@ const {
   signUp,
   logIn,
   resetUserPassword,
-  setDBPassword,
 } = require("../../lib/users");
 
 const logger = require("../../lib/log")(__filename);
@@ -110,39 +109,6 @@ routes.loginUser = async (req, res) => {
       .json({ error: { message: "Login user failed. Please try again" } });
   }
 };
-routes.updateDBPassword = async (req, res) => {
-  const id = req.session.userid;
-  const password = req.body.password;
-  if (!id || !password) {
-    logger.info("invalid input");
-    return res
-      .status(400)
-      .json({ error: { message: "invalid input of email and password" } });
-  }
-  const { Accounts } = db.getModels();
-  const userAccount = await Accounts.findOne({
-    where: {
-      id: id,
-    },
-  });
-  if (!userAccount) {
-    logger.info(`account does not exist`);
-    res.status(400).json({ error: { message: "account does not exist" } });
-    return;
-  }
-  try {
-    const updatedAccount = await setDBPassword(userAccount, password);
-    logger.info(`user ${userAccount.id} updates password`);
-    return res
-      .status(200)
-      .json({ ...updatedAccount.dataValues, password: null });
-  } catch (err) {
-    logger.error("Password update failed. Please try again", id, err);
-    return res
-      .status(500)
-      .json({ error: { message: "Password update failed. Please try again" } });
-  }
-};
 
 routes.logoutUser = (req, res) => {
   req.session.userid = "";
@@ -162,6 +128,7 @@ routes.userResetPassword = async (req, res) => {
     const account = await resetUserPassword(token, password);
     logger.info("User password reset for", account.email);
     req.session.userid = account.id;
+    req.session.email = account.email;
     return res.status(200).json({ ...account.dataValues, password: null });
   } catch (err) {
     logger.error("user reset password error:", err);
@@ -184,7 +151,7 @@ routes.createDatabase = async (req, res) => {
     where: { id: req.session.userid },
   });
 
-  const { email, dbPassword } = user;
+  const { username, dbPassword } = user;
 
   if (!dbPassword) {
     logger.info("User must use password to create database");
@@ -196,7 +163,7 @@ routes.createDatabase = async (req, res) => {
   }
 
   try {
-    await pgModule.createPgAccount(email, dbPassword);
+    await pgModule.createPgAccount(username, dbPassword);
 
     return res
       .status(200)

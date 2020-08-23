@@ -1,7 +1,7 @@
 # 0 Credentials
 ```
 hostname: 165.227.55.105
-username: @email
+username: @username
 password: @dbPassword
 ```
 
@@ -25,7 +25,7 @@ const startApp = async () => {
   client = new Client({
     host: '165.227.55.105',
     port: 5432,
-    user: '@email',
+    user: '@username',
     password: '@dbPassword',
     database: 'db_example'
   })
