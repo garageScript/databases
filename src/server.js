@@ -10,7 +10,6 @@ const {
   loginUser,
   logoutUser,
   userResetPassword,
-  updateDBPassword,
   createDatabase,
 } = require("./routes/userRoutes");
 const { postgres } = require("./routes/renderRoutes");
@@ -53,9 +52,6 @@ const startServer = async (portNumber) => {
     app.get("/signin", (req, res) => {
       res.render("signin", { email: req.session.email });
     });
-    app.get("/setDBpassword", (req, res) => {
-      res.render("setDBpassword", { email: req.session.email });
-    });
     app.get("/signup", (req, res) => {
       res.render("signup", { email: req.session.email });
     });
@@ -68,7 +64,6 @@ const startServer = async (portNumber) => {
     app.get("/postgres", postgres);
     app.post("/api/notifications", resetPasswordEmail);
     app.post("/api/users", createUser);
-    app.patch("/api/users/:id", updateDBPassword);
     app.delete("/api/users/:id", deleteUser);
     app.post("/api/session", loginUser);
     app.delete("/api/session", logoutUser);

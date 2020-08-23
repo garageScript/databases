@@ -1,15 +1,19 @@
 <%- include("./partials/head") %>
-<div class="content1">
-  <h1 id="0-credentials">0 Credentials</h1>
-  <pre><code>hostname: 165.227.55.105
-username: <%= email %>
-password: <%= dbPassword %></code></pre>
-</div>
-<div class="content2"></div>
+<div id="content"></div>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
-  const content2 = document.querySelector(".content2")
+  const content = document.getElementById("content")
   fetch('/lessons/postgres.md').then(r => r.text()).then((r) => {
-    content2.innerHTML = marked(r)
+    const username = "<%= username %>"
+    const dbPassword = "<%= dbPassword %>"
+    const markedHTML = marked(r)
+    const markedHTMLwithUserData = markedHTML.replace(/@username/gi, username).replace(/@dbPassword/gi,dbPassword)
+    content.innerHTML = markedHTMLwithUserData
   })
+  const createDb = () => {
+    fetch('/api/createDatabase', { method: "POST" }).then(r => r.json()).then((r) => {
+      if (r.error) return alert(r.error.message)
+      return alert(r.success.message)
+    }) 
+  }
 </script>

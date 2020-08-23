@@ -74,8 +74,6 @@ describe("Testing user routes", () => {
   });
   test("should call user router functions", async () => {
     await startServer();
-    await app.patch.mock.calls[0][1]();
-    expect(userRoutes.updateDBPassword).toHaveBeenCalled();
     await app.post.mock.calls[0][1]();
     expect(userRoutes.resetPasswordEmail).toHaveBeenCalled();
     await app.post.mock.calls[1][1]();
@@ -98,7 +96,7 @@ describe("Testing render routes", () => {
 
   test("should call render router functions", async () => {
     await startServer();
-    await app.get.mock.calls[6][1]();
+    await app.get.mock.calls[5][1]();
     expect(renderRoutes.postgres).toHaveBeenCalled();
   });
 });
