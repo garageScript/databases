@@ -65,4 +65,22 @@ pgModule.deletePgAccount = async (username) => {
   }
 };
 
+pgModule.userHasPgAccount = async (username) => {
+  if (!username) return false;
+  const usernameAlphabetical = username.replace("@", "").replace(".", "");
+
+  try {
+    const user = await client.query(
+      `SELECT 1 FROM `,
+      usernameAlphabetical,
+      ` WHERE `,
+      usernameAlphabetical
+    );
+    return true;
+  } catch (err) {
+    logger.error(err);
+    return false; // does not exist
+  }
+};
+
 module.exports = pgModule;

@@ -2,6 +2,7 @@
 
 exports[`test welcome page should render postgres page correctly 1`] = `
 "<!DOCTYPE html>
+<!DOCTYPE html>
 <!--views/partials/head.ejs-->
 <meta charset='UTF-8'>
 <!--CSS (load bootstrap from a CDN)-->
@@ -124,7 +125,8 @@ exports[`test welcome page should render postgres page correctly 1`] = `
 `;
 
 exports[`test welcome page should render resetPassword page correctly 1`] = `
-"<!--views/partials/head.ejs-->
+"<!DOCTYPE html>
+<!--views/partials/head.ejs-->
 <meta charset='UTF-8'>
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
@@ -220,7 +222,8 @@ exports[`test welcome page should render resetPassword page correctly 1`] = `
 `;
 
 exports[`test welcome page should render setDBpassword page correctly 1`] = `
-"<!--views/partials/head.ejs-->
+"<!DOCTYPE html>
+<!--views/partials/head.ejs-->
 <meta charset='UTF-8'>
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
@@ -307,7 +310,8 @@ exports[`test welcome page should render setDBpassword page correctly 1`] = `
 `;
 
 exports[`test welcome page should render setPassword page correctly 1`] = `
-"<!--views/partials/head.ejs-->
+"<!DOCTYPE html>
+<!--views/partials/head.ejs-->
 <meta charset='UTF-8'>
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
@@ -408,7 +412,8 @@ exports[`test welcome page should render setPassword page correctly 1`] = `
 `;
 
 exports[`test welcome page should render sign in page correctly 1`] = `
-"<!--views/partials/head.ejs-->
+"<!DOCTYPE html>
+<!--views/partials/head.ejs-->
 <meta charset='UTF-8'>
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
@@ -506,7 +511,8 @@ exports[`test welcome page should render sign in page correctly 1`] = `
 `;
 
 exports[`test welcome page should render sign up page correctly 1`] = `
-"<!--views/partials/head.ejs-->
+"<!DOCTYPE html>
+<!--views/partials/head.ejs-->
 <meta charset='UTF-8'>
 <!--CSS (load bootstrap from a CDN)-->
 <link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
@@ -607,6 +613,7 @@ exports[`test welcome page should render sign up page correctly 1`] = `
 
 exports[`test welcome page should render welcome page correctly 1`] = `
 "<!DOCTYPE html>
+<!DOCTYPE html>
 <!--views/partials/head.ejs-->
 <meta charset='UTF-8'>
 <!--CSS (load bootstrap from a CDN)-->

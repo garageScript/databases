@@ -7,6 +7,9 @@ jest.mock("pg");
 jest.mock("../../lib/log");
 const { Client } = require("pg");
 
+jest.mock("pg-escape");
+const escape = require("pg-escape");
+
 logGen.mockReturnValue(logger);
 
 const {
@@ -14,6 +17,7 @@ const {
   closePGDB,
   createPgAccount,
   deletePgAccount,
+  userHasPgAccount,
 } = require("./pg");
 
 describe("Test PG DB", () => {
@@ -111,6 +115,38 @@ describe("Test PG DB", () => {
           expect(logger.error).toHaveBeenCalledTimes(1);
         }
       });
+    });
+  });
+
+  describe("Check is user has a PG account", () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it("should return false if username doesn't exist", async () => {
+      const result = await userHasPgAccount("");
+      expect(result).toEqual(false);
+    });
+
+    it("should return false if user doesn't have pg account", async () => {
+      const result = await userHasPgAccount("TimRoughgarden@stanford.com");
+      escape.mockImplementation(() => {
+        throw new Error("Stanford Lagunitas");
+      });
+      expect(result).toEqual(false);
+    });
+
+    it("should return false if an error is thrown", async () => {
+      const result = await userHasPgAccount("TimRoughgarden@stanford.com");
+      expect(result).toEqual(false);
+    });
+
+    it("should return true if user has pg account", async () => {
+      const user = await createPgAccount("TimRoughgarden@stanford.com");
+      console.log("user test.js", user);
+
+      const result = await userHasPgAccount("TimRoughgarden@stanford.com");
+      expect(result).toEqual(true);
     });
   });
 });
