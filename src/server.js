@@ -16,6 +16,7 @@ const { postgres } = require("./routes/renderRoutes");
 require("dotenv").config();
 let server = null;
 let app = null;
+const neo4jModule = require("../database/neo4j/neo4j");
 
 const getApp = () => {
   return app;
@@ -24,6 +25,7 @@ const getApp = () => {
 const startServer = async (portNumber) => {
   await dbModule.start();
   await pgModule.startPGDB();
+  neo4jModule.startNeo4j();
 
   return new Promise((resolve, reject) => {
     app = express();

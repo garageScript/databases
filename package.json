@@ -32,6 +32,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "mailgun-js": "^0.22.0",
+    "neo4j-driver": "^4.1.1",
     "node-fetch": "^2.6.0",
     "nodemon": "^2.0.4",
     "pg": "^8.0.2",
