@@ -44,7 +44,7 @@ pgModule.createPgAccount = async (username, password) => {
     await client.query(sqlQuery3);
   } catch (err) {
     logger.error(err);
-    throw new Error(`failed to createPgAccount for user: $1`, [username]);
+    throw new Error(`failed to createPgAccount for user: ${username}`);
   }
 };
 
@@ -55,9 +55,9 @@ pgModule.deletePgAccount = async (username) => {
     await client.query(`DROP USER IF EXISTS $1`, [username]);
   } catch (err) {
     logger.error(err);
-    throw new Error(`failed to deletePgAccount for database and user: $1`, [
-      username,
-    ]);
+    throw new Error(
+      `failed to deletePgAccount for database and user: ${username}`
+    );
   }
 };
 
