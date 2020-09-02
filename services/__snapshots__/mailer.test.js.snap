@@ -8,7 +8,7 @@ Object {
           <div style=\\"font-size: 12px; text-align: left\\">LearnDatabases.dev</div>
           <hr>
           <div id=\\"content\\">
-            <p>You have requested a (re)set password token. The button below will redirect you to our website with the an autheticated token. Please click the button and set your password.</p>
+            <p>You have requested a (re)set password token. The button below will redirect you to our website with an autheticated token. Please click the button and set your password.</p>
             <button id=\\"button\\" onclick=\\"window.open('https://learndatabases.dev/setPassword/token123')\\">Set my Password</button>
             <p><small><b style=\\"color: red\\">Warning</b>: Anyone with access to this email has access to your account. Don't share this email with other people.</small></p> 
           </div>
