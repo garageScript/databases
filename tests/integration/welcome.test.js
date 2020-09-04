@@ -1,6 +1,9 @@
+jest.setTimeout(10000);
+
 const session = require("express-session");
 const { startServer, stopServer } = require("../../src/server");
 const fetch = require("node-fetch");
+require("dotenv").config();
 
 describe("test welcome page", () => {
   const testPort = process.env.TEST_PORT || 20200;
