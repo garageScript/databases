@@ -36,4 +36,4 @@ fetch("<u>https://elastic.learndatabases.dev/@username-example</u>", {
   .then(console.log)
 </code></pre>
 
-This command requests general information about the index called `@username-example`. For the purpose of security, we only provide you with the authority to manipulate any indices whose name starts with `@username-`. So you can create indices called for example, `@username-mails` or `@username-posts` and write/read/analyze data.
+This command requests general information about the index called `@username-example`. For the purpose of security, we only provide you with the authority to manipulate any indices whose name starts with `@username-`. So you can create indices called for example, `@username-mails`, `@username-posts`, or etc. and write/read/analyze data.
