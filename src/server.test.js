@@ -12,12 +12,13 @@ const renderRoutes = require("./routes/renderRoutes");
 userRoutes.createUser = jest.fn();
 userRoutes.loginUser = jest.fn();
 userRoutes.logoutUser = jest.fn();
-
 userRoutes.deleteUser = jest.fn();
 userRoutes.resetUserPassword = jest.fn();
 userRoutes.updateDBPassword = jest.fn();
+userRoutes.createDatabase = jest.fn();
+
 renderRoutes.postgres = jest.fn();
-renderRoutes.landingpage = jest.fn();
+renderRoutes.elastic = jest.fn();
 // router functions should be mocked before requiring server
 const { startServer, stopServer, getApp } = require("./server");
 
@@ -86,6 +87,8 @@ describe("Testing user routes", () => {
     expect(userRoutes.logoutUser).toHaveBeenCalled();
     await app.post.mock.calls[3][1]();
     expect(userRoutes.userResetPassword).toHaveBeenCalled();
+    await app.post.mock.calls[4][1]();
+    expect(userRoutes.createDatabase).toHaveBeenCalled();
   });
 });
 
@@ -98,5 +101,7 @@ describe("Testing render routes", () => {
     await startServer();
     await app.get.mock.calls[5][1]();
     expect(renderRoutes.postgres).toHaveBeenCalled();
+    await app.get.mock.calls[6][1]();
+    expect(renderRoutes.elastic).toHaveBeenCalled();
   });
 });
