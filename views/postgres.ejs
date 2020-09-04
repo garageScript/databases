@@ -11,7 +11,7 @@
     content.innerHTML = markedHTMLwithUserData
   })
   const createDb = () => {
-    fetch('/api/createDatabase', { method: "POST" }).then(r => r.json()).then((r) => {
+    fetch('/api/createDatabase/postgres', { method: "POST" }).then(r => r.json()).then((r) => {
       if (r.error) return alert(r.error.message)
       return alert(r.success.message)
     }) 

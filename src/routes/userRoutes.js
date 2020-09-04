@@ -8,6 +8,7 @@ const {
 const logger = require("../../lib/log")(__filename);
 const db = require("../../sequelize/db");
 const pgModule = require("../../database/postgres/pg");
+const es = require("../../database/elasticsearch/elastic");
 const routes = {};
 
 routes.resetPasswordEmail = async (req, res) => {
@@ -163,11 +164,21 @@ routes.createDatabase = async (req, res) => {
   }
 
   try {
-    await pgModule.createPgAccount(username, dbPassword);
-
+    if (req.params.database === "postgres") {
+      await pgModule.createPgAccount(username, dbPassword);
+      return res
+        .status(200)
+        .json({ success: { message: "Create Postgres Database success" } });
+    }
+    if (req.params.database === "elastic") {
+      await es.createAccount(user);
+      return res.status(200).json({
+        success: { message: "Create Elasticsearch Database success" },
+      });
+    }
     return res
-      .status(200)
-      .json({ success: { message: "Create Database success" } });
+      .status(400)
+      .json({ success: { message: "You must specify database to create" } });
   } catch (err) {
     logger.error("Error with creating database:", err);
     return res

@@ -12,7 +12,7 @@ const {
   userResetPassword,
   createDatabase,
 } = require("./routes/userRoutes");
-const { postgres } = require("./routes/renderRoutes");
+const { postgres, elastic } = require("./routes/renderRoutes");
 require("dotenv").config();
 let server = null;
 let app = null;
@@ -62,13 +62,14 @@ const startServer = async (portNumber) => {
       res.render("resetPassword", { email: req.session.email });
     });
     app.get("/postgres", postgres);
+    app.get("/elasticsearch", elastic);
     app.post("/api/notifications", resetPasswordEmail);
     app.post("/api/users", createUser);
     app.delete("/api/users/:id", deleteUser);
     app.post("/api/session", loginUser);
     app.delete("/api/session", logoutUser);
     app.post("/api/passwordReset", userResetPassword);
-    app.post("/api/createDatabase", createDatabase);
+    app.post("/api/createDatabase/:database", createDatabase);
 
     server = app.listen(portNumber, () => {
       resolve(app);

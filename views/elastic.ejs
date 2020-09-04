@@ -1,0 +1,70 @@
+<%- include("./partials/head") %>
+<h3>Learn Elasticsearch</h3>
+<div id="introduction">
+</div>
+<div id="content"></div>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+  const username = "<%= username %>"
+  const dbPassword = "<%= dbPassword %>"
+  const dbExists = <%= dbExists %>
+
+  const credentials = document.createElement("pre")
+  credentials.innerHTML = `<code>host: https://elastic.learndatabases.dev/
+username: ${username}
+password: ${dbPassword}</code>`
+
+  const introduction = document.getElementById("introduction")
+  if (!dbExists) {
+    introduction.innerHTML = `
+  <p>In this page, you can learn how to use Elasticsearch. You don't have them installed yet? You can use one that we already installed for you. First, click the button below to create your database and we will give you the credentials to access our Elasticsearch application.</p>
+<p><button id="button" onclick="createDb()">Create my database</button></p>
+    `
+  } else {
+    introduction.innerHTML = `
+<p>In this page, you can learn how to use Elasticsearch. You already created database in our Elasticsearch application. Here's your credentials.</p>
+    `
+    introduction.append(credentials)
+  }
+
+  let done
+  const createDb = () => {
+    if (done) return
+    const button = document.getElementById("button")
+    button.innerText="Creating..."
+    fetch('/api/createDatabase/elastic', { method: "POST" }).then(r => r.json()).then((r) => {
+      if (r.error) {
+        alert(r.error.message)
+        button.innerText="Create my database"
+      } else {
+        alert(r.success.message)
+        done = true
+        button.style.opacity = 0
+        setTimeout(() => {
+          button.innerText = "Complete!"
+          button.style.background = "rgb(10, 170, 75)"
+          button.style.opacity = 1
+          setTimeout(() => {
+            introduction.append(credentials)
+          }, 200)
+        }, 200)
+      }
+    }) 
+  }
+
+  const content = document.getElementById("content")
+  fetch('/lessons/elastic.md').then(r => r.text()).then((r) => {
+    console.log(dbExists)
+    const markedHTML = marked(r)
+    const markedHTMLwithUserData = markedHTML.replace(/@username/gi, username).replace(/@dbPassword/gi,dbPassword)
+    content.innerHTML = markedHTMLwithUserData
+  })
+</script>
+
+<style>
+  #button {
+    display: block;
+    margin: auto;
+    transition: 0.2s;
+  }
+</style>
