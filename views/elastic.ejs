@@ -17,12 +17,12 @@ password: ${dbPassword}</code>`
   const introduction = document.getElementById("introduction")
   if (!dbExists) {
     introduction.innerHTML = `
-  <p>In this page, you can learn how to use Elasticsearch. You don't have them installed yet? You can use one that we already installed for you. First, click the button below to create your database and we will give you the credentials to access our Elasticsearch application.</p>
+  <p>In this module, you can learn how to use Elasticsearch. Don't have Elasticsearch installed on your local machine yet? Fear not! We can make an Elasticsearch database for you. Simply click on the button below to create your Elasticsearch database. Login credentials for your database will appear after it is done being created.</p>
 <p><button id="button" onclick="createDb()">Create my database</button></p>
     `
   } else {
     introduction.innerHTML = `
-<p>In this page, you can learn how to use Elasticsearch. You already created database in our Elasticsearch application. Here's your credentials.</p>
+<p>In this module, you can learn how to use Elasticsearch. You already created database in our Elasticsearch application. Here's your credentials.</p>
     `
     introduction.append(credentials)
   }
@@ -39,6 +39,7 @@ password: ${dbPassword}</code>`
       } else {
         alert(r.success.message)
         done = true
+        button.classList.add("disabled")
         button.style.opacity = 0
         setTimeout(() => {
           button.innerText = "Complete!"
@@ -66,5 +67,8 @@ password: ${dbPassword}</code>`
     display: block;
     margin: auto;
     transition: 0.2s;
+  }
+  #button.disabled {
+    cursor: default;
   }
 </style>
