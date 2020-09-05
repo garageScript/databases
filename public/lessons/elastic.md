@@ -41,7 +41,7 @@ This command requests general information about the index called `@username-exam
 ### Get Data
 At this point you should have only example index we just created for you. Let's see how to get data from `@username-example` index. Here's the request path patterns.
 ```
-const buffer = Buffer.from("@username:@password").toString("base64")
+const buffer = Buffer.from("@username:@dbPassword").toString("base64")
 const credential = "Basic " + buffer
 
 fetch("https://elastic.learndatabases.dev/@username-example/_search", {
@@ -65,7 +65,7 @@ In the response, the actual data is stored in `.hits.hits` property as an array.
 ### Put data
 To put data into Elasticsearch database, you can send "POST" request to `<host>/<index-name>/_doc`. Check out the following example.
 ```
-const buffer = Buffer.from("@username:@password").toString("base64")
+const buffer = Buffer.from("@username:@dbPassword").toString("base64")
 const credential = "Basic " + buffer
 
 fetch("https://elastic.learndatabases.dev/@username-diary/_doc", {
