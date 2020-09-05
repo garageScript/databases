@@ -17,7 +17,7 @@ password: ${dbPassword}</code>`
   const introduction = document.getElementById("introduction")
   if (!dbExists) {
     introduction.innerHTML = `
-  <p>In this module, you can learn how to use Elasticsearch. Don't have Elasticsearch installed on your local machine yet? Fear not! We can make an Elasticsearch database for you. Simply click on the button below to create your Elasticsearch database. Login credentials for your database will appear after it is done being created.</p>
+  <p>In this module, you can learn how to use Elasticsearch. Don't have Elasticsearch installed on your local machine yet? Fear not! We can make an Elasticsearch database for you. Simply click on the button below to create your Elasticsearch database. Credentials for your database will appear after it is done being created.</p>
 <p><button id="button" onclick="createDb()">Create my database</button></p>
     `
   } else {
