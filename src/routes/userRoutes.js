@@ -169,6 +169,9 @@ routes.createDatabase = async (req, res) => {
         .status(200)
         .json({ success: { message: "Create Database success" } });
     }
+    return res
+      .status(400)
+      .json({ error: { message: "You must specify database to create" } });
   } catch (err) {
     logger.error("Error with creating database:", err);
     return res
