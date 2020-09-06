@@ -61,4 +61,8 @@ pgModule.deletePgAccount = async (username) => {
   }
 };
 
+pgModule.userHasPgAccount = async (username) => {
+  return false;
+};
+
 module.exports = pgModule;

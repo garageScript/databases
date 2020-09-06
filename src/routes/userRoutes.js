@@ -163,11 +163,15 @@ routes.createDatabase = async (req, res) => {
   }
 
   try {
-    await pgModule.createPgAccount(username, dbPassword);
-
+    if (req.params.database === "postgres") {
+      await pgModule.createPgAccount(username, dbPassword);
+      return res
+        .status(200)
+        .json({ success: { message: "Create Database success" } });
+    }
     return res
-      .status(200)
-      .json({ success: { message: "Create Database success" } });
+      .status(400)
+      .json({ error: { message: "You must specify database to create" } });
   } catch (err) {
     logger.error("Error with creating database:", err);
     return res

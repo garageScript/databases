@@ -68,7 +68,7 @@ const startServer = async (portNumber) => {
     app.post("/api/session", loginUser);
     app.delete("/api/session", logoutUser);
     app.post("/api/passwordReset", userResetPassword);
-    app.post("/api/createDatabase", createDatabase);
+    app.post("/api/createDatabase/:database", createDatabase);
 
     server = app.listen(portNumber, () => {
       resolve(app);
