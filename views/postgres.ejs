@@ -1,19 +1,63 @@
 <%- include("./partials/head") %>
+<h3>Learn PostgreSQL</h3>
+<div id="introduction">
+</div>
 <div id="content"></div>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
+  const username = "<%= username %>"
+  const dbPassword = "<%= dbPassword %>"
+  const dbExists = <%= dbExists %>
+
+  const credentials = document.createElement("pre")
+  credentials.innerHTML = `<code>host: 165.227.55.105 
+username: ${username}
+password: ${dbPassword}</code>`
+
+  const introduction = document.getElementById("introduction")
+  if (!dbExists) {
+    introduction.innerHTML = `
+  <p>In this module, you can learn how to use Postgres. Don't have Postgres installed on your local machine yet? Fear not! We can make a Postgres database for you. Simply click on the button below to create your Postgres database. Credentials for your database will appear after it is done being created.</p>
+<p><button id="button" onclick="createDb()">Create my database</button></p>
+    `
+  } else {
+    introduction.innerHTML = `
+<p>In this module, you can learn how to use Postgres. You have already created a Postgres database on our server. Here are the credentials for your database.</p>
+    `
+    introduction.append(credentials)
+  }
+
+  let disabled
+  const createDb = () => {
+    if (disabled) return
+    disabled = true
+    button.classList.add("disabled")
+    const button = document.getElementById("button")
+    button.innerText="Creating..."
+    fetch('/api/createDatabase/postgres', { method: "POST" }).then(r => r.json()).then((r) => {
+      if (r.error) {
+        alert(r.error.message)
+        disabled = false
+        button.classList.remove("disabled")
+        button.innerText="Create my database"
+      } else {
+        alert(r.success.message)
+        button.style.opacity = 0
+        setTimeout(() => {
+          button.innerText = "Complete!"
+          button.style.background = "rgb(10, 170, 75)"
+          button.style.opacity = 1
+          setTimeout(() => {
+            introduction.append(credentials)
+          }, 200)
+        }, 200)
+      }
+    }) 
+  }
   const content = document.getElementById("content")
   fetch('/lessons/postgres.md').then(r => r.text()).then((r) => {
-    const username = "<%= username %>"
-    const dbPassword = "<%= dbPassword %>"
     const markedHTML = marked(r)
     const markedHTMLwithUserData = markedHTML.replace(/@username/gi, username).replace(/@dbPassword/gi,dbPassword)
     content.innerHTML = markedHTMLwithUserData
   })
-  const createDb = () => {
-    fetch('/api/createDatabase', { method: "POST" }).then(r => r.json()).then((r) => {
-      if (r.error) return alert(r.error.message)
-      return alert(r.success.message)
-    }) 
-  }
 </script>
