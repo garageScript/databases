@@ -1,4 +1,5 @@
 jest.mock("../../sequelize/db");
+jest.mock("../../database/postgres/pg");
 
 const db = require("../../sequelize/db");
 const { postgres } = require("./renderRoutes");
