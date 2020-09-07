@@ -51,18 +51,18 @@ describe("Test PG DB", () => {
         await createPgAccount("username", "password");
         expect(mockClient.query).toHaveBeenCalledTimes(3);
         expect(mockClient.query.mock.calls[0]).toEqual([
-          `CREATE DATABASE username;`,
+          `CREATE DATABASE USERusername;`,
         ]);
 
         const createQueryRegex = new RegExp(
-          /create user username with encrypted password \$.\$password\$.\$/
+          /create user USERusername with encrypted password \$.\$password\$.\$/
         );
         expect(
           createQueryRegex.test(mockClient.query.mock.calls[1][0])
         ).toEqual(true);
 
         expect(mockClient.query.mock.calls[2]).toEqual([
-          `GRANT ALL PRIVILEGES ON DATABASE username TO username`,
+          `GRANT ALL PRIVILEGES ON DATABASE USERusername TO USERusername`,
         ]);
       });
       it("it should not execute any queries in createPgAccount if required arguments are not passed in", async () => {
@@ -89,11 +89,11 @@ describe("Test PG DB", () => {
         expect(mockClient.query).toHaveBeenCalledTimes(2);
         expect(mockClient.query.mock.calls[0]).toEqual([
           `DROP DATABASE IF EXISTS $1`,
-          ["username"],
+          ["USERusername"],
         ]);
         expect(mockClient.query.mock.calls[1]).toEqual([
           `DROP USER IF EXISTS $1`,
-          ["username"],
+          ["USERusername"],
         ]);
       });
       it("it should not execute any queries in deletePgAccount if required arguments are not passed in", async () => {
@@ -122,7 +122,9 @@ describe("Test PG DB", () => {
       });
       const result = await userHasPgAccount("testencodeduser");
       expect(result).toEqual(false);
-      expect(mockClient.query.mock.calls[0][1]).toEqual(["testencodeduser"]);
+      expect(mockClient.query.mock.calls[0][1]).toEqual([
+        "USERtestencodeduser",
+      ]);
     });
 
     it("should return false if client.query has a row", async () => {
