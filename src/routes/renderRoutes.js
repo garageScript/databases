@@ -1,5 +1,6 @@
 const db = require("../../sequelize/db");
 const es = require("../../database/elasticsearch/elastic");
+const pg = require("../../database/postgres/pg");
 
 const routes = {};
 
@@ -11,10 +12,12 @@ routes.postgres = async (req, res) => {
       id: req.session.userid,
     },
   });
+  const dbExists = await pg.userHasPgAccount(userAccount.username);
   res.render("postgres", {
     email: req.session.email,
     username: userAccount.username,
     dbPassword: userAccount.dbPassword,
+    dbExists: dbExists,
   });
 };
 

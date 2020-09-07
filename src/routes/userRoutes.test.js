@@ -383,7 +383,34 @@ describe("test creating database", () => {
     );
   });
 
-  it("should return error if database name is not proviced", async () => {
+  it("should return error if database name is not provided", async () => {
+    const req = {
+      session: {
+        email: "testm@i.l",
+      },
+      params: {
+        database: "",
+      },
+    };
+    db.getModels = () => {
+      return {
+        Accounts: {
+          findOne: () => {
+            return {
+              email: "testm@i.l",
+              dbPassword: "Google",
+            };
+          },
+        },
+      };
+    };
+    await createDatabase(req, res);
+    return expect(res.json.mock.calls[0][0].error.message).toEqual(
+      "You must specify database to create"
+    );
+  });
+
+  it("should return success if there is a email", async () => {
     const req = {
       session: {
         email: "testm@i.l",

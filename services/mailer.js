@@ -19,7 +19,7 @@ mgModule.sendPasswordResetEmail = (receiver, token) => {
           <hr>
           <div id="content">
             <p>You have requested a (re)set password token. The button below will redirect you to our website with an autheticated token. Please click the button and set your password.</p>
-            <button id="button" onclick="window.open('${link}')">Set my Password</button>
+            <a href="${link}" target="_blank" id="button">Set my Password</a>
             <p><small><b style="color: red">Warning</b>: Anyone with access to this email has access to your account. Don't share this email with other people.</small></p> 
           </div>
         </div>
