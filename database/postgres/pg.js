@@ -22,7 +22,6 @@ pgModule.closePGDB = () => {
 
 pgModule.createPgAccount = async (username, password) => {
   if (!username || !password) return;
-  username = "USER" + username;
   try {
     // Could not escape user input by using $1 $2
     //   https://github.com/brianc/node-postgres/issues/539
@@ -51,7 +50,6 @@ pgModule.createPgAccount = async (username, password) => {
 
 pgModule.deletePgAccount = async (username) => {
   if (!username) return;
-  username = "USER" + username;
   try {
     await client.query(`DROP DATABASE IF EXISTS $1`, [username]);
     await client.query(`DROP USER IF EXISTS $1`, [username]);
@@ -64,7 +62,6 @@ pgModule.deletePgAccount = async (username) => {
 };
 
 pgModule.userHasPgAccount = async (username) => {
-  username = "USER" + username;
   logger.info(`checking to see if ${username} has a pg account`);
   const result = await client.query(`SELECT 1 FROM pg_roles WHERE rolname=$1`, [
     username,
