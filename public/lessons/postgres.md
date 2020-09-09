@@ -14,11 +14,11 @@ const { Client } = require('pg')
 
 const startApp = async () => {
   client = new Client({
-    host: '165.227.55.105',
+    host: 'learndatabases.dev',
     port: 5432,
     user: '@username',
     password: '@dbPassword',
-    database: 'db_example'
+    database: '@username'
   })
   await client.connect()
   console.log('Connected')
