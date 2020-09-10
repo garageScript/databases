@@ -3,6 +3,7 @@ jest.mock("./routes/renderRoutes");
 jest.mock("express");
 jest.mock("mailgun-js");
 jest.mock("../sequelize/db");
+jest.mock("../database/postgres/pg");
 
 const express = require("express");
 const dbModule = require("../sequelize/db");

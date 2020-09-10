@@ -1,5 +1,6 @@
 jest.mock("../../sequelize/db");
 jest.mock("../../database/elasticsearch/elastic");
+jest.mock("../../database/postgres/pg");
 
 const db = require("../../sequelize/db");
 const es = require("../../database/elasticsearch/elastic");

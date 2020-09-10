@@ -25,7 +25,7 @@ const getApp = () => {
 const startServer = async (portNumber) => {
   await dbModule.start();
   await pgModule.startPGDB();
-  neo4jModule.startNeo4j();
+  await neo4jModule.startNeo4j();
 
   return new Promise((resolve, reject) => {
     app = express();
@@ -81,6 +81,8 @@ const startServer = async (portNumber) => {
 const stopServer = () => {
   return new Promise((resolve, reject) => {
     dbModule.close();
+    pgModule.closePGDB();
+    neo4jModule.closeNeo4j();
     logger.info("DB has been closed");
     server.close(() => {
       logger.info("The server has been closed");
