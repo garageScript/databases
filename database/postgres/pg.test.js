@@ -1,6 +1,6 @@
 jest.mock("../../lib/log");
 const logGen = require("../../lib/log");
-const logger = { error: jest.fn() };
+const logger = { error: jest.fn(), info: jest.fn() };
 logGen.mockReturnValue(logger);
 
 jest.mock("pg");
@@ -13,6 +13,7 @@ const {
   closePGDB,
   createPgAccount,
   deletePgAccount,
+  userHasPgAccount,
 } = require("./pg");
 
 describe("Test PG DB", () => {
@@ -110,6 +111,25 @@ describe("Test PG DB", () => {
           expect(logger.error).toHaveBeenCalledTimes(1);
         }
       });
+    });
+  });
+
+  describe("userHasPgAccount", () => {
+    it("should return false if client.query has no rows", async () => {
+      mockClient.query.mockReturnValue({
+        rowCount: 0,
+      });
+      const result = await userHasPgAccount("testencodeduser");
+      expect(result).toEqual(false);
+      expect(mockClient.query.mock.calls[0][1]).toEqual(["testencodeduser"]);
+    });
+
+    it("should return false if client.query has a row", async () => {
+      mockClient.query.mockReturnValue({
+        rowCount: 1,
+      });
+      const result = await userHasPgAccount("testencodeduser");
+      expect(result).toEqual(true);
     });
   });
 });
