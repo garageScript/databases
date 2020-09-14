@@ -2,6 +2,7 @@ jest.mock("mailgun-js");
 jest.mock("../../lib/users");
 jest.mock("../../sequelize/db");
 jest.mock("../../database/postgres/pg");
+jest.mock("../../database/elasticsearch/elastic");
 
 const db = require("../../sequelize/db");
 const {
@@ -23,6 +24,7 @@ const {
 } = require("../../lib/users");
 
 const pgModule = require("../../database/postgres/pg");
+const es = require("../../database/elasticsearch/elastic");
 
 const mockFindOne = jest.fn();
 
@@ -350,7 +352,7 @@ describe("testing userResetPassword", () => {
   });
 });
 
-describe("should test creating a database", () => {
+describe("test creating database", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -381,7 +383,7 @@ describe("should test creating a database", () => {
     );
   });
 
-  it("should return error if database name is not proviced", async () => {
+  it("should return error if database name is not provided", async () => {
     const req = {
       session: {
         email: "testm@i.l",
@@ -414,6 +416,33 @@ describe("should test creating a database", () => {
         email: "testm@i.l",
       },
       params: {
+        database: "",
+      },
+    };
+    db.getModels = () => {
+      return {
+        Accounts: {
+          findOne: () => {
+            return {
+              email: "testm@i.l",
+              dbPassword: "Google",
+            };
+          },
+        },
+      };
+    };
+    await createDatabase(req, res);
+    return expect(res.json.mock.calls[0][0].error.message).toEqual(
+      "You must specify database to create"
+    );
+  });
+
+  it("should return success if creating postgres database success", async () => {
+    const req = {
+      session: {
+        email: "testm@i.l",
+      },
+      params: {
         database: "postgres",
       },
     };
@@ -435,7 +464,7 @@ describe("should test creating a database", () => {
 
     await createDatabase(req, res);
     return expect(res.json.mock.calls[0][0].success.message).toEqual(
-      "Create Database success"
+      "Create Postgres Database success"
     );
   });
 
@@ -462,6 +491,65 @@ describe("should test creating a database", () => {
     pgModule.createPgAccount.mockReturnValue(
       Promise.reject("cannot create account")
     );
+
+    await createDatabase(req, res);
+    return expect(res.json.mock.calls[0][0].error.message).toEqual(
+      "Database creation was not implemented"
+    );
+  });
+
+  it("should return success if creating elastic database success", async () => {
+    const req = {
+      session: {
+        email: "testm@i.l",
+      },
+      params: {
+        database: "elastic",
+      },
+    };
+
+    es.createAccount.mockReturnValue(Promise.resolve());
+
+    db.getModels = () => {
+      return {
+        Accounts: {
+          findOne: () => {
+            return {
+              email: "testm@i.l",
+              dbPassword: "Google",
+            };
+          },
+        },
+      };
+    };
+
+    await createDatabase(req, res);
+    return expect(res.json.mock.calls[0][0].success.message).toEqual(
+      "Create Elasticsearch Database success"
+    );
+  });
+
+  it("should throw and error if esModule fails to create database", async () => {
+    const req = {
+      session: {
+        email: "testm@i.l",
+      },
+    };
+
+    db.getModels = () => {
+      return {
+        Accounts: {
+          findOne: () => {
+            return {
+              email: "testm@i.l",
+              dbPassword: "Google",
+            };
+          },
+        },
+      };
+    };
+
+    es.createAccount.mockReturnValue(Promise.reject("cannot create account"));
 
     await createDatabase(req, res);
     return expect(res.json.mock.calls[0][0].error.message).toEqual(

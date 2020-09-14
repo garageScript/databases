@@ -11,13 +11,15 @@ logGen.mockReturnValue(logger);
 const fetch = require("node-fetch");
 const es = require("./elastic");
 
-describe("testing es creat user function", () => {
+describe("testing es create account function", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
   it("should log error if account data is invalid", async () => {
     const account = {};
-    await es.createUser(account);
+    try {
+      await es.createAccount(account);
+    } catch (err) {}
     return expect(logger.error).toHaveBeenCalled();
   });
   it("should log error if creating user fails", async () => {
@@ -33,7 +35,27 @@ describe("testing es creat user function", () => {
         },
       })
     );
-    await es.createUser(account);
+    try {
+      await es.createAccount(account);
+    } catch (err) {}
+    return expect(logger.error).toHaveBeenCalled();
+  });
+  it("should log error if user already exists", async () => {
+    const account = {
+      username: "testuser",
+      email: "em@i.l",
+      password: "1234qwer",
+    };
+    fetch.mockReturnValue(
+      Promise.resolve({
+        json: () => {
+          return { role: { created: false }, created: false };
+        },
+      })
+    );
+    try {
+      await es.createAccount(account);
+    } catch (err) {}
     return expect(logger.error).toHaveBeenCalled();
   });
   it("should log info if creating user seccess", async () => {
@@ -45,22 +67,24 @@ describe("testing es creat user function", () => {
     fetch.mockReturnValue(
       Promise.resolve({
         json: () => {
-          return {};
+          return { role: { created: true }, created: true };
         },
       })
     );
-    await es.createUser(account);
+    await es.createAccount(account);
     return expect(logger.info).toHaveBeenCalled();
   });
 });
 
-describe("testing es delete user function", () => {
+describe("testing es delete account function", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
   it("should log error if account data is invalid", async () => {
     const account = {};
-    await es.deleteUser(account);
+    try {
+      await es.deleteAccount(account);
+    } catch (err) {}
     return expect(logger.error).toHaveBeenCalled();
   });
   it("should log error if deleting user fails", async () => {
@@ -76,7 +100,9 @@ describe("testing es delete user function", () => {
         },
       })
     );
-    await es.deleteUser(account);
+    try {
+      await es.deleteAccount(account);
+    } catch (err) {}
     return expect(logger.error).toHaveBeenCalled();
   });
   it("should log info if deleting user seccess", async () => {
@@ -92,7 +118,52 @@ describe("testing es delete user function", () => {
         },
       })
     );
-    await es.deleteUser(account);
+    await es.deleteAccount(account);
     return expect(logger.info).toHaveBeenCalled();
+  });
+});
+
+describe("testing es check account function", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it("should log error if account data is invalid", async () => {
+    const account = {};
+    try {
+      await es.checkAccount(account);
+    } catch (err) {}
+    return expect(logger.error).toHaveBeenCalled();
+  });
+  it("should return false if index does not exist", async () => {
+    const account = {
+      username: "testuser",
+      email: "em@i.l",
+      password: "1234qwer",
+    };
+    fetch.mockReturnValue(
+      Promise.resolve({
+        json: () => {
+          return { error: "error" };
+        },
+      })
+    );
+    const result = await es.checkAccount(account);
+    return expect(result).toEqual(false);
+  });
+  it("should return true if index exists", async () => {
+    const account = {
+      username: "testuser",
+      email: "em@i.l",
+      password: "1234qwer",
+    };
+    fetch.mockReturnValue(
+      Promise.resolve({
+        json: () => {
+          return { "testuser-example": {} };
+        },
+      })
+    );
+    const result = await es.checkAccount(account);
+    return expect(result).toEqual(true);
   });
 });
