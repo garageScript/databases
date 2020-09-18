@@ -120,6 +120,8 @@ exports[`test welcome page should render postgres page correctly 1`] = `
     })
   </script>
 
+  <script async defer data-website-id=\\"d367293a-0e30-4ae1-bdce-3651e1b64909\\" src=\\"https://analytics.learndatabases.dev/umami.js\\"></script>
+
 </html>
 "
 `;
@@ -651,6 +653,8 @@ exports[`test welcome page should render welcome page correctly 1`] = `
       location.href = '/neo4j'
     })
   </script>
+
+  <script async defer data-website-id=\\"d367293a-0e30-4ae1-bdce-3651e1b64909\\" src=\\"https://analytics.learndatabases.dev/umami.js\\"></script>
 
 </html>
 "
