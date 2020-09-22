@@ -2,40 +2,38 @@
 <div class="card">
   <div class="body">
     <h3 class="subtitle">Create Account</h3>
-    <input
-      class="email"
-      type="email"
-      placeholder="Email Address"
-      required
-      />
+    <input class="email" type="email" placeholder="Email Address" required />
     <button class="submit">Create Account</button>
   </div>
-  <div class="tale">
-    Already have an account? <a href="/signin">Login</a>
-  </div>
+  <div class="tale">Already have an account? <a href="/signin">Login</a></div>
 
-<script>
-  const submit = document.querySelector('.submit');
-  const check = document.querySelector('.check');
-  const email = document.querySelector('.email')
+  <script>
+    const submit = document.querySelector(".submit");
+    const check = document.querySelector(".check");
+    const email = document.querySelector(".email");
 
-  submit.addEventListener('click', () => {
-    fetch('/api/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: email.value.toLowerCase()
+    submit.addEventListener("click", () => {
+      fetch("/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email.value.toLowerCase(),
+        }),
       })
-    }).then(r => r.json()).then((res) => {
-      if (res.error) {
-        const message = res.error.message
-        alert(message)
-      } else {
-        alert("Check your email and set your password")
-        return location.href = '/signin'
-      }
-    })
-  })
-</script>
+        .then((r) => r.json())
+        .then((res) => {
+          if (res.error) {
+            const message = res.error.message;
+            alert(message);
+          } else {
+            alert(
+              "Check your email (don't forget to check the spam box!) and set your password"
+            );
+            return (location.href = "/signin");
+          }
+        });
+    });
+  </script>
+</div>
