@@ -5,8 +5,6 @@
   <body>
     <h2>Learn and try out different databases!</h2>
     <p>Instructions on how to install and setup your own databases are included in the tutorial.</p>
-    <p>If you don't want to install your own databases, you can use our databases and support us
-    by creating an account for $10. (In Progess)</p>
 
       <blockquote id="postgres" class="db-card">
         <h4 class="db-title">PostgreSQL</h4>
@@ -16,12 +14,12 @@
         <h4 class="db-title">Elasticsearch</h4>
         <p class="db-discription">A highly scalable full-text search analytics engine. It allows you to store, search and analyze big volumes of data quickly and in near real time.</p>
       </blockquote>
-      <blockquote id="mongodb" class="db-card">
-        <h4 class="db-title">MongoDB</h4>
+      <blockquote id="mongodb" class="db-card darkenCards">
+        <h4 class="db-title">MongoDB (coming next sprint!)</h4>
         <p class="db-discription">An open source database management system using a document-oriented database model that supports various forms of data.<p>
-      </blockquote>
-      <blockquote id="neo4j" class="db-card">
-        <h4 class="db-title">Neo4j</h4>
+			</blockquote>
+      <blockquote id="neo4j" class="db-card darkenCards">
+        <h4 class="db-title">Neo4j (coming next sprint!)</h4>
         <p class="db-discription">A graph database management system that is the most popular graph database and the 22nd most popular database overall.</p>
       </blockquote>
 
@@ -35,7 +33,9 @@
       </li>
     </ul>
 
-    <p>Want to add a new Database or Sponsor? <a href="#">Contact Us</a></p>
+    <p>Want to add a new Database or Sponsor? 
+			<a href="https://github.com/garageScript/databases/issues">Contact Us</a>
+		</p>
 
 		<p>We collect anonymous analytics using 
 			<a href="https://umami.is/">Umami</a>. 
@@ -51,6 +51,9 @@
     .db-card {
       cursor: pointer;
     }
+		.darkenCards {
+			opacity: 60%;
+		}
     .db-card:hover {
       border-left: solid 5px rgb(10, 70, 120);
     }
@@ -72,13 +75,17 @@
     })
     document.getElementById('elastic').addEventListener('click', () => {
       location.href = '/elasticsearch'
-    })
+		})
+		/*
     document.getElementById('mongodb').addEventListener('click', () => {
       location.href = '/mongodb'
     })
     document.getElementById('neo4j').addEventListener('click', () => {
       location.href = '/neo4j'
-    })
+		})
+		*/
   </script>
+
+  <script async defer data-website-id="d367293a-0e30-4ae1-bdce-3651e1b64909" src="https://analytics.learndatabases.dev/umami.js"></script>
 
 </html>

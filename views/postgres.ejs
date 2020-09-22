@@ -12,7 +12,8 @@
   const credentials = document.createElement("pre")
   credentials.innerHTML = `<code>host: learndatabases.dev 
 username: ${username}
-password: ${dbPassword}</code>`
+password: ${dbPassword}
+database: ${username}</code>`
 
   const introduction = document.getElementById("introduction")
   if (!dbExists) {

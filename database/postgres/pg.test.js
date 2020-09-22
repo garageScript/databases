@@ -4,7 +4,6 @@ const logger = { error: jest.fn(), info: jest.fn() };
 logGen.mockReturnValue(logger);
 
 jest.mock("pg");
-jest.mock("../../lib/log");
 const { Client } = require("pg");
 
 logGen.mockReturnValue(logger);
