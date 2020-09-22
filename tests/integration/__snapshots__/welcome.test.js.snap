@@ -72,12 +72,12 @@ exports[`test welcome page should render postgres page correctly 1`] = `
         <h4 class=\\"db-title\\">Elasticsearch</h4>
         <p class=\\"db-discription\\">A highly scalable full-text search analytics engine. It allows you to store, search and analyze big volumes of data quickly and in near real time.</p>
       </blockquote>
-      <blockquote id=\\"mongodb\\" class=\\"db-card\\">
-        <h4 class=\\"db-title\\">MongoDB</h4>
+      <blockquote id=\\"mongodb\\" class=\\"db-card darkenCards\\">
+        <h4 class=\\"db-title\\">MongoDB (coming next sprint!)</h4>
         <p class=\\"db-discription\\">An open source database management system using a document-oriented database model that supports various forms of data.<p>
-      </blockquote>
-      <blockquote id=\\"neo4j\\" class=\\"db-card\\">
-        <h4 class=\\"db-title\\">Neo4j</h4>
+			</blockquote>
+      <blockquote id=\\"neo4j\\" class=\\"db-card darkenCards\\">
+        <h4 class=\\"db-title\\">Neo4j (coming next sprint!)</h4>
         <p class=\\"db-discription\\">A graph database management system that is the most popular graph database and the 22nd most popular database overall.</p>
       </blockquote>
 
@@ -91,9 +91,17 @@ exports[`test welcome page should render postgres page correctly 1`] = `
       </li>
     </ul>
 
-    <p>Want to add a new Database or Sponsor? <a href=\\"#\\">Contact Us</a></p>
+    <p>Want to add a new Database or Sponsor? 
+			<a href=\\"https://github.com/garageScript/databases/issues\\">Contact Us</a>
+		</p>
 
-    <p>We collect anonymous analytics using Simple Analytics. View live: <a href=\\"#\\">simpleanalytics.com/learndatabases.dev</a></p>
+		<p>We collect anonymous analytics using 
+			<a href=\\"https://umami.is/\\">Umami</a>. 
+			View live: 
+			<a href=\\"https://analytics.learndatabases.dev/share/9DRDvLQJ/LearnDatabases\\">
+				analytics.learndatabases.dev
+			</a>
+		</p>
 
   </body>
 
@@ -101,6 +109,9 @@ exports[`test welcome page should render postgres page correctly 1`] = `
     .db-card {
       cursor: pointer;
     }
+		.darkenCards {
+			opacity: 60%;
+		}
     .db-card:hover {
       border-left: solid 5px rgb(10, 70, 120);
     }
@@ -111,13 +122,15 @@ exports[`test welcome page should render postgres page correctly 1`] = `
     })
     document.getElementById('elastic').addEventListener('click', () => {
       location.href = '/elasticsearch'
-    })
+		})
+		/*
     document.getElementById('mongodb').addEventListener('click', () => {
       location.href = '/mongodb'
     })
     document.getElementById('neo4j').addEventListener('click', () => {
       location.href = '/neo4j'
-    })
+		})
+		*/
   </script>
 
   <script async defer data-website-id=\\"d367293a-0e30-4ae1-bdce-3651e1b64909\\" src=\\"https://analytics.learndatabases.dev/umami.js\\"></script>
@@ -184,40 +197,44 @@ exports[`test welcome page should render resetPassword page correctly 1`] = `
 </script>
 
 <main>
-    <div class=\\"card\\">
-        <div class=\\"body\\">
-            <h3 class=\\"subtitle\\">Reset your password</h3>
-            <input class=\\"email\\" placeholder=\\"Email\\" /><br>
-            <button class=\\"submit\\">Submit</button>
-        </div>
-        <div class=\\"tale\\">
-            <div>Wanna go back? <a href=\\"/signin\\">Log In</a></div>
-        </div>
+  <div class=\\"card\\">
+    <div class=\\"body\\">
+      <h3 class=\\"subtitle\\">Reset your password</h3>
+      <input class=\\"email\\" placeholder=\\"Email\\" /><br />
+      <button class=\\"submit\\">Submit</button>
     </div>
+    <div class=\\"tale\\">
+      <div>Wanna go back? <a href=\\"/signin\\">Log In</a></div>
+    </div>
+  </div>
 </main>
 
 <script>
-  const submit = document.querySelector('.submit');
-  const email = document.querySelector('.email');
+  const submit = document.querySelector(\\".submit\\");
+  const email = document.querySelector(\\".email\\");
 
-  submit.addEventListener('click', () => {
-    fetch('/api/notifications', {
+  submit.addEventListener(\\"click\\", () => {
+    fetch(\\"/api/notifications\\", {
       method: \\"POST\\",
       headers: {
-        'content-type': 'application/json'
+        \\"content-type\\": \\"application/json\\",
       },
       body: JSON.stringify({
-        email: email.value
-      })
-    }).then(r => r.json()).then((r) => {
-      if (r.error) {
-        alert(r.error.message)
-      } else {
-        alert(\\"Check your email and set your password\\")
-        return location.href = '/signin'
-      }
+        email: email.value,
+      }),
     })
-  })
+      .then((r) => r.json())
+      .then((r) => {
+        if (r.error) {
+          alert(r.error.message);
+        } else {
+          alert(
+            \\"Check your email (don't forget to check the spam box!) and set your password\\"
+          );
+          return (location.href = \\"/signin\\");
+        }
+      });
+  });
 </script>
 "
 `;
@@ -494,43 +511,41 @@ exports[`test welcome page should render sign up page correctly 1`] = `
 <div class=\\"card\\">
   <div class=\\"body\\">
     <h3 class=\\"subtitle\\">Create Account</h3>
-    <input
-      class=\\"email\\"
-      type=\\"email\\"
-      placeholder=\\"Email Address\\"
-      required
-      />
+    <input class=\\"email\\" type=\\"email\\" placeholder=\\"Email Address\\" required />
     <button class=\\"submit\\">Create Account</button>
   </div>
-  <div class=\\"tale\\">
-    Already have an account? <a href=\\"/signin\\">Login</a>
-  </div>
+  <div class=\\"tale\\">Already have an account? <a href=\\"/signin\\">Login</a></div>
 
-<script>
-  const submit = document.querySelector('.submit');
-  const check = document.querySelector('.check');
-  const email = document.querySelector('.email')
+  <script>
+    const submit = document.querySelector(\\".submit\\");
+    const check = document.querySelector(\\".check\\");
+    const email = document.querySelector(\\".email\\");
 
-  submit.addEventListener('click', () => {
-    fetch('/api/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: email.value.toLowerCase()
+    submit.addEventListener(\\"click\\", () => {
+      fetch(\\"/api/users\\", {
+        method: \\"POST\\",
+        headers: {
+          \\"Content-Type\\": \\"application/json\\",
+        },
+        body: JSON.stringify({
+          email: email.value.toLowerCase(),
+        }),
       })
-    }).then(r => r.json()).then((res) => {
-      if (res.error) {
-        const message = res.error.message
-        alert(message)
-      } else {
-        alert(\\"Check your email and set your password\\")
-        return location.href = '/signin'
-      }
-    })
-  })
-</script>
+        .then((r) => r.json())
+        .then((res) => {
+          if (res.error) {
+            const message = res.error.message;
+            alert(message);
+          } else {
+            alert(
+              \\"Check your email (don't forget to check the spam box!) and set your password\\"
+            );
+            return (location.href = \\"/signin\\");
+          }
+        });
+    });
+  </script>
+</div>
 "
 `;
 
@@ -606,12 +621,12 @@ exports[`test welcome page should render welcome page correctly 1`] = `
         <h4 class=\\"db-title\\">Elasticsearch</h4>
         <p class=\\"db-discription\\">A highly scalable full-text search analytics engine. It allows you to store, search and analyze big volumes of data quickly and in near real time.</p>
       </blockquote>
-      <blockquote id=\\"mongodb\\" class=\\"db-card\\">
-        <h4 class=\\"db-title\\">MongoDB</h4>
+      <blockquote id=\\"mongodb\\" class=\\"db-card darkenCards\\">
+        <h4 class=\\"db-title\\">MongoDB (coming next sprint!)</h4>
         <p class=\\"db-discription\\">An open source database management system using a document-oriented database model that supports various forms of data.<p>
-      </blockquote>
-      <blockquote id=\\"neo4j\\" class=\\"db-card\\">
-        <h4 class=\\"db-title\\">Neo4j</h4>
+			</blockquote>
+      <blockquote id=\\"neo4j\\" class=\\"db-card darkenCards\\">
+        <h4 class=\\"db-title\\">Neo4j (coming next sprint!)</h4>
         <p class=\\"db-discription\\">A graph database management system that is the most popular graph database and the 22nd most popular database overall.</p>
       </blockquote>
 
@@ -625,9 +640,17 @@ exports[`test welcome page should render welcome page correctly 1`] = `
       </li>
     </ul>
 
-    <p>Want to add a new Database or Sponsor? <a href=\\"#\\">Contact Us</a></p>
+    <p>Want to add a new Database or Sponsor? 
+			<a href=\\"https://github.com/garageScript/databases/issues\\">Contact Us</a>
+		</p>
 
-    <p>We collect anonymous analytics using Simple Analytics. View live: <a href=\\"#\\">simpleanalytics.com/learndatabases.dev</a></p>
+		<p>We collect anonymous analytics using 
+			<a href=\\"https://umami.is/\\">Umami</a>. 
+			View live: 
+			<a href=\\"https://analytics.learndatabases.dev/share/9DRDvLQJ/LearnDatabases\\">
+				analytics.learndatabases.dev
+			</a>
+		</p>
 
   </body>
 
@@ -635,6 +658,9 @@ exports[`test welcome page should render welcome page correctly 1`] = `
     .db-card {
       cursor: pointer;
     }
+		.darkenCards {
+			opacity: 60%;
+		}
     .db-card:hover {
       border-left: solid 5px rgb(10, 70, 120);
     }
@@ -645,13 +671,15 @@ exports[`test welcome page should render welcome page correctly 1`] = `
     })
     document.getElementById('elastic').addEventListener('click', () => {
       location.href = '/elasticsearch'
-    })
+		})
+		/*
     document.getElementById('mongodb').addEventListener('click', () => {
       location.href = '/mongodb'
     })
     document.getElementById('neo4j').addEventListener('click', () => {
       location.href = '/neo4j'
-    })
+		})
+		*/
   </script>
 
   <script async defer data-website-id=\\"d367293a-0e30-4ae1-bdce-3651e1b64909\\" src=\\"https://analytics.learndatabases.dev/umami.js\\"></script>
