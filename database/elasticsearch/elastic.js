@@ -24,7 +24,7 @@ const sendESRequest = (path, method, body) => {
 };
 
 es.createAccount = async (account) => {
-  if (!account.username || !account.password || !account.email) {
+  if (!account.username || !account.dbPassword || !account.email) {
     logger.error("Account data is invalid");
     throw new Error("Account data is invalid");
   }
@@ -45,7 +45,7 @@ es.createAccount = async (account) => {
     "POST",
     {
       email: account.email,
-      password: account.password,
+      password: account.dbPassword,
       roles: [account.username],
     }
   );
