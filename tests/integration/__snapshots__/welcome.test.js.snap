@@ -102,7 +102,7 @@ exports[`test welcome page should render postgres page correctly 1`] = `
 				analytics.learndatabases.dev
 			</a>
 		</p>
-
+                <div id=\\"banner\\">We just launched!<br><a href=\\"https://news.ycombinator.com/item?id=24554675\\" target=\\"_blank\\">Discuss on HN</a></div>
   </body>
 
   <style>
@@ -114,6 +114,17 @@ exports[`test welcome page should render postgres page correctly 1`] = `
 		}
     .db-card:hover {
       border-left: solid 5px rgb(10, 70, 120);
+    }
+    #banner {
+      position: fixed;
+      background-color: rgb(170, 40, 10);
+      box-shadow: 10px 10px rgba(100,100,100,0.5);
+      right: 4rem;
+      top: 4rem;
+      padding: 1rem;
+    }
+    #banner > * {
+      color: white;
     }
   </style>
   <script>
@@ -651,7 +662,7 @@ exports[`test welcome page should render welcome page correctly 1`] = `
 				analytics.learndatabases.dev
 			</a>
 		</p>
-
+                <div id=\\"banner\\">We just launched!<br><a href=\\"https://news.ycombinator.com/item?id=24554675\\" target=\\"_blank\\">Discuss on HN</a></div>
   </body>
 
   <style>
@@ -663,6 +674,17 @@ exports[`test welcome page should render welcome page correctly 1`] = `
 		}
     .db-card:hover {
       border-left: solid 5px rgb(10, 70, 120);
+    }
+    #banner {
+      position: fixed;
+      background-color: rgb(170, 40, 10);
+      box-shadow: 10px 10px rgba(100,100,100,0.5);
+      right: 4rem;
+      top: 4rem;
+      padding: 1rem;
+    }
+    #banner > * {
+      color: white;
     }
   </style>
   <script>
