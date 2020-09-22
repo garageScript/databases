@@ -31,8 +31,8 @@ password: ${dbPassword}</code>`
   const createDb = () => {
     if (disabled) return
     disabled = true
-    button.classList.add("disabled")
     const button = document.getElementById("button")
+    button.classList.add("disabled")
     button.innerText="Creating..."
     fetch('/api/createDatabase/elastic', { method: "POST" }).then(r => r.json()).then((r) => {
       if (r.error) {
