@@ -203,5 +203,3 @@ await Lessons.create({
   title: 'new title'
 })
 ```
-
-# 5 Scaling
