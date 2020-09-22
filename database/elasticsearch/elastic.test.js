@@ -26,7 +26,7 @@ describe("testing es create account function", () => {
     const account = {
       username: "testuser",
       email: "em@i.l",
-      password: "1234qwer",
+      dbPassword: "1234qwer",
     };
     fetch.mockReturnValue(
       Promise.resolve({
@@ -44,7 +44,7 @@ describe("testing es create account function", () => {
     const account = {
       username: "testuser",
       email: "em@i.l",
-      password: "1234qwer",
+      dbPassword: "1234qwer",
     };
     fetch.mockReturnValue(
       Promise.resolve({
@@ -62,7 +62,7 @@ describe("testing es create account function", () => {
     const account = {
       username: "testuser",
       email: "em@i.l",
-      password: "1234qwer",
+      dbPassword: "1234qwer",
     };
     fetch.mockReturnValue(
       Promise.resolve({
