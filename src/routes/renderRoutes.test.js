@@ -16,7 +16,6 @@ db.getModels = () => {
 };
 const mockResponse = {
   render: jest.fn(),
-  redirect: jest.fn(),
 };
 const mockRequest = {
   session: {},
@@ -25,9 +24,12 @@ const mockRequest = {
 es.checkAccount = jest.fn();
 
 describe("Testing postgres router", () => {
-  test("postgres function should call res.redirect if session is undefined", async () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  test("postgres function should call res.render with null userdata if session is undefined", async () => {
     await postgres(mockRequest, mockResponse);
-    expect(mockResponse.redirect).toHaveBeenCalled();
+    expect(mockResponse.render.mock.calls[0][1].username).toEqual(null);
   });
   test("postgres function should call res.render if session user is found", async () => {
     mockRequest.session.email = "em@i.l";
@@ -42,11 +44,14 @@ describe("Testing postgres router", () => {
 });
 
 describe("Testing elastic router", () => {
-  test("elastic function should call res.redirect if session is undefined", async () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  test("elastic function should call res.render with null userdata if session is undefined", async () => {
     mockRequest.session.email = null;
     mockRequest.session.userid = null;
     await elastic(mockRequest, mockResponse);
-    expect(mockResponse.redirect).toHaveBeenCalled();
+    expect(mockResponse.render.mock.calls[0][1].username).toEqual(null);
   });
   test("elastic function should call res.render if session user is found", async () => {
     mockRequest.session.email = "em@i.l";

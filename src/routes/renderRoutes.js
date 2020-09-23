@@ -5,7 +5,14 @@ const pg = require("../../database/postgres/pg");
 const routes = {};
 
 routes.postgres = async (req, res) => {
-  if (!req.session.email) return res.redirect("/");
+  if (!req.session.email) {
+    return res.render("postgres", {
+      email: null,
+      username: null,
+      dbPassword: null,
+      dbExists: false,
+    });
+  }
   const { Accounts } = db.getModels();
   const userAccount = await Accounts.findOne({
     where: {
@@ -22,7 +29,14 @@ routes.postgres = async (req, res) => {
 };
 
 routes.elastic = async (req, res) => {
-  if (!req.session.email) return res.redirect("/");
+  if (!req.session.email) {
+    return res.render("elastic", {
+      email: null,
+      username: null,
+      dbPassword: null,
+      dbExists: false,
+    });
+  }
   const { Accounts } = db.getModels();
   const userAccount = await Accounts.findOne({
     where: {
