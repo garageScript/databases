@@ -30,18 +30,28 @@ startApp()
 ## 2.2 Simple Commands
   After connecting to Postgres, you can now send commands that Postgres can understand. These commands are called Sequel Query Language (SQL). Here are a few:
 
-  * `CREATE TABLE lesson( id serial PRIMARY KEY, title VARCHAR (256) );`
+  * ```
+  CREATE TABLE lesson( id serial PRIMARY KEY, title VARCHAR (256) );
+  ```
     * This creates a table called `lesson` that has 2 columns: `id` and `title`
     * `id` column is a primary key and the `serial` property means that it will automatically increase as you add rows into the table.
     * `VARCHAR (256)` means that title is a string of up to 256 characters.
     * **Make sure you don't run this over and over again. You only need to run this command once**
-  * `INSERT INTO lesson (title) VALUES ('postgres tutorial')`
+  * ```
+  INSERT INTO lesson (title) VALUES ('postgres tutorial')
+  ```
     * This creates a new row in the `lesson` table with a title of 'postgres tutorial'.
-  * `select * from lesson where title = 'postgres tutorial'` 
+  * ```
+  SELECT * FROM lesson WHERE title = 'postgres tutorial'
+  ```
     * This retrieves all the rows from the lesson table that has the title `"postgres tutorial'`.
-  * `UPDATE lesson SET title = 'postgres demo' WHERE id=1;`
+  * ```
+  UPDATE lesson SET title = 'postgres demo' WHERE id=1;
+  ```
     * Retrieves the row where `id =1`, and then changes the title to `'postgres demo'`
-  * `DELETE FROM lesson WHERE id=1;`
+  * ```
+  DELETE FROM lesson WHERE id=1;
+  ```
     * Deletes the row where `id = 1`
 
   To run a Query, you run `client.query(' -- YOUR SQL HERE --')`
