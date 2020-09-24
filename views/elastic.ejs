@@ -4,10 +4,17 @@
 </div>
 <div id="content"></div>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js"
+  integrity="sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw=="
+  crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/tomorrow.min.css"
+  integrity="sha512-r3qr7vMdHYmWUzqC7l4H/W03ikAyiFIQld+B71yAmHhu7wcsnvm/adhikM+FzDxxK9ewznhCVnAm+yYZpPBnSg=="
+  crossorigin="anonymous" />
 <script>
+  hljs.initHighlightingOnLoad()
   const username = "<%= username %>"
   const dbPassword = "<%= dbPassword %>"
-  const dbExists = <%= dbExists %>
+  const dbExists = "<%= dbExists %>"
 
   const credentials = document.createElement("pre")
   credentials.innerHTML = `<code>host: https://elastic.learndatabases.dev/
@@ -36,13 +43,13 @@ password: ${dbPassword}</code>`
     disabled = true
     const button = document.getElementById("button")
     button.classList.add("disabled")
-    button.innerText="Creating..."
+    button.innerText = "Creating..."
     fetch('/api/createDatabase/elastic', { method: "POST" }).then(r => r.json()).then((r) => {
       if (r.error) {
         alert(r.error.message)
         disabled = false
         button.classList.remove("disabled")
-        button.innerText="Create my database"
+        button.innerText = "Create my database"
       } else {
         alert(r.success.message)
         button.style.opacity = 0
@@ -55,14 +62,19 @@ password: ${dbPassword}</code>`
           }, 200)
         }, 200)
       }
-    }) 
+    })
   }
 
   const content = document.getElementById("content")
   fetch('/lessons/elastic.md').then(r => r.text()).then((r) => {
     console.log(dbExists)
+    marked.setOptions({
+      highlight: function (code) {
+        return hljs.highlightAuto(code).value
+      }
+    })
     const markedHTML = marked(r)
-    const markedHTMLwithUserData = markedHTML.replace(/@username/gi, username).replace(/@dbPassword/gi,dbPassword)
+    const markedHTMLwithUserData = markedHTML.replace(/@username/gi, username).replace(/@dbPassword/gi, dbPassword)
     content.innerHTML = markedHTMLwithUserData
   })
 </script>
@@ -73,6 +85,7 @@ password: ${dbPassword}</code>`
     margin: auto;
     transition: 0.2s;
   }
+
   #button.disabled {
     cursor: default;
   }
