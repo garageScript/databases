@@ -18,8 +18,7 @@ routes.database = async (req, res) => {
   if (req.params.database === "Elasticsearch") {
     renderData.dbHost = "elastic.learndatabases.dev";
   }
-  if (!req.session.id) {
-  } else {
+  if (req.session.userid) {
     const { Accounts } = db.getModels();
     const userAccount = await Accounts.findOne({
       where: {
