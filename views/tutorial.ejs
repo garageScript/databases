@@ -14,7 +14,7 @@
   const dbHost = "<%= dbHost %>"
   const username = "<%= username %>"
   const dbPassword = "<%= dbPassword %>"
-  const dbExists = "<%= dbExists %>"
+  const dbExists = <%= dbExists %>
   const database = "<%= database %>"
 
   const credentials = document.createElement("pre")
@@ -68,7 +68,6 @@ password: ${dbPassword}</code>`
 
   const content = document.getElementById("content")
   fetch(`/lessons/${database}.md`).then(r => r.text()).then((r) => {
-    console.log(dbExists)
     marked.setOptions({
       highlight: function (code) {
         return hljs.highlightAuto(code).value
