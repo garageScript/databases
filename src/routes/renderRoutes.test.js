@@ -4,7 +4,7 @@ jest.mock("../../database/postgres/pg");
 
 const db = require("../../sequelize/db");
 const es = require("../../database/elasticsearch/elastic");
-const { postgres, elastic } = require("./renderRoutes");
+const { database } = require("./renderRoutes");
 
 const mockFindOne = jest.fn();
 db.getModels = () => {
@@ -18,49 +18,56 @@ const mockResponse = {
   render: jest.fn(),
 };
 const mockRequest = {
+  params: {},
   session: {},
 };
 
 es.checkAccount = jest.fn();
 
-describe("Testing postgres router", () => {
+describe("Testing database router", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  test("postgres function should call res.render with null userdata if session is undefined", async () => {
-    await postgres(mockRequest, mockResponse);
+  test("when database function is called with non-logged in user and Postgres parameter", async () => {
+    mockRequest.params.database = "Postgres";
+    await database(mockRequest, mockResponse);
     expect(mockResponse.render.mock.calls[0][1].username).toEqual(null);
+    expect(mockResponse.render.mock.calls[0][1].dbHost).toEqual(
+      "learndatabases.dev"
+    );
   });
-  test("postgres function should call res.render if session user is found", async () => {
-    mockRequest.session.email = "em@i.l";
-    mockRequest.session.userid = 99999999;
-    const userAccount = {
-      dbPassword: "testdbpw",
-    };
-    mockFindOne.mockReturnValue(userAccount);
-    await postgres(mockRequest, mockResponse);
-    expect(mockResponse.render).toHaveBeenCalled();
-  });
-});
-
-describe("Testing elastic router", () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-  test("elastic function should call res.render with null userdata if session is undefined", async () => {
-    mockRequest.session.email = null;
-    mockRequest.session.userid = null;
-    await elastic(mockRequest, mockResponse);
+  test("when database function is called with non-logged in user and Elasticsearch parameter", async () => {
+    mockRequest.params.database = "Elasticsearch";
+    await database(mockRequest, mockResponse);
     expect(mockResponse.render.mock.calls[0][1].username).toEqual(null);
+    expect(mockResponse.render.mock.calls[0][1].dbHost).toEqual(
+      "elastic.learndatabases.dev"
+    );
   });
-  test("elastic function should call res.render if session user is found", async () => {
-    mockRequest.session.email = "em@i.l";
-    mockRequest.session.userid = 99999999;
-    const userAccount = {
-      dbPassword: "testdbpw",
-    };
-    mockFindOne.mockReturnValue(userAccount);
-    await elastic(mockRequest, mockResponse);
-    expect(mockResponse.render).toHaveBeenCalled();
+  test("when database function is called with logged in user and Postgres parameter", async () => {
+    mockRequest.session.id = 999999;
+    mockRequest.params.database = "Postgres";
+    mockFindOne.mockReturnValue({
+      username: "testuser",
+      dbPassword: "database",
+    });
+    await database(mockRequest, mockResponse);
+    expect(mockResponse.render.mock.calls[0][1].username).toEqual("testuser");
+    expect(mockResponse.render.mock.calls[0][1].dbHost).toEqual(
+      "learndatabases.dev"
+    );
+  });
+  test("when database function is called with logged in user and Elasticsearch parameter", async () => {
+    mockRequest.session.id = 999999;
+    mockRequest.params.database = "Elasticsearch";
+    mockFindOne.mockReturnValue({
+      username: "testuser",
+      dbPassword: "database",
+    });
+    await database(mockRequest, mockResponse);
+    expect(mockResponse.render.mock.calls[0][1].username).toEqual("testuser");
+    expect(mockResponse.render.mock.calls[0][1].dbHost).toEqual(
+      "elastic.learndatabases.dev"
+    );
   });
 });

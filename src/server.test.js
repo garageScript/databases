@@ -101,8 +101,6 @@ describe("Testing render routes", () => {
   test("should call render router functions", async () => {
     await startServer();
     await app.get.mock.calls[5][1]();
-    expect(renderRoutes.postgres).toHaveBeenCalled();
-    await app.get.mock.calls[6][1]();
-    expect(renderRoutes.elastic).toHaveBeenCalled();
+    expect(renderRoutes.database).toHaveBeenCalled();
   });
 });
