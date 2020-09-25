@@ -164,13 +164,13 @@ routes.createDatabase = async (req, res) => {
   }
 
   try {
-    if (req.params.database === "postgres") {
+    if (req.params.database === "Postgres") {
       await pgModule.createPgAccount(username, dbPassword);
       return res
         .status(200)
         .json({ success: { message: "Create Postgres Database success" } });
     }
-    if (req.params.database === "elastic") {
+    if (req.params.database === "Elasticsearch") {
       await es.createAccount(user);
       return res.status(200).json({
         success: { message: "Create Elasticsearch Database success" },
