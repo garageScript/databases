@@ -45,7 +45,7 @@ describe("Testing database router", () => {
     );
   });
   test("when database function is called with logged in user and Postgres parameter", async () => {
-    mockRequest.session.id = 999999;
+    mockRequest.session.userid = 999999;
     mockRequest.params.database = "Postgres";
     mockFindOne.mockReturnValue({
       username: "testuser",
@@ -58,7 +58,7 @@ describe("Testing database router", () => {
     );
   });
   test("when database function is called with logged in user and Elasticsearch parameter", async () => {
-    mockRequest.session.id = 999999;
+    mockRequest.session.userid = 999999;
     mockRequest.params.database = "Elasticsearch";
     mockFindOne.mockReturnValue({
       username: "testuser",
