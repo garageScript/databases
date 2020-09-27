@@ -1,4 +1,5 @@
 jest.mock('../lib/log')
+require("dotenv").config();
 const logGen = require('../lib/log')
 const logger = {
     info: jest.fn(),
@@ -19,14 +20,14 @@ mailgun.mockImplementation(() => {
 
 const email = require('./mailer');
 
-describe('Test mailgun', ()=>{
+describe('Test mailgun', () => {
     beforeEach(() => {
         jest.clearAllMocks()
     })
 
     it('should test if mocksend and mailgun is called', async () => {
         messages.send = jest.fn().mockReturnValue(Promise.resolve('hello'))
-        await email.sendPasswordResetEmail('paul@github.com', 'token123')
+        await email.sendPasswordResetEmail('paul@github.com', 'token123', true)
         expect(messages.send).toHaveBeenCalledTimes(1)
         expect(messages.send.mock.calls[0][0]).toMatchSnapshot()
         expect(logger.info).toHaveBeenCalledTimes(1)
@@ -39,5 +40,14 @@ describe('Test mailgun', ()=>{
         expect(logger.error).toHaveBeenCalledTimes(1)
         expect(logger.error.mock.calls[0][0]).toEqual('Confirmation Email Error:')
     })
-
+    it('should send email to learndatabases with ENV_MODE set to production', async () => {
+        messages.send = jest.fn().mockReturnValue(Promise.resolve('hello'))
+        await email.sendPasswordResetEmail('paul@github.com', 'token123', "production", 4000)
+        expect(messages.send.mock.calls[0][0].html.includes('https://learndatabases.dev/setPassword/token123')).toEqual(true)
+    })
+    it('should notify that development mode is on in confirmation email', async () => {
+        messages.send = jest.fn().mockReturnValue(Promise.resolve('hello'))
+        await email.sendPasswordResetEmail('paul@github.com', 'token123', "development", 4000)
+        expect(messages.send.mock.calls[0][0].html.includes('DEVELOPMENT MODE IS ON')).toEqual(true)
+    })
 })
