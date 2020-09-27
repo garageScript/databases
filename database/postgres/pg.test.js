@@ -47,7 +47,8 @@ describe("Test PG DB", () => {
     });
     describe("Test createPgAccount", () => {
       it("it should execute all queries if required arguments are passed into createPgAccount", async () => {
-        await createPgAccount("username", "password");
+        const user = { username: "username", dbPassword: "password" };
+        await createPgAccount(user);
         expect(mockClient.query).toHaveBeenCalledTimes(3);
         expect(mockClient.query.mock.calls[0]).toEqual([
           `CREATE DATABASE username;`,
@@ -65,16 +66,15 @@ describe("Test PG DB", () => {
         ]);
       });
       it("it should not execute any queries in createPgAccount if required arguments are not passed in", async () => {
-        await createPgAccount();
+        const user = {};
+        await createPgAccount(user);
         expect(mockClient.query).toHaveBeenCalledTimes(0);
       });
       it("it should check if logger.error is called at throw of createPgAccount", async () => {
         try {
           await mockClient.query.mockReturnValue(Promise.reject());
-          const resCreatePgAccount = await createPgAccount(
-            "username",
-            "password"
-          );
+          const user = { username: "username", dbPassword: "password" };
+          const resCreatePgAccount = await createPgAccount(user);
           expect(resCreatePgAccount).rejects.toThrow();
         } catch (err) {
           expect(logger.error).toHaveBeenCalledTimes(1);

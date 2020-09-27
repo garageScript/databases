@@ -6,6 +6,7 @@ const pgModule = require("../database/postgres/pg");
 const {
   resetPasswordEmail,
   createUser,
+  createAnonUser,
   deleteUser,
   loginUser,
   logoutUser,
@@ -65,6 +66,7 @@ const startServer = async (portNumber) => {
     app.get("/elasticsearch", elastic);
     app.post("/api/notifications", resetPasswordEmail);
     app.post("/api/users", createUser);
+    app.post("/api/anonymous/:database", createAnonUser);
     app.delete("/api/users/:id", deleteUser);
     app.post("/api/session", loginUser);
     app.delete("/api/session", logoutUser);

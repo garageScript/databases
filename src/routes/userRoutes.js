@@ -53,6 +53,27 @@ routes.createUser = async (req, res) => {
   }
 };
 
+routes.createAnonUser = async (req, res) => {
+  try {
+    const account = await signUp({ email: null });
+    logger.info("Succeded creating anonymous user account", account.id);
+    if (req.params.database === "Postgres") {
+      await pgModule.createPgAccount(account);
+      logger.info("Creating anonymous postgres account suceeded");
+      return res.json(account);
+    }
+    if (req.params.database === "Elasticsearch") {
+      await es.createAccount(account);
+      logger.info("Creating anonymous elasticsearch account suceeded");
+      return res.json(account);
+    }
+    return res.json({ ...account.dataValues, password: null });
+  } catch (err) {
+    logger.error("Creating anonymous user failed", err);
+    return res.status(400).json({ error: { message: err.message } });
+  }
+};
+
 routes.deleteUser = async (req, res) => {
   if (!req.params.id) {
     logger.info("user id was not provided");
@@ -140,32 +161,21 @@ routes.userResetPassword = async (req, res) => {
 };
 
 routes.createDatabase = async (req, res) => {
-  if (!req.session.email) {
+  let user;
+  if (!req.session.userid) {
     logger.info("User must be signed in to create database");
     return res.status(403).json({
       error: { message: "You must be signed in to create a database" },
     });
-  }
-
-  const { Accounts } = db.getModels();
-  const user = await Accounts.findOne({
-    where: { id: req.session.userid },
-  });
-
-  const { username, dbPassword } = user;
-
-  if (!dbPassword) {
-    logger.info("User must use password to create database");
-    return res.status(400).json({
-      error: {
-        message: "You must use your database password to create a database",
-      },
+  } else {
+    const { Accounts } = db.getModels();
+    const user = await Accounts.findOne({
+      where: { id: req.session.userid },
     });
   }
-
   try {
     if (req.params.database === "postgres") {
-      await pgModule.createPgAccount(username, dbPassword);
+      await pgModule.createPgAccount(user);
       return res
         .status(200)
         .json({ success: { message: "Create Postgres Database success" } });
