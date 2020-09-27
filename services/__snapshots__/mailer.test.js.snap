@@ -9,7 +9,12 @@ Object {
           <hr>
           <div id=\\"content\\">
             <p>You have requested a (re)set password token. The button below will redirect you to our website with an autheticated token. Please click the button and set your password.</p>
+<<<<<<< HEAD
+            <a href=\\"https://learndatabases.dev/setPassword/token123\\" target=\\"_blank\\" id=\\"button\\">Set my Password</a> 
+=======
             <a href=\\"https://learndatabases.dev/setPassword/token123\\" target=\\"_blank\\" id=\\"button\\">Set my Password</a>
+            
+>>>>>>> 392f76f... closes #221 - Update Readme.md
             <p><small><b style=\\"color: red\\">Warning</b>: Anyone with access to this email has access to your account. Don't share this email with other people.</small></p> 
           </div>
         </div>
