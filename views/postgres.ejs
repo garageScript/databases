@@ -26,7 +26,7 @@ database: ${username}</code>`
   if (!username) {
     introduction.innerHTML = `
   <p>In this module, you can learn how to use Postgres. Don't have Postgres installed on your local machine yet? Fear not! We can make a Postgres database for you. Simply click on the button below to create your temporary Postgres database. Credentials for your database will appear after it is done being created.</p>
-  <p>Temporary database credentials will expire in 5 days. If you want, you can signup with us and get a non-expiring Postgres database!</p>
+  <p>Temporary database credentials will expire in 5 days. If you want, you can sign up with us and get a non-expiring Postgres database!</p>
 <p><button id="anon_createdb_button" class="createdb" onclick="anon_createdb()">Create my database</button></p>
     `
   } else if (!dbExists) {
@@ -87,7 +87,7 @@ database: ${username}</code>`
 username: ${r.username}
 password: ${r.dbPassword}
 database: ${r.username}</code>`
-        alert("Temporary database is created. Since credentials are provided only once, please keep the information somewhere safe :)");
+        alert("Your temporary database is created. Since credentials are provided only once, please keep the information somewhere safe :)");
         button.style.opacity = 0
         setTimeout(() => {
           button.innerText = "Complete!"
