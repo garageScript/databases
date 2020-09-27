@@ -410,40 +410,13 @@ describe("test creating database", () => {
     );
   });
 
-  it("should return success if there is a email", async () => {
-    const req = {
-      session: {
-        email: "testm@i.l",
-      },
-      params: {
-        database: "",
-      },
-    };
-    db.getModels = () => {
-      return {
-        Accounts: {
-          findOne: () => {
-            return {
-              email: "testm@i.l",
-              dbPassword: "Google",
-            };
-          },
-        },
-      };
-    };
-    await createDatabase(req, res);
-    return expect(res.json.mock.calls[0][0].error.message).toEqual(
-      "You must specify database to create"
-    );
-  });
-
   it("should return success if creating postgres database success", async () => {
     const req = {
       session: {
         email: "testm@i.l",
       },
       params: {
-        database: "postgres",
+        database: "Postgres",
       },
     };
 
@@ -472,6 +445,9 @@ describe("test creating database", () => {
     const req = {
       session: {
         email: "testm@i.l",
+      },
+      params: {
+        database: "Postgres",
       },
     };
 
@@ -504,7 +480,7 @@ describe("test creating database", () => {
         email: "testm@i.l",
       },
       params: {
-        database: "elastic",
+        database: "Elasticsearch",
       },
     };
 
@@ -533,6 +509,9 @@ describe("test creating database", () => {
     const req = {
       session: {
         email: "testm@i.l",
+      },
+      params: {
+        database: "Elasticsearch",
       },
     };
 

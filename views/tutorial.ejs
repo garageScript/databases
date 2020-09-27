@@ -1,5 +1,5 @@
 <%- include("./partials/head") %>
-<h3>Learn Elasticsearch</h3>
+<h3>Learn <%= database %></h3>
 <div id="introduction">
 </div>
 <div id="content"></div>
@@ -11,28 +11,29 @@
   integrity="sha512-r3qr7vMdHYmWUzqC7l4H/W03ikAyiFIQld+B71yAmHhu7wcsnvm/adhikM+FzDxxK9ewznhCVnAm+yYZpPBnSg=="
   crossorigin="anonymous" />
 <script>
-  hljs.initHighlightingOnLoad()
+  const dbHost = "<%= dbHost %>"
   const username = "<%= username %>"
   const dbPassword = "<%= dbPassword %>"
-  const dbExists = "<%= dbExists %>"
+  const dbExists = <%= dbExists %>
+  const database = "<%= database %>"
 
   const credentials = document.createElement("pre")
-  credentials.innerHTML = `<code>host: https://elastic.learndatabases.dev/
+  credentials.innerHTML = `<code>host: ${dbHost}
 username: ${username}
 password: ${dbPassword}</code>`
 
   const introduction = document.getElementById("introduction")
   if (!username) {
     introduction.innerHTML = `
-  <p>In this module, you can learn how to use Postgres. Don't have Postgres installed on your local machine yet? Fear not! We can make a Postgres database for you. Please login first to create your database. If you want, you may keep reading this tutorial without login.</p>`
+  <p>In this module, you can learn how to use ${database}. Don't have ${database} installed on your local machine yet? Fear not! We can make a ${database} database for you. Please login first to create your database. If you want, you may keep reading this tutorial without login.</p>`
   } else if (!dbExists) {
     introduction.innerHTML = `
-  <p>In this module, you can learn how to use Elasticsearch. Don't have Elasticsearch installed on your local machine yet? Fear not! We can make an Elasticsearch database for you. Simply click on the button below to create your Elasticsearch database. Credentials for your database will appear after it is done being created.</p>
+  <p>In this module, you can learn how to use ${database}. Don't have ${database} installed on your local machine yet? Fear not! We can make an ${database} database for you. Simply click on the button below to create your ${database} database. Credentials for your database will appear after it is done being created.</p>
 <p><button id="button" onclick="createDb()">Create my database</button></p>
     `
   } else {
     introduction.innerHTML = `
-<p>In this module, you can learn how to use Elasticsearch. You have already created an Elasticsearch database on our server. Here are the credentials for your database.</p>
+<p>In this module, you can learn how to use ${database}. You have already created an ${database} database on our server. Here are the credentials for your database.</p>
     `
     introduction.append(credentials)
   }
@@ -44,7 +45,7 @@ password: ${dbPassword}</code>`
     const button = document.getElementById("button")
     button.classList.add("disabled")
     button.innerText = "Creating..."
-    fetch('/api/createDatabase/elastic', { method: "POST" }).then(r => r.json()).then((r) => {
+    fetch(`/api/createDatabase/${database}`, { method: "POST" }).then(r => r.json()).then((r) => {
       if (r.error) {
         alert(r.error.message)
         disabled = false
@@ -66,8 +67,7 @@ password: ${dbPassword}</code>`
   }
 
   const content = document.getElementById("content")
-  fetch('/lessons/elastic.md').then(r => r.text()).then((r) => {
-    console.log(dbExists)
+  fetch(`/lessons/${database}.md`).then(r => r.text()).then((r) => {
     marked.setOptions({
       highlight: function (code) {
         return hljs.highlightAuto(code).value

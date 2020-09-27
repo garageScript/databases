@@ -4,52 +4,39 @@ const pg = require("../../database/postgres/pg");
 
 const routes = {};
 
-routes.postgres = async (req, res) => {
-  if (!req.session.email) {
-    return res.render("postgres", {
-      email: null,
-      username: null,
-      dbPassword: null,
-      dbExists: false,
-    });
+routes.database = async (req, res) => {
+  renderData = {
+    email: null,
+    username: null,
+    dbPassword: null,
+    dbExists: false,
+    database: req.params.database,
+  };
+  if (req.params.database === "Postgres") {
+    renderData.dbHost = "learndatabases.dev";
   }
-  const { Accounts } = db.getModels();
-  const userAccount = await Accounts.findOne({
-    where: {
-      id: req.session.userid,
-    },
-  });
-  const dbExists = await pg.userHasPgAccount(userAccount.username);
-  res.render("postgres", {
-    email: req.session.email,
-    username: userAccount.username,
-    dbPassword: userAccount.dbPassword,
-    dbExists: dbExists,
-  });
-};
-
-routes.elastic = async (req, res) => {
-  if (!req.session.email) {
-    return res.render("elastic", {
-      email: null,
-      username: null,
-      dbPassword: null,
-      dbExists: false,
-    });
+  if (req.params.database === "Elasticsearch") {
+    renderData.dbHost = "elastic.learndatabases.dev";
   }
-  const { Accounts } = db.getModels();
-  const userAccount = await Accounts.findOne({
-    where: {
-      id: req.session.userid,
-    },
-  });
-  const dbExists = await es.checkAccount(userAccount);
-  res.render("elastic", {
-    email: req.session.email,
-    username: userAccount.username,
-    dbPassword: userAccount.dbPassword,
-    dbExists: dbExists,
-  });
+  if (req.session.userid) {
+    const { Accounts } = db.getModels();
+    const userAccount = await Accounts.findOne({
+      where: {
+        id: req.session.userid,
+      },
+    });
+    if (req.params.database === "Postgres") {
+      renderData.dbExists = await pg.userHasPgAccount(userAccount.username);
+    }
+    if (req.params.database === "Elasticsearch") {
+      renderData.dbExists = await es.checkAccount(userAccount);
+    }
+    renderData.email = req.session.email;
+    renderData.username = userAccount.username;
+    renderData.dbPassword = userAccount.dbPassword;
+    renderData.database = req.params.database;
+  }
+  res.render("tutorial", renderData);
 };
 
 module.exports = routes;
