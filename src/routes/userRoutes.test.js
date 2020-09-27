@@ -8,6 +8,7 @@ const db = require("../../sequelize/db");
 const {
   resetPasswordEmail,
   createUser,
+  createAnonUser,
   deleteUser,
   loginUser,
   logoutUser,
@@ -133,6 +134,31 @@ describe("Testing createUser function", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
+  it("should send error if email is not provided", async () => {
+    const req = {
+      body: {},
+    };
+    await createUser(req, res);
+    expect(res.status.mock.calls[0][0]).toEqual(400);
+    return expect(res.json.mock.calls[0][0].error.message).toEqual(
+      "Email is required"
+    );
+  });
+  it("should send error if email already exists", async () => {
+    signUp.mockImplementation(() => {
+      throw new Error("SequelizeUniqueConstraintError");
+    });
+    const req = {
+      body: {
+        email: "em@i.l",
+      },
+    };
+    await createUser(req, res);
+    expect(res.status.mock.calls[0][0]).toEqual(400);
+    return expect(res.json.mock.calls[0][0].error.message).toEqual(
+      "This account already exists."
+    );
+  });
   it("should send error if sign up fails", async () => {
     signUp.mockImplementation(() => {
       throw new Error("Error");
@@ -144,7 +170,9 @@ describe("Testing createUser function", () => {
     };
     await createUser(req, res);
     expect(res.status.mock.calls[0][0]).toEqual(400);
-    return expect(res.json.mock.calls[0][0].error.message).toEqual("Error");
+    return expect(res.json.mock.calls[0][0].error.message).toEqual(
+      "Error: Error"
+    );
   });
   it("should create user account", async () => {
     signUp.mockImplementation(() => {
@@ -162,6 +190,73 @@ describe("Testing createUser function", () => {
     await createUser(req, res);
     expect(res.status.mock.calls[0][0]).toEqual(200);
     return expect(res.json.mock.calls[0][0].email).toEqual("em@i.l");
+  });
+});
+
+describe("Testing createAnonUser function", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  it("should send error if sign up fails", async () => {
+    signUp.mockImplementation(() => {
+      throw new Error("Error");
+    });
+    const req = {
+      params: {
+        database: "Postgres",
+      },
+    };
+    await createAnonUser(req, res);
+    expect(res.status.mock.calls[0][0]).toEqual(400);
+    return expect(res.json.mock.calls[0][0].error.message).toEqual("Error");
+  });
+  it("should create anonymous postgres account", async () => {
+    signUp.mockImplementation(() => {
+      return {
+        dataValues: {
+          username: "testuser",
+        },
+      };
+    });
+    const req = {
+      params: {
+        database: "Postgres",
+      },
+    };
+    await createAnonUser(req, res);
+    return expect(res.json.mock.calls[0][0].username).toEqual("testuser");
+  });
+  it("should create anonymous elasticsearch account", async () => {
+    signUp.mockImplementation(() => {
+      return {
+        dataValues: {
+          username: "testuser",
+        },
+      };
+    });
+    const req = {
+      params: {
+        database: "Elasticsearch",
+      },
+    };
+    await createAnonUser(req, res);
+    return expect(res.json.mock.calls[0][0].username).toEqual("testuser");
+  });
+  it("should response with error when database params value is not provided", async () => {
+    signUp.mockImplementation(() => {
+      return {
+        dataValues: {
+          username: "testuser",
+        },
+      };
+    });
+    const req = {
+      params: {},
+    };
+    await createAnonUser(req, res);
+    return expect(res.json.mock.calls[0][0].error.message).toEqual(
+      "Database parameter value is required"
+    );
   });
 });
 
@@ -367,19 +462,6 @@ describe("test creating database", () => {
     await createDatabase(req, res);
     return expect(res.json.mock.calls[0][0].error.message).toEqual(
       "You must be signed in to create a database"
-    );
-  });
-  it("should return error if there is not a password", async () => {
-    const req = {
-      session: {
-        email: "testm@i.l",
-        dbPassword: null,
-      },
-    };
-
-    await createDatabase(req, res);
-    return expect(res.json.mock.calls[0][0].error.message).toEqual(
-      "You must use your database password to create a database"
     );
   });
 

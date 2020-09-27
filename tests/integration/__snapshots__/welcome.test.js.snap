@@ -83,11 +83,14 @@ database: \${username}</code>\`
   const introduction = document.getElementById(\\"introduction\\")
   if (!username) {
     introduction.innerHTML = \`
-  <p>In this module, you can learn how to use Postgres. Don't have Postgres installed on your local machine yet? Fear not! We can make a Postgres database for you. Please login first to create your database. If you want, you may keep reading this tutorial without login.</p>\`
+  <p>In this module, you can learn how to use Postgres. Don't have Postgres installed on your local machine yet? Fear not! We can make a Postgres database for you. Simply click on the button below to create your temporary Postgres database. Credentials for your database will appear after it is done being created.</p>
+  <p>Temporary database credentials will expire in 5 days. If you want, you can signup with us and get a non-expiring Postgres database!</p>
+<p><button id=\\"anon_createdb_button\\" class=\\"createdb\\" onclick=\\"anon_createdb()\\">Create my database</button></p>
+    \`
   } else if (!dbExists) {
     introduction.innerHTML = \`
   <p>In this module, you can learn how to use Postgres. Don't have Postgres installed on your local machine yet? Fear not! We can make a Postgres database for you. Simply click on the button below to create your Postgres database. Credentials for your database will appear after it is done being created.</p>
-<p><button id=\\"button\\" onclick=\\"createDb()\\">Create my database</button></p>
+<p><button id=\\"createdb_button\\" class=\\"createdb\\" onclick=\\"createdb()\\">Create my database</button></p>
     \`
   } else {
     introduction.innerHTML = \`
@@ -97,10 +100,10 @@ database: \${username}</code>\`
   }
 
   let disabled
-  const createDb = () => {
+  const createdb = () => {
     if (disabled) return
     disabled = true
-    const button = document.getElementById(\\"button\\")
+    const button = document.getElementById(\\"createdb_button\\")
     button.classList.add(\\"disabled\\")
     button.innerText = \\"Creating...\\"
     fetch('/api/createDatabase/postgres', { method: \\"POST\\" }).then(r => r.json()).then((r) => {
@@ -123,6 +126,39 @@ database: \${username}</code>\`
       }
     })
   }
+  const anon_createdb = () => {
+    if (disabled) return
+    disabled = true
+    const button = document.getElementById(\\"anon_createdb_button\\")
+    button.classList.add(\\"disabled\\")
+    button.innerText = \\"Creating...\\"
+    fetch(\\"/api/anonymous/Postgres\\", { method: \\"POST\\" }).then((r) => r.json()).then((r) => {
+      console.log(r)
+      if (r.error) {
+        const message = res.error.message;
+        alert(message);
+        disabled = false
+        button.classList.remove(\\"disabled\\")
+        button.innerText = \\"Create my database\\"
+      } else {
+        credentials.innerHTML = \`<code>host: learndatabases.dev 
+username: \${r.username}
+password: \${r.dbPassword}
+database: \${r.username}</code>\`
+        alert(\\"Temporary database is created. Since credentials are provided only once, please keep the information somewhere safe :)\\");
+        button.style.opacity = 0
+        setTimeout(() => {
+          button.innerText = \\"Complete!\\"
+          button.style.background = \\"rgb(10, 170, 75)\\"
+          button.style.opacity = 1
+          setTimeout(() => {
+            introduction.append(credentials)
+          }, 200)
+        }, 200)
+      }
+    });
+  }
+
   const content = document.getElementById(\\"content\\")
   fetch('/lessons/postgres.md').then(r => r.text()).then((r) => {
     marked.setOptions({
@@ -137,16 +173,17 @@ database: \${username}</code>\`
 </script>
 
 <style>
-  #button {
+  .createdb {
     display: block;
     margin: auto;
     transition: 0.2s;
   }
 
-  #button.disabled {
+  .createdb.disabled {
     cursor: default;
   }
-</style>"
+</style>
+"
 `;
 
 exports[`test welcome page should render resetPassword page correctly 1`] = `

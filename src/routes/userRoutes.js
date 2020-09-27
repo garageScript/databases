@@ -40,6 +40,9 @@ routes.resetPasswordEmail = async (req, res) => {
 };
 
 routes.createUser = async (req, res) => {
+  if (!req.body.email) {
+    return res.status(400).json({ error: { message: "Email is required" } });
+  }
   const userInfo = {
     email: req.body.email,
   };
@@ -49,7 +52,13 @@ routes.createUser = async (req, res) => {
     return res.status(200).json({ ...account.dataValues });
   } catch (err) {
     logger.error("Creating user failed", userInfo.email, err);
-    return res.status(400).json({ error: { message: err.message } });
+    let message;
+    if (err.toString().includes("SequelizeUniqueConstraintError")) {
+      message = "This account already exists.";
+    } else {
+      message = err.toString();
+    }
+    return res.status(400).json({ error: { message: message } });
   }
 };
 
@@ -60,14 +69,16 @@ routes.createAnonUser = async (req, res) => {
     if (req.params.database === "Postgres") {
       await pgModule.createPgAccount(account);
       logger.info("Creating anonymous postgres account suceeded");
-      return res.json(account);
+      return res.json({ ...account.dataValues, password: null });
     }
     if (req.params.database === "Elasticsearch") {
       await es.createAccount(account);
       logger.info("Creating anonymous elasticsearch account suceeded");
-      return res.json(account);
+      return res.json({ ...account.dataValues, password: null });
     }
-    return res.json({ ...account.dataValues, password: null });
+    return res
+      .status(400)
+      .json({ error: { message: "Database parameter value is required" } });
   } catch (err) {
     logger.error("Creating anonymous user failed", err);
     return res.status(400).json({ error: { message: err.message } });
@@ -162,7 +173,7 @@ routes.userResetPassword = async (req, res) => {
 
 routes.createDatabase = async (req, res) => {
   let user;
-  if (!req.session.userid) {
+  if (!req.session.email) {
     logger.info("User must be signed in to create database");
     return res.status(403).json({
       error: { message: "You must be signed in to create a database" },

@@ -11,6 +11,7 @@ const userRoutes = require("./routes/userRoutes");
 const renderRoutes = require("./routes/renderRoutes");
 
 userRoutes.createUser = jest.fn();
+userRoutes.createAnonUser = jest.fn();
 userRoutes.loginUser = jest.fn();
 userRoutes.logoutUser = jest.fn();
 userRoutes.deleteUser = jest.fn();
@@ -83,12 +84,14 @@ describe("Testing user routes", () => {
     await app.delete.mock.calls[0][1]();
     expect(userRoutes.deleteUser).toHaveBeenCalled();
     await app.post.mock.calls[2][1]();
+    expect(userRoutes.createAnonUser).toHaveBeenCalled();
+    await app.post.mock.calls[3][1]();
     expect(userRoutes.loginUser).toHaveBeenCalled();
     await app.delete.mock.calls[1][1]();
     expect(userRoutes.logoutUser).toHaveBeenCalled();
-    await app.post.mock.calls[3][1]();
-    expect(userRoutes.userResetPassword).toHaveBeenCalled();
     await app.post.mock.calls[4][1]();
+    expect(userRoutes.userResetPassword).toHaveBeenCalled();
+    await app.post.mock.calls[5][1]();
     expect(userRoutes.createDatabase).toHaveBeenCalled();
   });
 });
