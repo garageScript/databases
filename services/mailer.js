@@ -9,15 +9,8 @@ const mg = mailgun({
 
 const mgModule = {};
 
-<<<<<<< HEAD
 mgModule.sendPasswordResetEmail = (receiver, token, hostname = "https://learndatabases.dev") => {
   const link = `${hostname}/setPassword/${token}`
-=======
-mgModule.sendPasswordResetEmail = (receiver, token, mode = "production", port = 3052) => {
-  const link = mode === "development" ?
-    `http://localhost:${port}/setPassword/${token}` :
-    `https://learndatabases.dev/setPassword/${token}`;
->>>>>>> 392f76f... closes #221 - Update Readme.md
   const data = {
     from: "admin@learndatabases.dev",
     to: receiver,
@@ -29,14 +22,8 @@ mgModule.sendPasswordResetEmail = (receiver, token, mode = "production", port = 
           <hr>
           <div id="content">
             <p>You have requested a (re)set password token. The button below will redirect you to our website with an autheticated token. Please click the button and set your password.</p>
-<<<<<<< HEAD
             <a href="${link}" target="_blank" id="button">Set my Password</a> ${hostname != "https://learndatabases.dev" ?
         "<h2>DEVELOPMENT MODE IS ON. This link will redirect you to your development server</h2>" : ""}
-=======
-            <a href="${link}" target="_blank" id="button">Set my Password</a>
-            ${mode === "development" ?
-        "<h2>DEVELOPMENT MODE IS ON. This link will redirect you to your local server</h2>" : ""}
->>>>>>> 392f76f... closes #221 - Update Readme.md
             <p><small><b style="color: red">Warning</b>: Anyone with access to this email has access to your account. Don't share this email with other people.</small></p> 
           </div>
         </div>
