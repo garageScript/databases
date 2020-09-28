@@ -11,7 +11,6 @@ const userRoutes = require("./routes/userRoutes");
 const renderRoutes = require("./routes/renderRoutes");
 
 userRoutes.createUser = jest.fn();
-userRoutes.createAnonUser = jest.fn();
 userRoutes.loginUser = jest.fn();
 userRoutes.logoutUser = jest.fn();
 userRoutes.deleteUser = jest.fn();
