@@ -84,14 +84,12 @@ describe("Testing user routes", () => {
     await app.delete.mock.calls[0][1]();
     expect(userRoutes.deleteUser).toHaveBeenCalled();
     await app.post.mock.calls[2][1]();
-    expect(userRoutes.createAnonUser).toHaveBeenCalled();
-    await app.post.mock.calls[3][1]();
     expect(userRoutes.loginUser).toHaveBeenCalled();
     await app.delete.mock.calls[1][1]();
     expect(userRoutes.logoutUser).toHaveBeenCalled();
-    await app.post.mock.calls[4][1]();
+    await app.post.mock.calls[3][1]();
     expect(userRoutes.userResetPassword).toHaveBeenCalled();
-    await app.post.mock.calls[5][1]();
+    await app.post.mock.calls[4][1]();
     expect(userRoutes.createDatabase).toHaveBeenCalled();
   });
 });
@@ -104,8 +102,6 @@ describe("Testing render routes", () => {
   test("should call render router functions", async () => {
     await startServer();
     await app.get.mock.calls[5][1]();
-    expect(renderRoutes.postgres).toHaveBeenCalled();
-    await app.get.mock.calls[6][1]();
-    expect(renderRoutes.elastic).toHaveBeenCalled();
+    expect(renderRoutes.database).toHaveBeenCalled();
   });
 });

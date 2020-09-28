@@ -6,14 +6,13 @@ const pgModule = require("../database/postgres/pg");
 const {
   resetPasswordEmail,
   createUser,
-  createAnonUser,
   deleteUser,
   loginUser,
   logoutUser,
   userResetPassword,
   createDatabase,
 } = require("./routes/userRoutes");
-const { postgres, elastic } = require("./routes/renderRoutes");
+const { database } = require("./routes/renderRoutes");
 require("dotenv").config();
 let server = null;
 let app = null;
@@ -62,11 +61,9 @@ const startServer = async (portNumber) => {
     app.get("/resetPassword", (req, res) => {
       res.render("resetPassword", { email: req.session.email });
     });
-    app.get("/postgres", postgres);
-    app.get("/elasticsearch", elastic);
+    app.get("/tutorial/:database", database);
     app.post("/api/notifications", resetPasswordEmail);
     app.post("/api/users", createUser);
-    app.post("/api/anonymous/:database", createAnonUser);
     app.delete("/api/users/:id", deleteUser);
     app.post("/api/session", loginUser);
     app.delete("/api/session", logoutUser);

@@ -1,188 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test welcome page should render postgres page correctly 1`] = `
-"<!--views/partials/head.ejs-->
-<meta charset='UTF-8'>
-<!--CSS (load bootstrap from a CDN)-->
-<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
-<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
-<link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
-<style>
-    input {
-        text-align: center;
-        width: 400px;
-        height: 40px;
-        margin: 5px;
-    }
-    button {
-        width: 400px;
-        height: 40px;
-        margin: 10px;
-    }
-    .home {
-        cursor: pointer;
-    }
-    .card {
-        width: 450px;
-        margin: auto;
-    }
-    .card > * {
-        text-align: center;
-    }
-    .subtitle {
-        margin: 10px;
-    }
-    .body {
-        margin: 10px;
-    }
-</style>
+"<!DOCTYPE html>
 <html lang=\\"en\\">
-  <head>
-    <title>learndatabases.dev</title>
-  </head>
-  <header>
-    <h1 class=\\"home\\">Learn Databases</h1>
-    
-    
-      <p><a href=\\"/signin\\">Login</a> / <a href=\\"/signup\\">Signup</a></p>
-    
-  </header>
+<head>
+<meta charset=\\"utf-8\\">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /postgres</pre>
+</body>
 </html>
-<script>
-  const home = document.querySelector('.home')
-  home.addEventListener('click', () => {
-    return location.href = '/'
-  })
-
-  
-</script>
-
-<h3>Learn PostgreSQL</h3>
-<div id=\\"introduction\\">
-</div>
-<div id=\\"content\\"></div>
-<script src=\\"https://cdn.jsdelivr.net/npm/marked/marked.min.js\\"></script>
-<script src=\\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js\\"
-  integrity=\\"sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw==\\"
-  crossorigin=\\"anonymous\\"></script>
-<link rel=\\"stylesheet\\" href=\\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/tomorrow.min.css\\"
-  integrity=\\"sha512-r3qr7vMdHYmWUzqC7l4H/W03ikAyiFIQld+B71yAmHhu7wcsnvm/adhikM+FzDxxK9ewznhCVnAm+yYZpPBnSg==\\"
-  crossorigin=\\"anonymous\\" />
-<script>
-  hljs.initHighlightingOnLoad()
-  const username = \\"\\"
-  const dbPassword = \\"\\"
-  const dbExists = \\"false\\"
-
-  const credentials = document.createElement(\\"pre\\")
-  credentials.innerHTML = \`<code>host: learndatabases.dev 
-username: \${username}
-password: \${dbPassword}
-database: \${username}</code>\`
-
-  const introduction = document.getElementById(\\"introduction\\")
-  if (!username) {
-    introduction.innerHTML = \`
-  <p>In this module, you can learn how to use Postgres. Don't have Postgres installed on your local machine yet? Fear not! We can make a Postgres database for you. Simply click on the button below to create your temporary Postgres database. Credentials for your database will appear after it is done being created.</p>
-  <p>Temporary database credentials will expire in 5 days. If you want, you can sign up with us and get a non-expiring Postgres database!</p>
-<p><button id=\\"anon_createdb_button\\" class=\\"createdb\\" onclick=\\"anon_createdb()\\">Create my database</button></p>
-    \`
-  } else if (!dbExists) {
-    introduction.innerHTML = \`
-  <p>In this module, you can learn how to use Postgres. Don't have Postgres installed on your local machine yet? Fear not! We can make a Postgres database for you. Simply click on the button below to create your Postgres database. Credentials for your database will appear after it is done being created.</p>
-<p><button id=\\"createdb_button\\" class=\\"createdb\\" onclick=\\"createdb()\\">Create my database</button></p>
-    \`
-  } else {
-    introduction.innerHTML = \`
-<p>In this module, you can learn how to use Postgres. You have already created a Postgres database on our server. Here are the credentials for your database.</p>
-    \`
-    introduction.append(credentials)
-  }
-
-  let disabled
-  const createdb = () => {
-    if (disabled) return
-    disabled = true
-    const button = document.getElementById(\\"createdb_button\\")
-    button.classList.add(\\"disabled\\")
-    button.innerText = \\"Creating...\\"
-    fetch('/api/createDatabase/postgres', { method: \\"POST\\" }).then(r => r.json()).then((r) => {
-      if (r.error) {
-        alert(r.error.message)
-        disabled = false
-        button.classList.remove(\\"disabled\\")
-        button.innerText = \\"Create my database\\"
-      } else {
-        alert(r.success.message)
-        button.style.opacity = 0
-        setTimeout(() => {
-          button.innerText = \\"Complete!\\"
-          button.style.background = \\"rgb(10, 170, 75)\\"
-          button.style.opacity = 1
-          setTimeout(() => {
-            introduction.append(credentials)
-          }, 200)
-        }, 200)
-      }
-    })
-  }
-  const anon_createdb = () => {
-    if (disabled) return
-    disabled = true
-    const button = document.getElementById(\\"anon_createdb_button\\")
-    button.classList.add(\\"disabled\\")
-    button.innerText = \\"Creating...\\"
-    fetch(\\"/api/anonymous/Postgres\\", { method: \\"POST\\" }).then((r) => r.json()).then((r) => {
-      console.log(r)
-      if (r.error) {
-        const message = res.error.message;
-        alert(message);
-        disabled = false
-        button.classList.remove(\\"disabled\\")
-        button.innerText = \\"Create my database\\"
-      } else {
-        credentials.innerHTML = \`<code>host: learndatabases.dev 
-username: \${r.username}
-password: \${r.dbPassword}
-database: \${r.username}</code>\`
-        alert(\\"Your temporary database is created. Since credentials are provided only once, please keep the information somewhere safe :)\\");
-        button.style.opacity = 0
-        setTimeout(() => {
-          button.innerText = \\"Complete!\\"
-          button.style.background = \\"rgb(10, 170, 75)\\"
-          button.style.opacity = 1
-          setTimeout(() => {
-            introduction.append(credentials)
-          }, 200)
-        }, 200)
-      }
-    });
-  }
-
-  const content = document.getElementById(\\"content\\")
-  fetch('/lessons/postgres.md').then(r => r.text()).then((r) => {
-    marked.setOptions({
-            highlight: function (code) {
-        return hljs.highlightAuto(code).value
-      }
-    })
-    const markedHTML = marked(r)
-    const markedHTMLwithUserData = markedHTML.replace(/@username/gi, username).replace(/@dbPassword/gi, dbPassword)
-    content.innerHTML = markedHTMLwithUserData
-  })
-</script>
-
-<style>
-  .createdb {
-    display: block;
-    margin: auto;
-    transition: 0.2s;
-  }
-
-  .createdb.disabled {
-    cursor: default;
-  }
-</style>
 "
 `;
 
@@ -725,10 +553,10 @@ exports[`test welcome page should render welcome page correctly 1`] = `
   </style>
   <script>
     document.getElementById('postgres').addEventListener('click', () => {
-      location.href = '/postgres'
+      location.href = '/tutorial/Postgres'
     })
     document.getElementById('elastic').addEventListener('click', () => {
-      location.href = '/elasticsearch'
+      location.href = '/tutorial/Elasticsearch'
 		})
 		/*
     document.getElementById('mongodb').addEventListener('click', () => {

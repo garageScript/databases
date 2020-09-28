@@ -27,7 +27,7 @@ database: ${username}</code>`
     introduction.innerHTML = `
   <p>In this module, you can learn how to use Postgres. Don't have Postgres installed on your local machine yet? Fear not! We can make a Postgres database for you. Simply click on the button below to create your temporary Postgres database. Credentials for your database will appear after it is done being created.</p>
   <p>Temporary database credentials will expire in 5 days. If you want, you can sign up with us and get a non-expiring Postgres database!</p>
-<p><button id="anon_createdb_button" class="createdb" onclick="anon_createdb()">Create my database</button></p>
+<p><button id="createdb_button" class="createdb" onclick="anon_createdb()">Create my database</button></p>
     `
   } else if (!dbExists) {
     introduction.innerHTML = `
@@ -55,6 +55,10 @@ database: ${username}</code>`
         button.classList.remove("disabled")
         button.innerText = "Create my database"
       } else {
+        credentials.innerHTML = `<code>host: learndatabases.dev 
+username: ${r.username}
+password: ${r.dbPassword}
+database: ${r.username}</code>`
         alert(r.success.message)
         button.style.opacity = 0
         setTimeout(() => {
@@ -68,50 +72,22 @@ database: ${username}</code>`
       }
     })
   }
-  const anon_createdb = () => {
-    if (disabled) return
-    disabled = true
-    const button = document.getElementById("anon_createdb_button")
-    button.classList.add("disabled")
-    button.innerText = "Creating..."
-    fetch("/api/anonymous/Postgres", { method: "POST" }).then((r) => r.json()).then((r) => {
-      console.log(r)
-      if (r.error) {
-        const message = res.error.message;
-        alert(message);
-        disabled = false
-        button.classList.remove("disabled")
-        button.innerText = "Create my database"
-      } else {
-        credentials.innerHTML = `<code>host: learndatabases.dev 
-username: ${r.username}
-password: ${r.dbPassword}
-database: ${r.username}</code>`
-        alert("Your temporary database is created. Since credentials are provided only once, please keep the information somewhere safe :)");
-        button.style.opacity = 0
-        setTimeout(() => {
-          button.innerText = "Complete!"
-          button.style.background = "rgb(10, 170, 75)"
-          button.style.opacity = 1
-          setTimeout(() => {
-            introduction.append(credentials)
-          }, 200)
-        }, 200)
-      }
-    });
-  }
 
-  const content = document.getElementById("content")
-  fetch('/lessons/postgres.md').then(r => r.text()).then((r) => {
-    marked.setOptions({
-            highlight: function (code) {
-        return hljs.highlightAuto(code).value
-      }
+  const renderTutorial = () => {
+    const content = document.getElementById("content")
+    fetch(`/lessons/${database}.md`).then(r => r.text()).then((r) => {
+      marked.setOptions({
+        highlight: function (code) {
+          return hljs.highlightAuto(code).value
+        }
+      })
+      const markedHTML = marked(r)
+      const markedHTMLwithUserData = markedHTML.replace(/@username/gi, username).replace(/@dbPassword/gi, dbPassword)
+      content.innerHTML = markedHTMLwithUserData
     })
-    const markedHTML = marked(r)
-    const markedHTMLwithUserData = markedHTML.replace(/@username/gi, username).replace(/@dbPassword/gi, dbPassword)
-    content.innerHTML = markedHTMLwithUserData
-  })
+  }
+  
+  renderTutorial()
 </script>
 
 <style>

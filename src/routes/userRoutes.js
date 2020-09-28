@@ -62,29 +62,6 @@ routes.createUser = async (req, res) => {
   }
 };
 
-routes.createAnonUser = async (req, res) => {
-  try {
-    const account = await signUp({ email: null });
-    logger.info("Succeded creating anonymous user account", account.id);
-    if (req.params.database === "Postgres") {
-      await pgModule.createPgAccount(account);
-      logger.info("Creating anonymous postgres account suceeded");
-      return res.json({ ...account.dataValues, password: null });
-    }
-    if (req.params.database === "Elasticsearch") {
-      await es.createAccount(account);
-      logger.info("Creating anonymous elasticsearch account suceeded");
-      return res.json({ ...account.dataValues, password: null });
-    }
-    return res
-      .status(400)
-      .json({ error: { message: "Database parameter value is required" } });
-  } catch (err) {
-    logger.error("Creating anonymous user failed", err);
-    return res.status(400).json({ error: { message: err.message } });
-  }
-};
-
 routes.deleteUser = async (req, res) => {
   if (!req.params.id) {
     logger.info("user id was not provided");
@@ -172,30 +149,24 @@ routes.userResetPassword = async (req, res) => {
 };
 
 routes.createDatabase = async (req, res) => {
-  let user;
-  if (!req.session.email) {
-    logger.info("User must be signed in to create database");
-    return res.status(403).json({
-      error: { message: "You must be signed in to create a database" },
-    });
-  } else {
-    const { Accounts } = db.getModels();
-    const user = await Accounts.findOne({
-      where: { id: req.session.userid },
-    });
-  }
   try {
-    if (req.params.database === "postgres") {
-      await pgModule.createPgAccount(user);
-      return res
-        .status(200)
-        .json({ success: { message: "Create Postgres Database success" } });
-    }
-    if (req.params.database === "elastic") {
-      await es.createAccount(user);
-      return res.status(200).json({
-        success: { message: "Create Elasticsearch Database success" },
+    let user;
+    if (!req.session.email) {
+      user = await signUp({ email: null });
+      logger.info("Succeded creating anonymous user account", user.id);
+    } else {
+      const { Accounts } = db.getModels();
+      user = await Accounts.findOne({
+        where: { id: req.session.userid },
       });
+    }
+    if (req.params.database === "Postgres") {
+      await pgModule.createPgAccount(user);
+      return res.json({ ...user.dataValues, password: null });
+    }
+    if (req.params.database === "Elasticsearch") {
+      await es.createAccount(user);
+      return res.json({ ...user.dataValues, password: null });
     }
     return res
       .status(400)
