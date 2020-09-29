@@ -93,13 +93,13 @@ index: ${username}-*</code>`
       <p>Temporary database credentials will expire in 5 days. If you want, you can sign up with us and get a non-expiring Postgres database!</p>
     `
     introduction.append(createDb_button)
-    renderContent()
+    renderContent("username", "dbPassword")
   } else if (!dbExists) {
     introduction.innerHTML = `
       <p>In this module, you can learn how to use ${database}. Don't have ${database} installed on your local machine yet? Fear not! We can make an ${database} database for you. Simply click on the button below to create your ${database} database. Credentials for your database will appear after it is done being created.</p>
     `
     introduction.append(createDb_button)
-    renderContent()
+    renderContent("username", "dbPassword")
   } else {
     introduction.innerHTML = `
 <p>In this module, you can learn how to use ${database}. You have already created an ${database} database on our server. Here are the credentials for your database.</p>
