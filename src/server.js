@@ -27,7 +27,8 @@ const startServer = async (portNumber) => {
   await dbModule.start();
   await pgModule.startPGDB();
   await neo4jModule.startNeo4j();
-  await util.cleanAnonymous();
+
+  util.cleanAnonymous();
 
   return new Promise((resolve, reject) => {
     app = express();
