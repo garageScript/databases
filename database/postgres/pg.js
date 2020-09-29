@@ -48,11 +48,14 @@ pgModule.createPgAccount = async (username, password) => {
   }
 };
 
-pgModule.deletePgAccount = async (username) => {
-  if (!username) return;
+pgModule.deletePgAccount = async (account) => {
+  if (!account.username) return;
+  const { username } = account;
   try {
-    await client.query(`DROP DATABASE IF EXISTS $1`, [username]);
-    await client.query(`DROP USER IF EXISTS $1`, [username]);
+    const sqlQuery1 = escape(`DROP DATABASE %s;`, username);
+    const sqlQuery2 = escape(`DROP USER %s;`, username);
+    await client.query(sqlQuery1);
+    await client.query(sqlQuery2);
   } catch (err) {
     logger.error(err);
     throw new Error(

@@ -71,7 +71,7 @@ es.createAccount = async (account) => {
 };
 
 es.deleteAccount = async (account) => {
-  if (!account.username || !account.password || !account.email) {
+  if (!account.username) {
     logger.error("Account data is invalid");
     throw new Error("Account data is invalid");
   }
