@@ -9,8 +9,8 @@ const mg = mailgun({
 
 const mgModule = {};
 
-mgModule.sendPasswordResetEmail = (receiver, token, hostname = "https://learndatabases.dev") => {
-  const link = `${hostname}/setPassword/${token}`
+mgModule.sendPasswordResetEmail = (receiver, token) => {
+  const link = `${process.env.HOSTNAME||"https://learndatabases.dev"}/setPassword/${token}`
   const data = {
     from: "admin@learndatabases.dev",
     to: receiver,
@@ -22,8 +22,7 @@ mgModule.sendPasswordResetEmail = (receiver, token, hostname = "https://learndat
           <hr>
           <div id="content">
             <p>You have requested a (re)set password token. The button below will redirect you to our website with an autheticated token. Please click the button and set your password.</p>
-            <a href="${link}" target="_blank" id="button">Set my Password</a> ${hostname != "https://learndatabases.dev" ?
-        "<h2>DEVELOPMENT MODE IS ON. This link will redirect you to your development server</h2>" : ""}
+            <a href="${link}" target="_blank" id="button">Set my Password</a> ${link!=`https://learndatabases.dev/setPassword/${token}`?"<h2>DEVELOPMENT MODE IS ON. This link will redirect you to your development server</h2>" : ""}
             <p><small><b style="color: red">Warning</b>: Anyone with access to this email has access to your account. Don't share this email with other people.</small></p> 
           </div>
         </div>
