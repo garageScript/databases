@@ -40,6 +40,9 @@ routes.resetPasswordEmail = async (req, res) => {
 };
 
 routes.createUser = async (req, res) => {
+  if (!req.body.email) {
+    return res.status(400).json({ error: { message: "Email is required" } });
+  }
   const userInfo = {
     email: req.body.email,
   };
@@ -49,7 +52,13 @@ routes.createUser = async (req, res) => {
     return res.status(200).json({ ...account.dataValues });
   } catch (err) {
     logger.error("Creating user failed", userInfo.email, err);
-    return res.status(400).json({ error: { message: err.message } });
+    let message;
+    if (err.toString().includes("SequelizeUniqueConstraintError")) {
+      message = "This account already exists.";
+    } else {
+      message = err.toString();
+    }
+    return res.status(400).json({ error: { message: message } });
   }
 };
 
@@ -140,41 +149,24 @@ routes.userResetPassword = async (req, res) => {
 };
 
 routes.createDatabase = async (req, res) => {
-  if (!req.session.email) {
-    logger.info("User must be signed in to create database");
-    return res.status(403).json({
-      error: { message: "You must be signed in to create a database" },
-    });
-  }
-
-  const { Accounts } = db.getModels();
-  const user = await Accounts.findOne({
-    where: { id: req.session.userid },
-  });
-
-  const { username, dbPassword } = user;
-
-  if (!dbPassword) {
-    logger.info("User must use password to create database");
-    return res.status(400).json({
-      error: {
-        message: "You must use your database password to create a database",
-      },
-    });
-  }
-
   try {
-    if (req.params.database === "Postgres") {
-      await pgModule.createPgAccount(username, dbPassword);
-      return res.json({
-        success: { message: "Create Postgres Database success" },
+    let user;
+    if (!req.session.email) {
+      user = await signUp({ email: null });
+      logger.info("Succeded creating anonymous user account", user.id);
+    } else {
+      const { Accounts } = db.getModels();
+      user = await Accounts.findOne({
+        where: { id: req.session.userid },
       });
+    }
+    if (req.params.database === "Postgres") {
+      await pgModule.createPgAccount(user);
+      return res.json({ ...user.dataValues, password: null });
     }
     if (req.params.database === "Elasticsearch") {
       await es.createAccount(user);
-      return res.json({
-        success: { message: "Create Elasticsearch Database success" },
-      });
+      return res.json({ ...user.dataValues, password: null });
     }
     return res
       .status(400)

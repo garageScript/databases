@@ -49,7 +49,16 @@ describe("test welcome page", () => {
   });
 
   test("should render postgres page correctly", async () => {
-    const result = await fetch(baseUrl + "postgres").then((r) => r.text());
+    const result = await fetch(baseUrl + "tutorial/Postgres").then((r) =>
+      r.text()
+    );
+    expect(result).toMatchSnapshot();
+  });
+
+  test("should render elasticsearch page correctly", async () => {
+    const result = await fetch(baseUrl + "tutorial/Elasticsearch").then((r) =>
+      r.text()
+    );
     expect(result).toMatchSnapshot();
   });
 });

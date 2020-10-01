@@ -18,75 +18,108 @@
   const database = "<%= database %>"
 
   const credentials = document.createElement("pre")
-  credentials.innerHTML = `<code>host: ${dbHost}
+  const renderCredentials = (username, dbPassword) => {
+    if (database === "Postgres") {
+      credentials.innerHTML = `<code>host: ${dbHost}
 username: ${username}
-password: ${dbPassword}</code>`
-
-  const introduction = document.getElementById("introduction")
-  if (!username) {
-    introduction.innerHTML = `
-  <p>In this module, you can learn how to use ${database}. Don't have ${database} installed on your local machine yet? Fear not! We can make a ${database} database for you. Please login first to create your database. If you want, you may keep reading this tutorial without login.</p>`
-  } else if (!dbExists) {
-    introduction.innerHTML = `
-  <p>In this module, you can learn how to use ${database}. Don't have ${database} installed on your local machine yet? Fear not! We can make an ${database} database for you. Simply click on the button below to create your ${database} database. Credentials for your database will appear after it is done being created.</p>
-<p><button id="button" onclick="createDb()">Create my database</button></p>
-    `
-  } else {
-    introduction.innerHTML = `
-<p>In this module, you can learn how to use ${database}. You have already created an ${database} database on our server. Here are the credentials for your database.</p>
-    `
+password: ${dbPassword}
+database: ${username}</code>`
+    } else if (database === "Elasticsearch") {
+      credentials.innerHTML = `<code>host: ${dbHost}
+username: ${username}
+password: ${dbPassword}
+index: ${username}-*</code>`
+    } else {
+      credentials.innerHTML = ""
+    }
     introduction.append(credentials)
   }
 
+  const content = document.getElementById("content")
+  const renderContent = (username, dbPassword) => {
+    fetch(`/lessons/${database}.md`).then(r => r.text()).then((r) => {
+      marked.setOptions({
+        highlight: function (code) {
+          return hljs.highlightAuto(code).value
+        }
+      })
+      const markedHTML = marked(r)
+      const markedHTMLwithUserData = markedHTML.replace(/@username/gi, username).replace(/@dbPassword/gi, dbPassword)
+      content.innerHTML = markedHTMLwithUserData
+    })
+  }
+  
   let disabled
   const createDb = () => {
     if (disabled) return
     disabled = true
-    const button = document.getElementById("button")
-    button.classList.add("disabled")
-    button.innerText = "Creating..."
+    createDb_button.classList.add("disabled")
+    createDb_button.innerText = "Creating..."
     fetch(`/api/createDatabase/${database}`, { method: "POST" }).then(r => r.json()).then((r) => {
       if (r.error) {
         alert(r.error.message)
         disabled = false
-        button.classList.remove("disabled")
-        button.innerText = "Create my database"
+        createDb_button.classList.remove("disabled")
+        createDb_button.innerText = "Create my database"
       } else {
-        alert(r.success.message)
-        button.style.opacity = 0
+        if (r.email) {
+          alert("Your database is successfully created!")
+        } else {
+          alert("Your temporary database is successfully created!\r\nSince credentials are provided only once, please keep the information somewhere safe.")
+        }
+        createDb_button.style.opacity = 0
         setTimeout(() => {
-          button.innerText = "Complete!"
-          button.style.background = "rgb(10, 170, 75)"
-          button.style.opacity = 1
+          createDb_button.innerText = "Complete!"
+          createDb_button.style.background = "rgb(10, 170, 75)"
+          createDb_button.style.opacity = 1
           setTimeout(() => {
-            introduction.append(credentials)
+            renderCredentials(r.username, r.dbPassword)
+            renderContent(r.username, r.dbPassword)
           }, 200)
         }, 200)
       }
     })
   }
 
-  const content = document.getElementById("content")
-  fetch(`/lessons/${database}.md`).then(r => r.text()).then((r) => {
-    marked.setOptions({
-      highlight: function (code) {
-        return hljs.highlightAuto(code).value
-      }
-    })
-    const markedHTML = marked(r)
-    const markedHTMLwithUserData = markedHTML.replace(/@username/gi, username).replace(/@dbPassword/gi, dbPassword)
-    content.innerHTML = markedHTMLwithUserData
-  })
+  const createDb_button = document.createElement("button")
+  createDb_button.id = "createDb"
+  createDb_button.innerText = "Create my database"
+  createDb_button.addEventListener("click", createDb)
+  
+  const introduction = document.getElementById("introduction")
+  if (!username) {
+    introduction.innerHTML = `
+      <p>In this module, you can learn how to use ${database}. Don't have ${database} installed on your local machine yet? Fear not! We can make a ${database} database for you. Simply click on the button below to create your temporary ${database} database. Credentials for your database will appear after it is done being created.</p>
+      <p>Temporary database credentials will expire in 5 days. If you want, you can sign up with us and get a non-expiring Postgres database!</p>
+    `
+    introduction.append(createDb_button)
+    renderContent("username", "dbPassword")
+  } else if (!dbExists) {
+    introduction.innerHTML = `
+      <p>In this module, you can learn how to use ${database}. Don't have ${database} installed on your local machine yet? Fear not! We can make an ${database} database for you. Simply click on the button below to create your ${database} database. Credentials for your database will appear after it is done being created.</p>
+    `
+    introduction.append(createDb_button)
+    renderContent("username", "dbPassword")
+  } else {
+    introduction.innerHTML = `
+<p>In this module, you can learn how to use ${database}. You have already created an ${database} database on our server. Here are the credentials for your database.</p>
+    `
+    renderCredentials(username, dbPassword)
+    renderContent(username, dbPassword)
+  }
+
 </script>
 
 <style>
-  #button {
+  #createDb {
     display: block;
     margin: auto;
+    margin-top: 26px;
+    margin-bottom: 26px;
     transition: 0.2s;
   }
 
-  #button.disabled {
+  #createDb.disabled {
     cursor: default;
   }
 </style>
