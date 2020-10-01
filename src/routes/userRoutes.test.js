@@ -133,6 +133,31 @@ describe("Testing createUser function", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
+  it("should send error if email is not provided", async () => {
+    const req = {
+      body: {},
+    };
+    await createUser(req, res);
+    expect(res.status.mock.calls[0][0]).toEqual(400);
+    return expect(res.json.mock.calls[0][0].error.message).toEqual(
+      "Email is required"
+    );
+  });
+  it("should send error if email already exists", async () => {
+    signUp.mockImplementation(() => {
+      throw new Error("SequelizeUniqueConstraintError");
+    });
+    const req = {
+      body: {
+        email: "em@i.l",
+      },
+    };
+    await createUser(req, res);
+    expect(res.status.mock.calls[0][0]).toEqual(400);
+    return expect(res.json.mock.calls[0][0].error.message).toEqual(
+      "This account already exists."
+    );
+  });
   it("should send error if sign up fails", async () => {
     signUp.mockImplementation(() => {
       throw new Error("Error");
@@ -144,7 +169,9 @@ describe("Testing createUser function", () => {
     };
     await createUser(req, res);
     expect(res.status.mock.calls[0][0]).toEqual(400);
-    return expect(res.json.mock.calls[0][0].error.message).toEqual("Error");
+    return expect(res.json.mock.calls[0][0].error.message).toEqual(
+      "Error: Error"
+    );
   });
   it("should create user account", async () => {
     signUp.mockImplementation(() => {
@@ -356,50 +383,21 @@ describe("test creating database", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  it("should return error if there is not a email", async () => {
-    const req = {
-      session: {
-        email: null,
-        dbPassword: "Google",
-      },
-    };
-
-    await createDatabase(req, res);
-    return expect(res.json.mock.calls[0][0].error.message).toEqual(
-      "You must be signed in to create a database"
-    );
-  });
-  it("should return error if there is not a password", async () => {
-    const req = {
-      session: {
-        email: "testm@i.l",
-        dbPassword: null,
-      },
-    };
-
-    await createDatabase(req, res);
-    return expect(res.json.mock.calls[0][0].error.message).toEqual(
-      "You must use your database password to create a database"
-    );
-  });
 
   it("should return error if database name is not provided", async () => {
     const req = {
-      session: {
-        email: "testm@i.l",
-      },
-      params: {
-        database: "",
-      },
+      session: { email: null },
+      params: { database: "" },
+    };
+    const user = {
+      email: "testm@i.l",
+      dbPassword: "Google",
     };
     db.getModels = () => {
       return {
         Accounts: {
           findOne: () => {
-            return {
-              email: "testm@i.l",
-              dbPassword: "Google",
-            };
+            return { ...user, dataValues: user };
           },
         },
       };
@@ -412,12 +410,12 @@ describe("test creating database", () => {
 
   it("should return success if creating postgres database success", async () => {
     const req = {
-      session: {
-        email: "testm@i.l",
-      },
-      params: {
-        database: "Postgres",
-      },
+      session: { email: "testm@i.l" },
+      params: { database: "Postgres" },
+    };
+    const user = {
+      email: "testm@i.l",
+      dbPassword: "Google",
     };
 
     pgModule.createPgAccount.mockReturnValue(Promise.resolve());
@@ -426,39 +424,31 @@ describe("test creating database", () => {
       return {
         Accounts: {
           findOne: () => {
-            return {
-              email: "testm@i.l",
-              dbPassword: "Google",
-            };
+            return { ...user, dataValues: user };
           },
         },
       };
     };
 
     await createDatabase(req, res);
-    return expect(res.json.mock.calls[0][0].success.message).toEqual(
-      "Create Postgres Database success"
-    );
+    return expect(res.json.mock.calls[0][0].email).toEqual("testm@i.l");
   });
 
   it("should throw and error if pgModule fails to create database", async () => {
     const req = {
-      session: {
-        email: "testm@i.l",
-      },
-      params: {
-        database: "Postgres",
-      },
+      session: { email: "testm@i.l" },
+      params: { database: "Postgres" },
+    };
+    const user = {
+      email: "testm@i.l",
+      dbPassword: "Google",
     };
 
     db.getModels = () => {
       return {
         Accounts: {
           findOne: () => {
-            return {
-              email: "testm@i.l",
-              dbPassword: "Google",
-            };
+            return { ...user, dataValues: user };
           },
         },
       };
@@ -476,12 +466,12 @@ describe("test creating database", () => {
 
   it("should return success if creating elastic database success", async () => {
     const req = {
-      session: {
-        email: "testm@i.l",
-      },
-      params: {
-        database: "Elasticsearch",
-      },
+      session: { email: "testm@i.l" },
+      params: { database: "Elasticsearch" },
+    };
+    const user = {
+      email: "testm@i.l",
+      dbPassword: "Google",
     };
 
     es.createAccount.mockReturnValue(Promise.resolve());
@@ -490,39 +480,31 @@ describe("test creating database", () => {
       return {
         Accounts: {
           findOne: () => {
-            return {
-              email: "testm@i.l",
-              dbPassword: "Google",
-            };
+            return { ...user, dataValues: user };
           },
         },
       };
     };
 
     await createDatabase(req, res);
-    return expect(res.json.mock.calls[0][0].success.message).toEqual(
-      "Create Elasticsearch Database success"
-    );
+    return expect(res.json.mock.calls[0][0].email).toEqual("testm@i.l");
   });
 
   it("should throw and error if esModule fails to create database", async () => {
     const req = {
-      session: {
-        email: "testm@i.l",
-      },
-      params: {
-        database: "Elasticsearch",
-      },
+      session: { email: "testm@i.l" },
+      params: { database: "Elasticsearch" },
+    };
+    const user = {
+      email: "testm@i.l",
+      dbPassword: "Google",
     };
 
     db.getModels = () => {
       return {
         Accounts: {
           findOne: () => {
-            return {
-              email: "testm@i.l",
-              dbPassword: "Google",
-            };
+            return { ...user, dataValues: user };
           },
         },
       };
