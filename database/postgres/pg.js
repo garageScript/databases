@@ -20,8 +20,9 @@ pgModule.closePGDB = () => {
   return client.end();
 };
 
-pgModule.createPgAccount = async (username, password) => {
-  if (!username || !password) return;
+pgModule.createPgAccount = async (user) => {
+  const { username, dbPassword } = user;
+  if (!username || !dbPassword) return;
   try {
     // Could not escape user input by using $1 $2
     //   https://github.com/brianc/node-postgres/issues/539
@@ -30,7 +31,7 @@ pgModule.createPgAccount = async (username, password) => {
     const sqlQuery2 = escape(
       `create user %s with encrypted password %Q`,
       username,
-      password
+      dbPassword
     );
 
     const sqlQuery3 = escape(

@@ -24,7 +24,7 @@ const sendESRequest = (path, method, body) => {
 };
 
 es.createAccount = async (account) => {
-  if (!account.username || !account.dbPassword || !account.email) {
+  if (!account.username || !account.dbPassword) {
     logger.error("Account data is invalid");
     throw new Error("Account data is invalid");
   }
@@ -87,10 +87,10 @@ es.deleteAccount = async (account) => {
   if (err || !r1.found || !r2.found) {
     logger.error("Deleting Elasticsearch user failed");
     throw new Error(
-      `Failed to delete Elasticsearch account for user: ${account.email}`
+      `Failed to delete Elasticsearch account for user: ${account.id}`
     );
   }
-  logger.info("Successfully deleted Elasticsearch user", account.email);
+  logger.info("Successfully deleted Elasticsearch user", account.id);
 };
 
 es.checkAccount = async (account) => {

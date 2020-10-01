@@ -1,13 +1,16 @@
 const mailgun = require("mailgun-js");
 const logger = require("../lib/log")(__filename);
-const getEnvVar = require("../lib/getEnvVar");
+require("dotenv").config();
 
-const mg = mailgun(getEnvVar("mailgun"));
+const mg = mailgun({
+  apiKey: process.env.MAILGUN_API_KEY,
+  domain: process.env.MAILGUN_DOMAIN,
+});
 
 const mgModule = {};
 
 mgModule.sendPasswordResetEmail = (receiver, token) => {
-  const link = `https://learndatabases.dev/setPassword/${token}`;
+  const link = `${process.env.HOSTNAME||"https://learndatabases.dev"}/setPassword/${token}`
   const data = {
     from: "admin@learndatabases.dev",
     to: receiver,
@@ -19,7 +22,7 @@ mgModule.sendPasswordResetEmail = (receiver, token) => {
           <hr>
           <div id="content">
             <p>You have requested a (re)set password token. The button below will redirect you to our website with an autheticated token. Please click the button and set your password.</p>
-            <a href="${link}" target="_blank" id="button">Set my Password</a>
+            <a href="${link}" target="_blank" id="button">Set my Password</a> ${link!=`https://learndatabases.dev/setPassword/${token}`?"<h2>DEVELOPMENT MODE IS ON. This link will redirect you to your development server</h2>" : ""}
             <p><small><b style="color: red">Warning</b>: Anyone with access to this email has access to your account. Don't share this email with other people.</small></p> 
           </div>
         </div>

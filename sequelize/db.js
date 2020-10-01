@@ -35,6 +35,7 @@ dbModule.start = async () => {
       email: {
         type: DataTypes.STRING,
         unique: true,
+        allowNull: true,
       },
       dbPassword: {
         type: DataTypes.STRING,
