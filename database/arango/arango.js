@@ -53,7 +53,7 @@ arangoModule.deleteAccount = async (username) => {
     } = await sendFetch(
       `${process.env.ARANGO_URL}_db/_system/_open/auth`,
       "post",
-      { username: process.env.ARANGO_USER, password: process.env.PW }
+      { username: process.env.ARANGO_USER, password: process.env.ARANGO_PW }
     );
 
     // uses jwt token to authenticate request to delete user from arango database
