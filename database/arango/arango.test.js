@@ -54,7 +54,7 @@ describe("ArangoDB functions", () => {
   });
 
   test("should call db.createDatabase function, logger.error when theres an \
-  error, and do nothing if either arguments are invalid", async () => {
+  error, and do nothing if argument is invalid", async () => {
     const db = new Arango.Database();
     await createAccount();
     expect(db.createDatabase).toHaveBeenCalledTimes(0);

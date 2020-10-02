@@ -75,7 +75,4 @@ arangoModule.deleteAccount = async (username) => {
   }
 };
 
-// arangoModule.startArangoDB();
-// arangoModule.createAccount("kirby", "star");
-
 module.exports = arangoModule;
