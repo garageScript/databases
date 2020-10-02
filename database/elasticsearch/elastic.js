@@ -83,7 +83,7 @@ es.deleteAccount = async (account) => {
     `/_security/role/${account.username}`,
     "DELETE"
   );
-  const r3 = await sendESRequest(`/${account.username}-ah*`, "DELETE");
+  const r3 = await sendESRequest(`/${account.username}-*`, "DELETE");
   const err = r1.error || r2.error;
   if (err || !r1.found || !r2.found) {
     logger.error("Deleting Elasticsearch user failed");
