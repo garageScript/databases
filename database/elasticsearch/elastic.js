@@ -83,6 +83,7 @@ es.deleteAccount = async (account) => {
     `/_security/role/${account.username}`,
     "DELETE"
   );
+  const r3 = await sendESRequest(`/${account.username}-ah*`, "DELETE");
   const err = r1.error || r2.error;
   if (err || !r1.found || !r2.found) {
     logger.error("Deleting Elasticsearch user failed");
@@ -94,13 +95,17 @@ es.deleteAccount = async (account) => {
 };
 
 es.checkAccount = async (account) => {
-  if (!account.username || !account.password || !account.email) {
+  const username = account.username;
+  if (!username) {
     logger.error("Account data is invalid");
     throw new Error("Account data is invalid");
   }
-  const index = account.username + "-example";
-  const r1 = await sendESRequest(`/${index}`, "GET");
-  if (r1[index]) return true;
+  const r1 = await sendESRequest(`/_security/user/${username}`, "GET");
+  logger.info(
+    `Checking Elasticsearch account for ${username} result:`,
+    !!r1[username]
+  );
+  if (r1[username]) return true;
   return false;
 };
 

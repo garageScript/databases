@@ -66,12 +66,10 @@ pgModule.deletePgAccount = async (account) => {
 };
 
 pgModule.userHasPgAccount = async (username) => {
-  logger.info(`checking to see if ${username} has a pg account`);
   const result = await client.query(`SELECT 1 FROM pg_roles WHERE rolname=$1`, [
     username,
   ]);
-
-  logger.info(`result: ${result.rowCount}`);
+  logger.info(`Checking pg account for ${username} result: ${result.rowCount}`);
   return Boolean(result.rowCount);
 };
 

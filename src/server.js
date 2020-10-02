@@ -17,6 +17,8 @@ const { database } = require("./routes/renderRoutes");
 require("dotenv").config();
 let server = null;
 let app = null;
+let cleaner = null;
+
 const neo4jModule = require("../database/neo4j/neo4j");
 
 const getApp = () => {
@@ -28,7 +30,7 @@ const startServer = async (portNumber) => {
   await pgModule.startPGDB();
   await neo4jModule.startNeo4j();
 
-  util.cleanAnonymous();
+  cleaner = await util.cleanAnonymous();
 
   return new Promise((resolve, reject) => {
     app = express();
@@ -82,6 +84,7 @@ const startServer = async (portNumber) => {
 
 const stopServer = () => {
   return new Promise((resolve, reject) => {
+    cleaner.stop();
     dbModule.close();
     pgModule.closePGDB();
     neo4jModule.closeNeo4j();

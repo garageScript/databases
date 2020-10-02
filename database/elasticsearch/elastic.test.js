@@ -159,7 +159,7 @@ describe("testing es check account function", () => {
     fetch.mockReturnValue(
       Promise.resolve({
         json: () => {
-          return { "testuser-example": {} };
+          return { testuser: {} };
         },
       })
     );
