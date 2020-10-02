@@ -8,20 +8,6 @@ const authorization =
   "Basic " +
   Buffer.from(`elastic:${process.env.ES_PASSWORD}`).toString("base64");
 
-// const sendESRequest = (path, method, body) => {
-//   const options = {
-//     method,
-//     headers: {
-//       Authorization: authorization,
-//       "content-type": "application/json",
-//     },
-//   };
-//   if (body) {
-//     options.body = JSON.stringify(body);
-//   }
-//   return fetch(`${ES_HOST}${path}`, options).then((r) => r.json());
-// };
-
 es.createAccount = async (account) => {
   if (!account.username || !account.dbPassword) {
     logger.error("Account data is invalid");
