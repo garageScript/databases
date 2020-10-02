@@ -7,6 +7,8 @@ const arangoModule = {};
 let db;
 
 arangoModule.checkIfDatabaseExists = async (name) => {
+  // returns array of objects containing a '_name' key.
+  // Ex [{ _name: 'lol' }, { _name: 'cakes' }]
   const names = await db.databases();
   return names.map((db) => db._name).includes(name);
 };
@@ -24,13 +26,15 @@ arangoModule.startArangoDB = async () => {
 
 arangoModule.closeArangoDB = () => db.close();
 
-arangoModule.createAccount = async (username, password) => {
-  if (!username || !password) return;
+arangoModule.createAccount = async (account) => {
+  if (!account) return;
+  const { username, dbPassword } = account;
+  if (!username || !dbPassword) return;
   if (await arangoModule.checkIfDatabaseExists(username)) return;
 
   try {
     await db.createDatabase(username, {
-      users: [{ username, password }],
+      users: [{ username, password: dbPassword }],
     });
   } catch (err) {
     logger.error(err);
@@ -47,14 +51,14 @@ arangoModule.deleteAccount = async (username) => {
     const {
       jwt,
     } = await sendFetch(
-      "https://arangodb.songz.dev/_db/_system/_open/auth",
+      `${process.env.ARANGO_URL}_db/_system/_open/auth`,
       "post",
       { username: process.env.ARANGO_USER, password: process.env.PW }
     );
 
     // uses jwt token to authenticate request to delete user from arango database
     await sendFetch(
-      `https://arangodb.songz.dev/_db/_system/_api/user/${username}`,
+      `${process.env.ARANGO_URL}_db/_system/_api/user/${username}`,
       "delete",
       null,
       `bearer ${jwt}`
@@ -70,5 +74,8 @@ arangoModule.deleteAccount = async (username) => {
     );
   }
 };
+
+// arangoModule.startArangoDB();
+// arangoModule.createAccount("kirby", "star");
 
 module.exports = arangoModule;

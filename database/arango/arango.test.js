@@ -61,18 +61,22 @@ describe("ArangoDB functions", () => {
     expect(logger.error).toHaveBeenCalledTimes(0);
 
     db.databases = jest.fn().mockReturnValue([{ _name: "lol" }]);
-    await createAccount("lol", "hi");
+    await createAccount({ username: "lol", dbPassword: "hi" });
+    expect(db.createDatabase).toHaveBeenCalledTimes(0);
+
+    db.databases = jest.fn().mockReturnValue([{ _name: "lol" }]);
+    await createAccount({ username: "", dbPassword: "" });
     expect(db.createDatabase).toHaveBeenCalledTimes(0);
 
     try {
       db.databases = jest.fn().mockReturnValue([{ _name: "lol" }]);
-      await createAccount("hi", "hi");
+      await createAccount({ username: "hi", dbPassword: "hi" });
       expect(db.createDatabase).toHaveBeenCalledTimes(1);
 
       db.createDatabase = jest.fn().mockImplementation(() => {
         throw new Error();
       });
-      await createAccount("hi", "hi");
+      await createAccount({ username: "hi", dbPassword: "hi" });
     } catch (err) {}
     expect(logger.error).toHaveBeenCalledTimes(1);
   });
@@ -88,6 +92,7 @@ describe("ArangoDB functions", () => {
     sendFetch.mockReturnValue({ jwt: "lol" });
     await deleteAccount("hi");
     expect(sendFetch).toHaveBeenCalledTimes(0);
+
     db.dropDatabase = jest.fn().mockReturnValue("lol");
     await deleteAccount("lol");
     expect(sendFetch).toHaveBeenCalledTimes(2);
