@@ -5,8 +5,7 @@ const logger = require("./../../lib/log")(__filename);
 
 const arangoModule = {};
 let db;
-//left off here. need to make tests for this function
-// need to check if function has been called yet
+
 arangoModule.checkIfDatabaseExists = async (name) => {
   const names = await db.databases();
   return names.map((db) => db._name).includes(name);
