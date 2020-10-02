@@ -6,54 +6,46 @@
     <h2>Learn and try out different databases!</h2>
     <p>Instructions on how to install and setup your own databases are included in the tutorial.</p>
 
-      <blockquote id="postgres" class="db-card">
+      <blockquote id="postgres" class="db-card umami--click--postgres-page">
         <h4 class="db-title">PostgreSQL</h4>
         <p class="db-discription">A relational database management system emphasizing extensibility and technical standards compliance.</p>
       </blockquote>
-      <blockquote id="elastic" class="db-card">
+      <blockquote id="elastic" class="db-card umami--click--elasticsearch-page">
         <h4 class="db-title">Elasticsearch</h4>
         <p class="db-discription">A highly scalable full-text search analytics engine. It allows you to store, search and analyze big volumes of data quickly and in near real time.</p>
       </blockquote>
-      <blockquote id="mongodb" class="db-card darkenCards">
+      <blockquote id="mongodb" class="db-card darkenCards umami--click--mongodb-button">
         <h4 class="db-title">MongoDB (coming next sprint!)</h4>
         <p class="db-discription">An open source database management system using a document-oriented database model that supports various forms of data.<p>
 			</blockquote>
-      <blockquote id="neo4j" class="db-card darkenCards">
+      <blockquote id="neo4j" class="db-card darkenCards umami--click--neo4j-button">
         <h4 class="db-title">Neo4j (coming next sprint!)</h4>
         <p class="db-discription">A graph database management system that is the most popular graph database and the 22nd most popular database overall.</p>
       </blockquote>
 
     <p style="text-align:center;">Everything we do here is open source. Checkout our github
-    <a href="https://github.com/garageScript/databases">Here</a></p>
+    <a href="https://github.com/garageScript/databases" class="umami--click--github-anchor">Here</a></p>
     <hr>
     <h3>Sponsors</h3>
     <ul>
       <li>
-        <p><a href="https://c0d3.com">C0d3</a> (They taught us to code)</p>
+        <p><a href="https://c0d3.com" class="umami--click--c0d3-anchor">C0d3</a> (They taught us to code)</p>
       </li>
     </ul>
 
-    <p>Want to add a new Database or Sponsor? 
-			<a href="https://github.com/garageScript/databases/issues">Contact Us</a>
-		</p>
+    <p>Want to add a new Database or Sponsor? <a href="https://github.com/garageScript/databases/issues" class="umami--click--contact-us-anchor">Contact Us</a></p>
+    <p>We collect anonymous analytics using <a href="https://umami.is/">Umami</a>.<br>View live: <a href="https://analytics.learndatabases.dev/share/9DRDvLQJ/LearnDatabases">analytics.learndatabases.dev</a></p>
 
-		<p>We collect anonymous analytics using 
-			<a href="https://umami.is/">Umami</a>. 
-			View live: 
-			<a href="https://analytics.learndatabases.dev/share/9DRDvLQJ/LearnDatabases">
-				analytics.learndatabases.dev
-			</a>
-		</p>
-                <div id="banner">We just launched!<br><a href="https://news.ycombinator.com/item?id=24554675" target="_blank">Discuss on HN</a></div>
+    <div id="banner">We just launched!<br><a href="https://news.ycombinator.com/item?id=24554675" target="_blank" class="umami--click--discuss-anchor">Discuss on HN</a></div>
   </body>
 
   <style>
     .db-card {
       cursor: pointer;
     }
-		.darkenCards {
-			opacity: 60%;
-		}
+    .darkenCards {
+      opacity: 60%;
+    }
     .db-card:hover {
       border-left: solid 5px rgb(10, 70, 120);
     }
@@ -71,11 +63,15 @@
   </style>
   <script>
     document.getElementById('postgres').addEventListener('click', () => {
-      location.href = '/tutorial/Postgres'
+      setTimeout(() => {
+        location.href = '/tutorial/Postgres'
+      }, 10)
     })
     document.getElementById('elastic').addEventListener('click', () => {
-      location.href = '/tutorial/Elasticsearch'
-		})
+      setTimeout(() => {
+        location.href = '/tutorial/Elasticsearch'
+      }, 10)
+    })
 		/*
     document.getElementById('mongodb').addEventListener('click', () => {
       location.href = '/mongodb'
