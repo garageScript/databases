@@ -26,6 +26,8 @@
     "pm2": "^4.2.3"
   },
   "dependencies": {
+    "@types/node-fetch": "^2.5.7",
+    "arangojs": "^7.0.2",
     "base-x": "^3.0.8",
     "bcrypt": "^5.0.0",
     "ejs": "^3.1.3",

@@ -1,7 +1,6 @@
-const fetch = require("node-fetch");
 const logger = require("./../../lib/log")(__filename);
 require("dotenv").config();
-
+const { sendFetch } = require("../../lib/sendFetch");
 const es = {};
 
 const ES_HOST = process.env.ES_HOST || "http://127.0.0.1:9200";
@@ -9,27 +8,27 @@ const authorization =
   "Basic " +
   Buffer.from(`elastic:${process.env.ES_PASSWORD}`).toString("base64");
 
-const sendESRequest = (path, method, body) => {
-  const options = {
-    method,
-    headers: {
-      Authorization: authorization,
-      "content-type": "application/json",
-    },
-  };
-  if (body) {
-    options.body = JSON.stringify(body);
-  }
-  return fetch(`${ES_HOST}${path}`, options).then((r) => r.json());
-};
+// const sendESRequest = (path, method, body) => {
+//   const options = {
+//     method,
+//     headers: {
+//       Authorization: authorization,
+//       "content-type": "application/json",
+//     },
+//   };
+//   if (body) {
+//     options.body = JSON.stringify(body);
+//   }
+//   return fetch(`${ES_HOST}${path}`, options).then((r) => r.json());
+// };
 
 es.createAccount = async (account) => {
   if (!account.username || !account.dbPassword) {
     logger.error("Account data is invalid");
     throw new Error("Account data is invalid");
   }
-  const r1 = await sendESRequest(
-    `/_security/role/${account.username}`,
+  const r1 = await sendFetch(
+    `${ES_HOST}/_security/role/${account.username}`,
     "POST",
     {
       indices: [
@@ -38,21 +37,28 @@ es.createAccount = async (account) => {
           privileges: ["all"],
         },
       ],
-    }
+    },
+    authorization
   );
-  const r2 = await sendESRequest(
-    `/_security/user/${account.username}`,
+  const r2 = await sendFetch(
+    `${ES_HOST}/_security/user/${account.username}`,
     "POST",
     {
       email: account.email,
       password: account.dbPassword,
       roles: [account.username],
-    }
+    },
+    authorization
   );
-  const r3 = await sendESRequest(`/${account.username}-example/_doc`, "POST", {
-    message:
-      "Congratulations! You have created your first index at Elasticsearch!",
-  });
+  const r3 = await sendFetch(
+    `${ES_HOST}/${account.username}-example/_doc`,
+    "POST",
+    {
+      message:
+        "Congratulations! You have created your first index at Elasticsearch!",
+    },
+    authorization
+  );
   const err = r1.error || r2.error || r3.error;
   if (err) {
     logger.error(err);
@@ -75,13 +81,17 @@ es.deleteAccount = async (account) => {
     logger.error("Account data is invalid");
     throw new Error("Account data is invalid");
   }
-  const r1 = await sendESRequest(
-    `/_security/user/${account.username}`,
-    "DELETE"
+  const r1 = await sendFetch(
+    `${ES_HOST}/_security/user/${account.username}`,
+    "DELETE",
+    null,
+    authorization
   );
-  const r2 = await sendESRequest(
-    `/_security/role/${account.username}`,
-    "DELETE"
+  const r2 = await sendFetch(
+    `${ES_HOST}/_security/role/${account.username}`,
+    "DELETE",
+    null,
+    authorization
   );
   const err = r1.error || r2.error;
   if (err || !r1.found || !r2.found) {
@@ -99,7 +109,7 @@ es.checkAccount = async (account) => {
     throw new Error("Account data is invalid");
   }
   const index = account.username + "-example";
-  const r1 = await sendESRequest(`/${index}`, "GET");
+  const r1 = await sendFetch(`${ES_HOST}/${index}`, "GET", null, authorization);
   if (r1[index]) return true;
   return false;
 };
