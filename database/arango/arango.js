@@ -14,17 +14,31 @@ arangoModule.checkIfDatabaseExists = async (name) => {
 };
 
 arangoModule.startArangoDB = async () => {
-  db = new Database({
-    url: process.env.ARANGO_URL,
-    databaseName: "_system",
-    auth: {
-      username: process.env.ARANGO_USER,
-      password: process.env.ARANGO_PW,
-    },
-  });
+  try {
+    db = new Database({
+      url: process.env.ARANGO_URL,
+      databaseName: "_system",
+      auth: {
+        username: process.env.ARANGO_USER,
+        password: process.env.ARANGO_PW,
+      },
+    });
+    logger.info("Connected to Arango Database");
+  } catch (err) {
+    logger.error(err);
+    throw new Error("Error in connecting to Arango Database", err);
+  }
 };
 
-arangoModule.closeArangoDB = () => db.close();
+arangoModule.closeArangoDB = () => {
+  try {
+    db.close();
+    logger.info("Successful closing of connection to Arango database");
+  } catch (err) {
+    logger.error(err);
+    throw new Error("Error closing Arango database", err);
+  }
+};
 
 arangoModule.createAccount = async (account) => {
   if (!account) return;
@@ -36,6 +50,7 @@ arangoModule.createAccount = async (account) => {
     await db.createDatabase(username, {
       users: [{ username, password: dbPassword }],
     });
+    logger.info(`Successfully created Arango user and database ${username}`);
   } catch (err) {
     logger.error(err);
     throw new Error("Error in creating arango database :(", err);
@@ -64,8 +79,10 @@ arangoModule.deleteAccount = async (username) => {
       `bearer ${jwt}`
     );
 
+    logger.info(`Successfully deleted Arango user ${username}`);
     // deletes database(username and database names are the same for each user)
     await db.dropDatabase(username);
+    logger.info(`Successfully deleted Arango database ${username}`);
   } catch (err) {
     logger.error(err);
     throw new Error(

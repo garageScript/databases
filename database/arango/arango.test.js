@@ -53,6 +53,18 @@ describe("ArangoDB functions", () => {
     expect(db.close).toHaveBeenCalledTimes(1);
   });
 
+  test("should call db.close function and log error", () => {
+    const db = new Arango.Database();
+    db.close = jest.fn().mockImplementation(() => {
+      throw new Error();
+    });
+    try {
+      closeArangoDB();
+    } catch (err) {}
+    expect(db.close).toHaveBeenCalledTimes(1);
+    expect(logger.error).toHaveBeenCalledTimes(1);
+  });
+
   test("should call db.createDatabase function, logger.error when theres an \
   error, and do nothing if argument is invalid", async () => {
     const db = new Arango.Database();
@@ -104,6 +116,14 @@ describe("ArangoDB functions", () => {
       });
       await deleteAccount("lol");
     } catch (err) {}
+    expect(logger.error).toHaveBeenCalledTimes(1);
+  });
+
+  test("should call Database function and FAIL", () => {
+    Arango.Database.mockImplementation(() => {
+      throw new Error();
+    });
+    startArangoDB();
     expect(logger.error).toHaveBeenCalledTimes(1);
   });
 });
