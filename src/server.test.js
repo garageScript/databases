@@ -4,9 +4,11 @@ jest.mock("express");
 jest.mock("mailgun-js");
 jest.mock("../sequelize/db");
 jest.mock("../database/postgres/pg");
+jest.mock("../database/elasticsearch/elastic");
 
 const express = require("express");
 const dbModule = require("../sequelize/db");
+const util = require("../lib/util");
 const userRoutes = require("./routes/userRoutes");
 const renderRoutes = require("./routes/renderRoutes");
 
@@ -25,6 +27,15 @@ const { startServer, stopServer, getApp } = require("./server");
 
 dbModule.start = jest.fn();
 dbModule.close = jest.fn();
+dbModule.getModels = () => {
+  return {
+    Accounts: {
+      findAll: () => {
+        return [];
+      },
+    },
+  };
+};
 
 const app = {
   set: () => {},
