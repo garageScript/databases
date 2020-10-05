@@ -84,28 +84,19 @@ describe("Test PG DB", () => {
     describe("Test deletePgAccount", () => {
       it("it should execute all queries if required arguments are passed into deletePgAccount", async () => {
         mockClient.query.mockReturnValue(Promise.resolve());
-        await deletePgAccount("username");
+        await deletePgAccount({ username: "username" });
         expect(mockClient.query).toHaveBeenCalledTimes(2);
-        expect(mockClient.query.mock.calls[0]).toEqual([
-          `DROP DATABASE IF EXISTS $1`,
-          ["username"],
-        ]);
-        expect(mockClient.query.mock.calls[1]).toEqual([
-          `DROP USER IF EXISTS $1`,
-          ["username"],
-        ]);
       });
       it("it should not execute any queries in deletePgAccount if required arguments are not passed in", async () => {
-        await deletePgAccount();
+        await deletePgAccount({});
         expect(mockClient.query).toHaveBeenCalledTimes(0);
       });
       it("it should check if logger.error is called at throw of deletePgAccount", async () => {
         try {
           await mockClient.query.mockReturnValue(Promise.reject());
-          const resDeletePgAccount = await deletePgAccount(
-            "username",
-            "password"
-          );
+          const resDeletePgAccount = await deletePgAccount({
+            username: "username",
+          });
           expect(resDeletePgAccount).rejects.toThrow();
         } catch (err) {
           expect(logger.error).toHaveBeenCalledTimes(1);
