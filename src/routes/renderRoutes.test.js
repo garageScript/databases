@@ -4,6 +4,7 @@ jest.mock("../../database/postgres/pg");
 jest.mock("../../database/arango/arango");
 jest.mock("arangojs");
 const db = require("../../sequelize/db");
+const arango = require("../../database/arango/arango");
 const es = require("../../database/elasticsearch/elastic");
 const { database } = require("./renderRoutes");
 
@@ -24,6 +25,7 @@ const mockRequest = {
 };
 
 es.checkAccount = jest.fn();
+arango.checkIfDatabaseExists = jest.fn();
 
 describe("Testing database router", () => {
   beforeEach(() => {
