@@ -125,10 +125,13 @@ describe("ArangoDB functions", () => {
   });
 
   test("should call Database function and FAIL", () => {
-    Arango.Database.mockImplementation(() => {
-      throw new Error();
-    });
-    startArangoDB();
+    try {
+      Arango.Database.mockImplementation(() => {
+        throw new Error();
+      });
+      startArangoDB();
+    } catch (err) {}
+
     expect(logger.error).toHaveBeenCalledTimes(1);
   });
 });

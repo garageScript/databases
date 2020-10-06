@@ -20,7 +20,7 @@ arangoModule.checkIfDatabaseExists = async (username) => {
   return res;
 };
 
-arangoModule.startArangoDB = async () => {
+arangoModule.startArangoDB = () => {
   try {
     db = new Database({
       url: process.env.ARANGO_URL,
