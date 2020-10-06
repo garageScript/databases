@@ -1,5 +1,6 @@
 const express = require("express");
 const logger = require("../lib/log")(__filename);
+const util = require("../lib/util");
 const dbModule = require("../sequelize/db");
 const session = require("express-session");
 const pgModule = require("../database/postgres/pg");
@@ -16,7 +17,10 @@ const { database } = require("./routes/renderRoutes");
 require("dotenv").config();
 let server = null;
 let app = null;
+
 const arangoModule = require("../database/arango/arango");
+
+let cleaner = null;
 
 const getApp = () => {
   return app;
@@ -26,6 +30,8 @@ const startServer = async (portNumber) => {
   await dbModule.start();
   await pgModule.startPGDB();
   await arangoModule.startArangoDB();
+
+  cleaner = await util.cleanAnonymous();
 
   return new Promise((resolve, reject) => {
     app = express();
@@ -79,6 +85,7 @@ const startServer = async (portNumber) => {
 
 const stopServer = () => {
   return new Promise((resolve, reject) => {
+    cleaner.stop();
     dbModule.close();
     pgModule.closePGDB();
     arangoModule.closeArangoDB();
