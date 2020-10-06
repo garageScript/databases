@@ -2,6 +2,7 @@ jest.mock("mailgun-js");
 jest.mock("../../lib/users");
 jest.mock("../../sequelize/db");
 jest.mock("../../database/postgres/pg");
+jest.mock("../../database/arango/arango");
 jest.mock("../../database/elasticsearch/elastic");
 
 const db = require("../../sequelize/db");
@@ -25,6 +26,7 @@ const {
 
 const pgModule = require("../../database/postgres/pg");
 const es = require("../../database/elasticsearch/elastic");
+const arangoModule = require("../../database/arango/arango");
 
 const mockFindOne = jest.fn();
 
@@ -124,7 +126,6 @@ describe("Testing resetPasswordEmail function", () => {
     });
 
     await resetPasswordEmail(req, res);
-    expect(res.status.mock.calls[0][0]).toEqual(200);
     expect(res.json.mock.calls[0][0].email).toEqual("hello@world.com");
   });
 });
@@ -187,7 +188,6 @@ describe("Testing createUser function", () => {
       },
     };
     await createUser(req, res);
-    expect(res.status.mock.calls[0][0]).toEqual(200);
     return expect(res.json.mock.calls[0][0].email).toEqual("em@i.l");
   });
 });
@@ -199,6 +199,7 @@ describe("Testing deleteUser function", () => {
   it("should send error if input is invalid", async () => {
     const req = {
       params: { id: null },
+      session: { userid: null },
     };
     await deleteUser(req, res);
     expect(res.status.mock.calls[0][0]).toEqual(400);
@@ -209,6 +210,7 @@ describe("Testing deleteUser function", () => {
   it("should send error if account is not found", async () => {
     const req = {
       params: { id: 99999999 },
+      session: { userid: null },
     };
     mockFindOne.mockReturnValue(null);
     await deleteUser(req, res);
@@ -245,7 +247,6 @@ describe("Testing deleteUser function", () => {
       },
     });
     await deleteUser(req, res);
-    expect(res.status.mock.calls[0][0]).toEqual(200);
     return expect(res.json.mock.calls[0][0].id).toEqual(99999999);
   });
   it("should send error if delete user fails", async () => {
@@ -305,7 +306,6 @@ describe("testing loginUser function", () => {
       session: {},
     };
     await loginUser(req, res);
-    expect(res.status.mock.calls[0][0]).toEqual(200);
     return expect(res.json.mock.calls[0][0].email).toEqual("em@i.l");
   });
 });
@@ -408,6 +408,33 @@ describe("test creating database", () => {
     );
   });
 
+  it("should return success if creating arango database success", async () => {
+    const req = {
+      session: { email: "testm@i.l" },
+      params: { database: "Arango" },
+    };
+
+    const user = {
+      email: "testm@i.l",
+      dbPassword: "Google",
+    };
+
+    arangoModule.createAccount.mockReturnValue(Promise.resolve());
+
+    db.getModels = () => {
+      return {
+        Accounts: {
+          findOne: () => {
+            return { ...user, dataValues: user };
+          },
+        },
+      };
+    };
+
+    await createDatabase(req, res);
+    return expect(res.json.mock.calls[0][0].email).toEqual("testm@i.l");
+  });
+
   it("should return success if creating postgres database success", async () => {
     const req = {
       session: { email: "testm@i.l" },
@@ -432,36 +459,6 @@ describe("test creating database", () => {
 
     await createDatabase(req, res);
     return expect(res.json.mock.calls[0][0].email).toEqual("testm@i.l");
-  });
-
-  it("should throw and error if pgModule fails to create database", async () => {
-    const req = {
-      session: { email: "testm@i.l" },
-      params: { database: "Postgres" },
-    };
-    const user = {
-      email: "testm@i.l",
-      dbPassword: "Google",
-    };
-
-    db.getModels = () => {
-      return {
-        Accounts: {
-          findOne: () => {
-            return { ...user, dataValues: user };
-          },
-        },
-      };
-    };
-
-    pgModule.createPgAccount.mockReturnValue(
-      Promise.reject("cannot create account")
-    );
-
-    await createDatabase(req, res);
-    return expect(res.json.mock.calls[0][0].error.message).toEqual(
-      "Database creation was not implemented"
-    );
   });
 
   it("should return success if creating elastic database success", async () => {
@@ -490,15 +487,17 @@ describe("test creating database", () => {
     return expect(res.json.mock.calls[0][0].email).toEqual("testm@i.l");
   });
 
-  it("should throw and error if esModule fails to create database", async () => {
+  it("should call signUp if user is not logged in", async () => {
     const req = {
-      session: { email: "testm@i.l" },
+      session: { email: "" },
       params: { database: "Elasticsearch" },
     };
     const user = {
       email: "testm@i.l",
       dbPassword: "Google",
     };
+
+    es.createAccount.mockReturnValue(Promise.resolve());
 
     db.getModels = () => {
       return {
@@ -510,11 +509,38 @@ describe("test creating database", () => {
       };
     };
 
-    es.createAccount.mockReturnValue(Promise.reject("cannot create account"));
+    await createDatabase(req, res);
+    return expect(signUp).toHaveBeenCalledTimes(1);
+  });
+
+  it("should call logger.error if there is an error", async () => {
+    const req = {
+      session: { email: "" },
+      params: { database: "Arango" },
+    };
+    const user = {
+      email: "testm@i.l",
+      dbPassword: "Google",
+    };
+
+    arangoModule.createAccount.mockImplementation(() => {
+      throw new Error();
+    });
+
+    db.getModels = () => {
+      return {
+        Accounts: {
+          findOne: () => {
+            return { ...user, dataValues: user };
+          },
+        },
+      };
+    };
 
     await createDatabase(req, res);
-    return expect(res.json.mock.calls[0][0].error.message).toEqual(
-      "Database creation was not implemented"
-    );
+    expect(res.status.mock.calls[0][0]).toEqual(501);
+    expect(res.json.mock.calls[0][0]).toEqual({
+      error: { message: "Database creation was not implemented" },
+    });
   });
 });

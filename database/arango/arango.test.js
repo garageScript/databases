@@ -13,6 +13,7 @@ jest.mock("dotenv");
 Arango.Database = jest.fn().mockReturnValue({
   close: jest.fn(),
   createDatabase: jest.fn(),
+  exists: jest.fn(),
 });
 
 const {
@@ -33,16 +34,16 @@ describe("ArangoDB functions", () => {
     expect(Arango.Database).toHaveBeenCalledTimes(1);
   });
 
-  test("should retun false", async () => {
+  test("should return false", async () => {
     const db = new Arango.Database();
-    db.databases = jest.fn().mockReturnValue([{ _name: "lol" }]);
+    db.exists = jest.fn().mockReturnValue(false);
     const res = await checkIfDatabaseExists("hi");
     expect(res).toEqual(false);
   });
 
-  test("should retun true", async () => {
+  test("should return true", async () => {
     const db = new Arango.Database();
-    db.databases = jest.fn().mockReturnValue([{ _name: "lol" }]);
+    db.exists = jest.fn().mockReturnValue(true);
     const res = await checkIfDatabaseExists("lol");
     expect(res).toEqual(true);
   });
@@ -69,22 +70,22 @@ describe("ArangoDB functions", () => {
   error, and do nothing if argument is invalid", async () => {
     const db = new Arango.Database();
     await createAccount();
+    db.close = jest.fn().mockImplementation(() => 1);
     expect(db.createDatabase).toHaveBeenCalledTimes(0);
     expect(logger.error).toHaveBeenCalledTimes(0);
 
-    db.databases = jest.fn().mockReturnValue([{ _name: "lol" }]);
+    db.exists = jest.fn().mockReturnValue(true);
     await createAccount({ username: "lol", dbPassword: "hi" });
     expect(db.createDatabase).toHaveBeenCalledTimes(0);
 
-    db.databases = jest.fn().mockReturnValue([{ _name: "lol" }]);
     await createAccount({ username: "", dbPassword: "" });
     expect(db.createDatabase).toHaveBeenCalledTimes(0);
 
     try {
-      db.databases = jest.fn().mockReturnValue([{ _name: "lol" }]);
+      db.exists = jest.fn().mockReturnValue(false);
       await createAccount({ username: "hi", dbPassword: "hi" });
       expect(db.createDatabase).toHaveBeenCalledTimes(1);
-
+      db.exists = jest.fn().mockReturnValue(false);
       db.createDatabase = jest.fn().mockImplementation(() => {
         throw new Error();
       });
@@ -96,17 +97,21 @@ describe("ArangoDB functions", () => {
   test("should send two fetch requests if successful, logger.error when theres \
   an error, and do nothing if argument is invalid", async () => {
     const db = new Arango.Database();
+
     await deleteAccount();
     expect(sendFetch).toHaveBeenCalledTimes(0);
     expect(logger.error).toHaveBeenCalledTimes(0);
 
-    db.databases = jest.fn().mockReturnValue([{ _name: "lol" }]);
-    sendFetch.mockReturnValue({ jwt: "lol" });
+    db.close = jest.fn().mockImplementation(() => 1);
+    db.exists = jest.fn().mockReturnValue(false);
     await deleteAccount("hi");
     expect(sendFetch).toHaveBeenCalledTimes(0);
-
+    sendFetch.mockReturnValue({ jwt: "lol" });
+    db.exists = jest.fn().mockReturnValue(true);
     db.dropDatabase = jest.fn().mockReturnValue("lol");
-    await deleteAccount("lol");
+    try {
+      await deleteAccount("lol");
+    } catch (err) {}
     expect(sendFetch).toHaveBeenCalledTimes(2);
     expect(db.dropDatabase).toHaveBeenCalledTimes(1);
 

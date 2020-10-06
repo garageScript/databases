@@ -9,92 +9,84 @@ const logger = require("../../lib/log")(__filename);
 const db = require("../../sequelize/db");
 const pgModule = require("../../database/postgres/pg");
 const es = require("../../database/elasticsearch/elastic");
+const arangoModule = require("../../database/arango/arango");
 const routes = {};
 
 routes.resetPasswordEmail = async (req, res) => {
-  const email = req.body.email;
+  const { email } = req.body;
   if (!email) {
     return res.status(400).json({ error: { message: "invalid input" } });
   }
-  const query = { where: { email: email } };
   const { Accounts } = db.getModels();
+  const query = { where: { email } };
   const userAccount = await Accounts.findOne(query);
   if (!userAccount) {
     return res
       .status(400)
       .json({ error: { message: "Account does not exist" } });
   }
-  logger.info(
-    `User account found for user ${userAccount.id}, sending email now`
-  );
+  const { id } = userAccount;
+  logger.info(`User account found for user ${id}, sending email now`);
   try {
     const account = await sendPasswordResetEmail(userAccount);
-    logger.info(`user reset password email sent to user ${userAccount.id}`);
-    return res.status(200).json({ ...account.dataValues, password: null });
+    logger.info(`user reset password email sent to user ${id}`);
+    res.json({ ...account.dataValues, password: null });
   } catch (err) {
-    logger.error(`Could not send email to user ${userAccount.id}`);
-    return res
+    logger.error(`Could not send email to user ${id}`);
+    res
       .status(500)
       .json({ error: { message: "Email delivery failed. Please try again" } });
   }
 };
 
 routes.createUser = async (req, res) => {
-  if (!req.body.email) {
+  const { email } = req.body;
+  if (!email) {
     return res.status(400).json({ error: { message: "Email is required" } });
   }
-  const userInfo = {
-    email: req.body.email,
-  };
+  const userInfo = { email };
   try {
     const account = await signUp(userInfo);
-    logger.info("Succeded creating user account", userInfo.email);
-    return res.status(200).json({ ...account.dataValues });
+    logger.info("Succeded creating user account", email);
+    res.json({ ...account.dataValues });
   } catch (err) {
-    logger.error("Creating user failed", userInfo.email, err);
-    let message;
-    if (err.toString().includes("SequelizeUniqueConstraintError")) {
-      message = "This account already exists.";
-    } else {
-      message = err.toString();
-    }
-    return res.status(400).json({ error: { message: message } });
+    logger.error("Creating user failed", email, err);
+    const message = err.toString().includes("SequelizeUniqueConstraintError")
+      ? "This account already exists."
+      : err.toString();
+
+    res.status(400).json({ error: { message } });
   }
 };
 
 routes.deleteUser = async (req, res) => {
-  if (!req.params.id) {
+  const { id } = req.params;
+  const { userid } = req.session;
+
+  if (!id) {
     logger.info("user id was not provided");
     return res
       .status(400)
       .json({ error: { message: "user id was not provided" } });
   }
-  const { Accounts } = db.getModels();
   try {
-    const account = await Accounts.findOne({
-      where: {
-        id: req.params.id,
-      },
-    });
+    const { Accounts } = db.getModels();
+    const account = await Accounts.findOne({ where: { id } });
     if (!account) {
-      logger.info("Cannot find user", req.params.id);
+      logger.info("Cannot find user", id);
       return res.status(404).json({ error: { message: "Cannot find user" } });
     }
-    if (account.id !== req.session.userid) {
-      logger.error(
-        "Username does not match to cookie",
-        account.id,
-        req.session.userid
-      );
+    if (account.id !== userid) {
+      logger.error("Username does not match to cookie", account.id, userid);
       return res
         .status(403)
         .json({ error: { message: "Username does not match to cookie" } });
     }
     await account.destroy();
-    logger.info("Succeded deleting user account", req.params.id);
-    return res.status(200).json({ ...account.dataValues, password: null });
+    logger.info("Succeded deleting user account", id);
+    return res.json({ ...account.dataValues, password: null });
   } catch (err) {
-    logger.error("Deleting user failed", req.params.id, err);
+    logger.error("Deleting user failed", id, err);
     res
       .status(500)
       .json({ error: { message: "Deleting user failed. Please try again" } });
@@ -108,13 +100,14 @@ routes.loginUser = async (req, res) => {
   };
   try {
     const account = await logIn(userInfo);
-    req.session.userid = account.id;
-    req.session.email = account.email;
-    logger.info("Logged in", account.email);
-    return res.status(200).json({ ...account.dataValues, password: null });
+    const { id, email, dataValues } = account;
+    req.session.userid = id;
+    req.session.email = email;
+    logger.info("Logged in", email);
+    res.json({ ...dataValues, password: null });
   } catch (err) {
     logger.info(err);
-    return res
+    res
       .status(500)
       .json({ error: { message: "Login user failed. Please try again" } });
   }
@@ -125,55 +118,53 @@ routes.logoutUser = (req, res) => {
   req.session.email = "";
 
   logger.info("user logged out");
-  return res.status(200).json({
-    message: `Logout succeeded`,
-  });
+  res.json({ message: `Logout succeeded` });
 };
 
 routes.userResetPassword = async (req, res) => {
-  const token = req.body.token;
-  const password = req.body.password;
+  const { token, password } = req.body;
 
   try {
     const account = await resetUserPassword(token, password);
-    logger.info("User password reset for", account.email);
-    req.session.userid = account.id;
-    req.session.email = account.email;
-    return res.status(200).json({ ...account.dataValues, password: null });
+    const { id, email, dataValues } = account;
+    logger.info("User password reset for", email);
+    req.session.userid = id;
+    req.session.email = email;
+    res.json({ ...dataValues, password: null });
   } catch (err) {
     logger.error("user reset password error:", err);
-    return res.status(500).json({
+    res.status(500).json({
       error: { message: "Reset user password failed. Please try again" },
     });
   }
 };
 
+const createDatabaseAccount = {
+  Postgres: (user) => pgModule.userHasPgAccount(user),
+  Elasticsearch: (user) => es.createAccount(user),
+  Arango: (user) => arangoModule.createAccount(user),
+};
+
 routes.createDatabase = async (req, res) => {
-  try {
-    let user;
-    if (!req.session.email) {
-      user = await signUp({ email: null });
-      logger.info("Succeded creating anonymous user account", user.id);
-    } else {
-      const { Accounts } = db.getModels();
-      user = await Accounts.findOne({
-        where: { id: req.session.userid },
-      });
-    }
-    if (req.params.database === "Postgres") {
-      await pgModule.createPgAccount(user);
-      return res.json({ ...user.dataValues, password: null });
-    }
-    if (req.params.database === "Elasticsearch") {
-      await es.createAccount(user);
-      return res.json({ ...user.dataValues, password: null });
-    }
+  const { email, userid } = req.session;
+  const { database } = req.params;
+
+  if (!database) {
     return res
       .status(400)
       .json({ error: { message: "You must specify database to create" } });
+  }
+  try {
+    const { Accounts } = db.getModels();
+    const user = !email
+      ? await signUp({ email: null })
+      : await Accounts.findOne({ where: { id: userid } });
+    !email && logger.info("Succeded creating anonymous user account", user.id);
+    await createDatabaseAccount[database](user);
+    res.json({ ...user.dataValues, password: null });
   } catch (err) {
     logger.error("Error with creating database:", err);
-    return res
+    res
       .status(501)
       .json({ error: { message: "Database creation was not implemented" } });
   }
