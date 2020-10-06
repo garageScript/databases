@@ -17,9 +17,10 @@ const { database } = require("./routes/renderRoutes");
 require("dotenv").config();
 let server = null;
 let app = null;
-let cleaner = null;
 
-const neo4jModule = require("../database/neo4j/neo4j");
+const arangoModule = require("../database/arango/arango");
+
+let cleaner = null;
 
 const getApp = () => {
   return app;
@@ -28,7 +29,7 @@ const getApp = () => {
 const startServer = async (portNumber) => {
   await dbModule.start();
   await pgModule.startPGDB();
-  await neo4jModule.startNeo4j();
+  await arangoModule.startArangoDB();
 
   cleaner = await util.cleanAnonymous();
 
@@ -87,7 +88,7 @@ const stopServer = () => {
     cleaner.stop();
     dbModule.close();
     pgModule.closePGDB();
-    neo4jModule.closeNeo4j();
+    arangoModule.closeArangoDB();
     logger.info("DB has been closed");
     server.close(() => {
       logger.info("The server has been closed");
