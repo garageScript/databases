@@ -94,15 +94,12 @@
   createDb_button.addEventListener("click", createDb);
 
   (function setIntroduction() {
-    const vowelsTable = {
-      A: true,
-      E: true,
-      I: true,
-      O: true,
-      U: true,
-    };
-    const introduction = document.getElementById("introduction");
+    const vowelsTable = ["A", "E", "I", "O", "U"].reduce((acc, vowel) => {
+      acc[vowel] = true;
+      return acc;
+    }, {});
     const a = `a${vowelsTable[database[0]] ? "n" : ""}`;
+    const introduction = document.getElementById("introduction");
     const messageOpening = `<p>In this module, you can learn how to use ${database}. `;
     if (!username || !dbExists) {
       const tense = !username ? "temporary " : "";

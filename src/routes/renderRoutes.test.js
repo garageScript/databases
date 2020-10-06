@@ -29,14 +29,6 @@ describe("Testing database router", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  test("when database function is called with non-logged in user and Arango parameter", async () => {
-    mockRequest.params.database = "Arango";
-    await database(mockRequest, mockResponse);
-    expect(mockResponse.render.mock.calls[0][1].username).toBeFalsy();
-    expect(mockResponse.render.mock.calls[0][1].dbHost).toEqual(
-      "https://arangodb.songz.dev/"
-    );
-  });
   test("when database function is called with non-logged in user and Postgres parameter", async () => {
     mockRequest.params.database = "Postgres";
     await database(mockRequest, mockResponse);
