@@ -164,7 +164,7 @@ routes.createDatabase = async (req, res) => {
     return res.json({ ...user.dataValues, password: null });
   } catch (err) {
     logger.error("Error with creating database:", err);
-    res
+    return res
       .status(501)
       .json({ error: { message: "Database creation was not implemented" } });
   }
