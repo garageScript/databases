@@ -4,7 +4,7 @@ jest.mock("../../database/postgres/pg");
 jest.mock("../../database/arango/arango");
 jest.mock("arangojs");
 const db = require("../../sequelize/db");
-
+const { database } = require("./renderRoutes");
 const mockFindOne = jest.fn();
 db.getModels = () => {
   return {
@@ -21,13 +21,18 @@ const mockRequest = {
   session: {},
 };
 
-const { database } = require("./renderRoutes");
-
 describe("Testing database router", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-
+  test("when database function is called with non-logged in user and Arango parameter", async () => {
+    mockRequest.params.database = "Arango";
+    await database(mockRequest, mockResponse);
+    expect(mockResponse.render.mock.calls[0][1].username).toBeFalsy();
+    expect(mockResponse.render.mock.calls[0][1].dbHost).toEqual(
+      "https://arangodb.songz.dev/"
+    );
+  });
   test("when database function is called with non-logged in user and Postgres parameter", async () => {
     mockRequest.params.database = "Postgres";
     await database(mockRequest, mockResponse);
