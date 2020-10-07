@@ -3,6 +3,7 @@ jest.mock("../../database/elasticsearch/elastic");
 jest.mock("../../database/postgres/pg");
 jest.mock("../../database/arango/arango");
 jest.mock("arangojs");
+const { database } = require("./renderRoutes");
 const db = require("../../sequelize/db");
 
 const mockFindOne = jest.fn();
@@ -20,8 +21,6 @@ const mockRequest = {
   params: {},
   session: {},
 };
-
-const { database } = require("./renderRoutes");
 
 describe("Testing database router", () => {
   beforeEach(() => {

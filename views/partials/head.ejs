@@ -1,66 +1,69 @@
 <!--views/partials/head.ejs-->
-<meta charset='UTF-8'>
+<meta charset="UTF-8" />
 <!--CSS (load bootstrap from a CDN)-->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
-<link rel="icon" type="image/gif" href="/database.gif">
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css"
+/>
+<link rel="icon" type="image/gif" href="/database.gif" />
 <style>
-    input {
-        text-align: center;
-        width: 400px;
-        height: 40px;
-        margin: 5px;
-    }
-    button {
-        width: 400px;
-        height: 40px;
-        margin: 10px;
-    }
-    .home {
-        cursor: pointer;
-    }
-    .card {
-        width: 450px;
-        margin: auto;
-    }
-    .card > * {
-        text-align: center;
-    }
-    .subtitle {
-        margin: 10px;
-    }
-    .body {
-        margin: 10px;
-    }
+  input {
+    text-align: center;
+    width: 400px;
+    height: 40px;
+    margin: 5px;
+  }
+  button {
+    width: 400px;
+    height: 40px;
+    margin: 10px;
+  }
+  .home {
+    cursor: pointer;
+  }
+  .card {
+    width: 450px;
+    margin: auto;
+  }
+  .card > * {
+    text-align: center;
+  }
+  .subtitle {
+    margin: 10px;
+  }
+  .body {
+    margin: 10px;
+  }
 </style>
 <html lang="en">
   <head>
     <title>learndatabases.dev</title>
   </head>
-  <header>
-    <h1 class="home umami--click--home-button">Learn Databases</h1>
-    <% if (email) { %>
-      <p>Welcome <%= email %>! <a class="logout" href="#" class="umami--click--logout-button">Logout</a></p>
-    <% } %>
-    <% if (!email) { %>
-      <p><a href="/signin" class="umami--click--login-button">Login</a> / <a href="/signup" class="umami--click--signup-button">Signup</a></p>
-    <% } %>
-  </header>
+  <header id="heading"></header>
 </html>
 <script>
-  const home = document.querySelector('.home')
-  home.addEventListener('click', () => {
-    return location.href = '/'
-  })
+  const email = "<%= email %>";
+  const heading = document.getElementById("heading");
 
-  <% if (email) { %>
-  const logout = document.querySelector('.logout')
-  logout.addEventListener('click', () => {
-    fetch("/api/session", {
-      method: "DELETE"
-    }).then((r) => {
-      return location.href = '/'
-    })
-  })
-  <% } %>
+  heading.innerHTML = `<h1 class="home umami--click--home-button">Learn Databases</h1>${
+    email
+      ? `<p>Welcome ${email}! <a class="logout" href="#" class="umami--click--logout-button">Logout</a></p>`
+      : `<p><a href="/signin" class="umami--click--login-button">Login</a> / <a href="/signup" class="umami--click--signup-button">Signup</a></p>`
+  }`;
+  const home = document.querySelector(".home");
+  home.addEventListener("click", () => {
+    return (location.href = "/");
+  });
+
+  if (email) {
+    const logout = document.querySelector(".logout");
+    logout.addEventListener("click", async () => {
+      await fetch("/api/session", { method: "DELETE" });
+      return (location.href = "/");
+    });
+  }
 </script>

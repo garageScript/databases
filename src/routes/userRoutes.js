@@ -30,10 +30,10 @@ routes.resetPasswordEmail = async (req, res) => {
   try {
     const account = await sendPasswordResetEmail(userAccount);
     logger.info(`user reset password email sent to user ${id}`);
-    res.json({ ...account.dataValues, password: null });
+    return res.json({ ...account.dataValues, password: null });
   } catch (err) {
     logger.error(`Could not send email to user ${id}`);
-    res
+    return res
       .status(500)
       .json({ error: { message: "Email delivery failed. Please try again" } });
   }
@@ -48,14 +48,14 @@ routes.createUser = async (req, res) => {
   try {
     const account = await signUp(userInfo);
     logger.info("Succeded creating user account", email);
-    res.json({ ...account.dataValues });
+    return res.json({ ...account.dataValues });
   } catch (err) {
     logger.error("Creating user failed", email, err);
     const message = err.toString().includes("SequelizeUniqueConstraintError")
       ? "This account already exists."
       : err.toString();
 
-    res.status(400).json({ error: { message } });
+    return res.status(400).json({ error: { message } });
   }
 };
 
@@ -87,7 +87,7 @@ routes.deleteUser = async (req, res) => {
     return res.json({ ...account.dataValues, password: null });
   } catch (err) {
     logger.error("Deleting user failed", id, err);
-    res
+    return res
       .status(500)
       .json({ error: { message: "Deleting user failed. Please try again" } });
   }
@@ -104,10 +104,10 @@ routes.loginUser = async (req, res) => {
     req.session.userid = id;
     req.session.email = email;
     logger.info("Logged in", email);
-    res.json({ ...dataValues, password: null });
+    return res.json({ ...dataValues, password: null });
   } catch (err) {
     logger.info(err);
-    res
+    return res
       .status(500)
       .json({ error: { message: "Login user failed. Please try again" } });
   }
@@ -118,7 +118,7 @@ routes.logoutUser = (req, res) => {
   req.session.email = "";
 
   logger.info("user logged out");
-  res.json({ message: `Logout succeeded` });
+  return res.json({ message: `Logout succeeded` });
 };
 
 routes.userResetPassword = async (req, res) => {
@@ -130,7 +130,7 @@ routes.userResetPassword = async (req, res) => {
     logger.info("User password reset for", email);
     req.session.userid = id;
     req.session.email = email;
-    res.json({ ...dataValues, password: null });
+    return res.json({ ...dataValues, password: null });
   } catch (err) {
     logger.error("user reset password error:", err);
     res.status(500).json({
@@ -161,10 +161,10 @@ routes.createDatabase = async (req, res) => {
       : await Accounts.findOne({ where: { id: userid } });
     !email && logger.info("Succeded creating anonymous user account", user.id);
     await createDatabaseAccount[database](user);
-    res.json({ ...user.dataValues, password: null });
+    return res.json({ ...user.dataValues, password: null });
   } catch (err) {
     logger.error("Error with creating database:", err);
-    res
+    return res
       .status(501)
       .json({ error: { message: "Database creation was not implemented" } });
   }
