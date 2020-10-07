@@ -862,14 +862,14 @@ exports[`test welcome page should render welcome page correctly 1`] = `
         <h4 class=\\"db-title\\">Elasticsearch</h4>
         <p class=\\"db-discription\\">A highly scalable full-text search analytics engine. It allows you to store, search and analyze big volumes of data quickly and in near real time.</p>
       </blockquote>
+      <blockquote id=\\"arango\\" class=\\"db-card umami--click--arango-button\\">
+        <h4 class=\\"db-title\\">Arango</h4>
+        <p class=\\"db-discription\\">A multi-model database. Whether you want to store data in tables or graphs is up to you!</p>
+      </blockquote>
       <blockquote id=\\"mongodb\\" class=\\"db-card darkenCards umami--click--mongodb-button\\">
         <h4 class=\\"db-title\\">MongoDB (coming next sprint!)</h4>
         <p class=\\"db-discription\\">An open source database management system using a document-oriented database model that supports various forms of data.<p>
 			</blockquote>
-      <blockquote id=\\"arango\\" class=\\"db-card umami--click--neo4j-button\\">
-        <h4 class=\\"db-title\\">Arango (coming next sprint!)</h4>
-        <p class=\\"db-discription\\">A multi-model database. Whether you want to store data in tables or graphs is up to you!</p>
-      </blockquote>
 
     <p style=\\"text-align:center;\\">Everything we do here is open source. Checkout our github
     <a href=\\"https://github.com/garageScript/databases\\" class=\\"umami--click--github-anchor\\">Here</a></p>
