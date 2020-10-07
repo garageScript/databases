@@ -6,7 +6,7 @@ require("dotenv").config();
 const routes = {};
 
 // This is the 'host' url for a person's database credentials
-const dbHostTable = {
+const dbHost = {
   Postgres: "learndatabases.dev",
   Elasticsearch: "elastic.learndatabases.dev",
   Arango: process.env.ARANGO_URL,
@@ -28,7 +28,7 @@ routes.database = async (req, res) => {
   const user = userid ? await Accounts.findOne({ where: { id: userid } }) : {};
   const { username, dbPassword } = user;
   const renderData = { email, username, dbPassword, database };
-  renderData.dbHost = dbHostTable[database];
+  renderData.dbHost = dbHost[database];
   renderData.dbExists = username ? await checkAccount[database](user) : false;
 
   res.render("tutorial", renderData);
