@@ -3,6 +3,7 @@ jest.mock("../../database/elasticsearch/elastic");
 jest.mock("../../database/postgres/pg");
 jest.mock("../../database/arango/arango");
 jest.mock("arangojs");
+require("dotenv").config();
 const db = require("../../sequelize/db");
 const { database } = require("./renderRoutes");
 const mockFindOne = jest.fn();
@@ -30,7 +31,7 @@ describe("Testing database router", () => {
     await database(mockRequest, mockResponse);
     expect(mockResponse.render.mock.calls[0][1].username).toBeFalsy();
     expect(mockResponse.render.mock.calls[0][1].dbHost).toEqual(
-      "https://arangodb.songz.dev/"
+      process.env.ARANGO_URL
     );
   });
   test("when database function is called with non-logged in user and Postgres parameter", async () => {
@@ -46,7 +47,7 @@ describe("Testing database router", () => {
     await database(mockRequest, mockResponse);
     expect(mockResponse.render.mock.calls[0][1].username).toBeFalsy();
     expect(mockResponse.render.mock.calls[0][1].dbHost).toEqual(
-      "elastic.learndatabases.dev"
+      process.env.ES_HOST
     );
   });
   test("when database function is called with logged in user and Arango parameter", async () => {
@@ -59,7 +60,7 @@ describe("Testing database router", () => {
     await database(mockRequest, mockResponse);
     expect(mockResponse.render.mock.calls[0][1].username).toEqual("testuser");
     expect(mockResponse.render.mock.calls[0][1].dbHost).toEqual(
-      "https://arangodb.songz.dev/"
+      process.env.ARANGO_URL
     );
   });
   test("when database function is called with logged in user and Postgres parameter", async () => {
@@ -85,7 +86,7 @@ describe("Testing database router", () => {
     await database(mockRequest, mockResponse);
     expect(mockResponse.render.mock.calls[0][1].username).toEqual("testuser");
     expect(mockResponse.render.mock.calls[0][1].dbHost).toEqual(
-      "elastic.learndatabases.dev"
+      process.env.ES_HOST
     );
   });
 });
