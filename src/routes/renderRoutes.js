@@ -7,7 +7,7 @@ const routes = {};
 
 // This is the 'host' url for a person's database credentials
 const dbHost = {
-  Postgres: "learndatabases.dev",
+  Postgres: process.env.HOST,
   Elasticsearch: process.env.ES_HOST,
   Arango: process.env.ARANGO_URL,
 };

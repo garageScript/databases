@@ -39,7 +39,7 @@ describe("Testing database router", () => {
     await database(mockRequest, mockResponse);
     expect(mockResponse.render.mock.calls[0][1].username).toBeFalsy();
     expect(mockResponse.render.mock.calls[0][1].dbHost).toEqual(
-      "learndatabases.dev"
+      process.env.HOST
     );
   });
   test("when database function is called with non-logged in user and Elasticsearch parameter", async () => {
@@ -73,7 +73,7 @@ describe("Testing database router", () => {
     await database(mockRequest, mockResponse);
     expect(mockResponse.render.mock.calls[0][1].username).toEqual("testuser");
     expect(mockResponse.render.mock.calls[0][1].dbHost).toEqual(
-      "learndatabases.dev"
+      process.env.HOST
     );
   });
   test("when database function is called with logged in user and Elasticsearch parameter", async () => {

@@ -263,7 +263,7 @@ exports[`test welcome page should render postgres page correctly 1`] = `
   crossorigin=\\"anonymous\\"
 />
 <script>
-  const dbHost = \\"learndatabases.dev\\";
+  const dbHost = \\"104.168.169.204\\";
   const username = \\"\\";
   const dbPassword = \\"\\";
   const dbExists = \\"false\\";
