@@ -73,7 +73,7 @@ exports[`test welcome page should render arango page correctly 1`] = `
   crossorigin=\\"anonymous\\"
 />
 <script>
-  const dbHost = \\"https://arangodb.songz.dev/\\";
+  const dbHost = \\"arangodb.learndatabases.dev\\";
   const username = \\"\\";
   const dbPassword = \\"\\";
   const dbExists = \\"\\";
@@ -263,7 +263,7 @@ exports[`test welcome page should render elasticsearch page correctly 1`] = `
   crossorigin=\\"anonymous\\"
 />
 <script>
-  const dbHost = \\"https://elastic.learndatabases.dev\\";
+  const dbHost = \\"elastic.learndatabases.dev\\";
   const username = \\"\\";
   const dbPassword = \\"\\";
   const dbExists = \\"\\";
@@ -453,7 +453,7 @@ exports[`test welcome page should render postgres page correctly 1`] = `
   crossorigin=\\"anonymous\\"
 />
 <script>
-  const dbHost = \\"104.168.169.204\\";
+  const dbHost = \\"learndatabases.dev\\";
   const username = \\"\\";
   const dbPassword = \\"\\";
   const dbExists = \\"\\";

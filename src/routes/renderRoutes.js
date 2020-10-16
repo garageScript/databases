@@ -23,7 +23,11 @@ const checkAccount = {
   Arango: arangoModule.checkIfDatabaseExists,
 };
 
-const CI = () => process.env.NODE_ENV === "CI";
+const CI = () => {
+  if (process.env.NODE_ENV === "CI" || process.env.NODE_ENV === "prod")
+    return true;
+  return false;
+};
 
 // If you are here because you are implementing another database, then
 // just add to the hashtables above! No need to touch down here.
