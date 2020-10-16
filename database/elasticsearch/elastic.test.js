@@ -105,7 +105,7 @@ describe("testing es delete account function", () => {
     } catch (err) {}
     return expect(logger.error).toHaveBeenCalled();
   });
-  it("should log info if deleting user seccess", async () => {
+  it("should log info if deleting user success", async () => {
     const account = {
       username: "testuser",
       email: "em@i.l",
@@ -127,19 +127,7 @@ describe("testing es check account function", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  it("should log error if account data is invalid", async () => {
-    const account = {};
-    try {
-      await es.checkAccount(account);
-    } catch (err) {}
-    return expect(logger.error).toHaveBeenCalled();
-  });
   it("should return false if index does not exist", async () => {
-    const account = {
-      username: "testuser",
-      email: "em@i.l",
-      password: "1234qwer",
-    };
     fetch.mockReturnValue(
       Promise.resolve({
         json: () => {
@@ -147,15 +135,10 @@ describe("testing es check account function", () => {
         },
       })
     );
-    const result = await es.checkAccount(account);
+    const result = await es.checkAccount("testuser");
     return expect(result).toEqual(false);
   });
   it("should return true if index exists", async () => {
-    const account = {
-      username: "testuser",
-      email: "em@i.l",
-      password: "1234qwer",
-    };
     fetch.mockReturnValue(
       Promise.resolve({
         json: () => {
@@ -163,7 +146,20 @@ describe("testing es check account function", () => {
         },
       })
     );
-    const result = await es.checkAccount(account);
+    const result = await es.checkAccount("testuser");
     return expect(result).toEqual(true);
+  });
+  it("should log error if somethin goes wrong", async () => {
+    fetch.mockImplementation(() => {
+      throw new Error();
+    });
+    try {
+      await es.checkAccount("jeez");
+    } catch (err) {}
+    return expect(logger.error).toHaveBeenCalled();
+  });
+  it("should do nothing if username is a falsy value", async () => {
+    await es.checkAccount("");
+    return expect(fetch).toHaveBeenCalledTimes(0);
   });
 });

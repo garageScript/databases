@@ -133,7 +133,7 @@ routes.userResetPassword = async (req, res) => {
     return res.json({ ...dataValues, password: null });
   } catch (err) {
     logger.error("user reset password error:", err);
-    res.status(500).json({
+    return res.status(500).json({
       error: { message: "Reset user password failed. Please try again" },
     });
   }

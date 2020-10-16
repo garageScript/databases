@@ -21,10 +21,41 @@ const mockRequest = {
   params: {},
   session: {},
 };
-
 describe("Testing database router", () => {
+  const OLD_ENV = process.env;
   beforeEach(() => {
     jest.clearAllMocks();
+    process.env = { ...OLD_ENV };
+  });
+  afterEach(() => {
+    process.env = OLD_ENV;
+  });
+  test("should render correct CI hostname to front-end", async () => {
+    mockRequest.params.database = "Arango";
+    process.env = { ...process.env, NODE_ENV: "CI" };
+    await database(mockRequest, mockResponse);
+    expect(mockResponse.render.mock.calls[0][1].username).toBeFalsy();
+    expect(mockResponse.render.mock.calls[0][1].dbHost).toEqual(
+      "arangodb.learndatabases.dev"
+    );
+  });
+  test("should render correct CI hostname to frontend elasticsearch", async () => {
+    process.env = { ...process.env, NODE_ENV: "CI" };
+    mockRequest.params.database = "Elasticsearch";
+    await database(mockRequest, mockResponse);
+    expect(mockResponse.render.mock.calls[0][1].username).toBeFalsy();
+    expect(mockResponse.render.mock.calls[0][1].dbHost).toEqual(
+      "elastic.learndatabases.dev"
+    );
+  });
+  test("should render correct CI hostname to frontend postgres", async () => {
+    process.env = { ...process.env, NODE_ENV: "CI" };
+    mockRequest.params.database = "Postgres";
+    await database(mockRequest, mockResponse);
+    expect(mockResponse.render.mock.calls[0][1].username).toBeFalsy();
+    expect(mockResponse.render.mock.calls[0][1].dbHost).toEqual(
+      "learndatabases.dev"
+    );
   });
   test("when database function is called with non-logged in user and Arango parameter", async () => {
     mockRequest.params.database = "Arango";

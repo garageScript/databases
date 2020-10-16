@@ -1,6 +1,5 @@
-jest.setTimeout(10000);
+jest.setTimeout(1000000);
 
-const session = require("express-session");
 const { startServer, stopServer } = require("../../src/server");
 const fetch = require("node-fetch");
 require("dotenv").config();
@@ -57,6 +56,13 @@ describe("test welcome page", () => {
 
   test("should render elasticsearch page correctly", async () => {
     const result = await fetch(baseUrl + "tutorial/Elasticsearch").then((r) =>
+      r.text()
+    );
+    expect(result).toMatchSnapshot();
+	});
+
+  test("should render arango page correctly", async () => {
+    const result = await fetch(baseUrl + "tutorial/Arango").then((r) =>
       r.text()
     );
     expect(result).toMatchSnapshot();
