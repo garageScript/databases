@@ -4,6 +4,7 @@ const pg = require("../../database/postgres/pg");
 const arangoModule = require("../../database/arango/arango");
 require("dotenv").config();
 const routes = {};
+
 // This is the 'host' url for a person's database credentials
 const dbHost = {
   Postgres: process.env.HOST,
@@ -24,9 +25,7 @@ const checkAccount = {
 };
 
 const CI = () => {
-  if (process.env.NODE_ENV === "CI" || process.env.NODE_ENV === "prod")
-    return true;
-  return false;
+  return process.env.NODE_ENV === "CI" || process.env.NODE_ENV === "prod";
 };
 
 // If you are here because you are implementing another database, then
