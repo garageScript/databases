@@ -5,14 +5,15 @@ const arangoModule = require("../../database/arango/arango");
 require("dotenv").config();
 const routes = {};
 
-// This is the 'host' url for a person's database credentials
-const dbHost = {
+// This is for when a person is running the app on the local machine.
+const dev_dbHost = {
   Postgres: process.env.HOST,
   Elasticsearch: process.env.ES_HOST,
   Arango: process.env.ARANGO_URL,
 };
 
-const CIHost = {
+// This is the 'host' url for a person's database credentials in prod.
+const dbHost = {
   Postgres: "learndatabases.dev",
   Elasticsearch: "elastic.learndatabases.dev",
   Arango: "arangodb.learndatabases.dev",
@@ -24,7 +25,7 @@ const checkAccount = {
   Arango: arangoModule.checkIfDatabaseExists,
 };
 
-const CI = () => {
+const prod = () => {
   return process.env.NODE_ENV === "CI" || process.env.NODE_ENV === "prod";
 };
 
@@ -38,7 +39,7 @@ routes.database = async (req, res) => {
   const user = userid && (await Accounts.findOne({ where: { id: userid } }));
   const { username, dbPassword } = user || {};
   const renderData = { email, username, dbPassword, database };
-  renderData.dbHost = CI() ? CIHost[database] : dbHost[database];
+  renderData.dbHost = prod() ? dbHost[database] : dev_dbHost[database];
   renderData.dbExists = username && (await checkAccount[database](user));
 
   res.render("tutorial", renderData);
