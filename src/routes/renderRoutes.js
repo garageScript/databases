@@ -5,7 +5,7 @@ const arangoModule = require("../../database/arango/arango");
 require("dotenv").config();
 const routes = {};
 
-// This is for when a person is running the app on the local machine.
+// This is for when a person is running the app on their local machine.
 const dev_dbHost = {
   Postgres: process.env.HOST,
   Elasticsearch: process.env.ES_HOST,
