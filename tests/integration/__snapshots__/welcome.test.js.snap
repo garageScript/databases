@@ -1,5 +1,195 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`test welcome page should render arango page correctly 1`] = `
+"<!--views/partials/head.ejs-->
+<meta charset='UTF-8'>
+<!--CSS (load bootstrap from a CDN)-->
+<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css\\">
+<link rel=\\"stylesheet\\" href=\\"https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css\\">
+<link rel=\\"icon\\" type=\\"image/gif\\" href=\\"/database.gif\\">
+<style>
+    input {
+        text-align: center;
+        width: 400px;
+        height: 40px;
+        margin: 5px;
+    }
+    button {
+        width: 400px;
+        height: 40px;
+        margin: 10px;
+    }
+    .home {
+        cursor: pointer;
+    }
+    .card {
+        width: 450px;
+        margin: auto;
+    }
+    .card > * {
+        text-align: center;
+    }
+    .subtitle {
+        margin: 10px;
+    }
+    .body {
+        margin: 10px;
+    }
+</style>
+<html lang=\\"en\\">
+  <head>
+    <title>learndatabases.dev</title>
+  </head>
+  <header>
+    <h1 class=\\"home umami--click--home-button\\">Learn Databases</h1>
+    
+    
+      <p><a href=\\"/signin\\" class=\\"umami--click--login-button\\">Login</a> / <a href=\\"/signup\\" class=\\"umami--click--signup-button\\">Signup</a></p>
+    
+  </header>
+</html>
+<script>
+  const home = document.querySelector('.home')
+  home.addEventListener('click', () => {
+    return location.href = '/'
+  })
+
+  
+</script>
+
+<h3>Learn Arango</h3>
+<div id=\\"introduction\\"></div>
+<div id=\\"content\\"></div>
+<script src=\\"https://cdn.jsdelivr.net/npm/marked/marked.min.js\\"></script>
+<script
+  src=\\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js\\"
+  integrity=\\"sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw==\\"
+  crossorigin=\\"anonymous\\"
+></script>
+<link
+  rel=\\"stylesheet\\"
+  href=\\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/tomorrow.min.css\\"
+  integrity=\\"sha512-r3qr7vMdHYmWUzqC7l4H/W03ikAyiFIQld+B71yAmHhu7wcsnvm/adhikM+FzDxxK9ewznhCVnAm+yYZpPBnSg==\\"
+  crossorigin=\\"anonymous\\"
+/>
+<script>
+  const dbHost = \\"arangodb.learndatabases.dev\\";
+  const username = \\"\\";
+  const dbPassword = \\"\\";
+  const dbExists = \\"\\";
+  const database = \\"Arango\\";
+
+  const credentials = document.createElement(\\"pre\\");
+  const renderCredentials = (username, dbPassword) => {
+    const creds = \`host: \${dbHost}\\\\nusername: \${username}\\\\npassword: \${dbPassword}\\\\n\`;
+    /**
+     **** EACH TIME A DATABASE IS ADDED, ADD TO THE endingChoice OBJECT ****
+     * This is the only change you need to make if you are altering
+     * this file because another database has been implemented.
+     */
+    const endingChoice = {
+      Postgres: \`database: \${username}\`,
+      Elasticsearch: \`index: \${username}-*\`,
+      Arango: \`databaseName: \${username}\`,
+    };
+    credentials.innerHTML = \`<code>\${creds}\${endingChoice[database]}</code>\`;
+    introduction.append(credentials);
+  };
+
+  const content = document.getElementById(\\"content\\");
+  const renderContent = async (username, dbPassword) => {
+    const r = await fetch(\`/lessons/\${database}.md\`).then((r) => r.text());
+    marked.setOptions({
+      highlight: function (code) {
+        return hljs.highlightAuto(code).value;
+      },
+    });
+    const markedHTML = marked(r);
+    const markedHTMLwithUserData = markedHTML
+      .replace(/@username/gi, username)
+      .replace(/@dbPassword/gi, dbPassword);
+    content.innerHTML = markedHTMLwithUserData;
+  };
+
+  let disabled;
+  const createDb = async () => {
+    if (disabled) return;
+    disabled = true;
+    createDb_button.classList.add(\\"disabled\\");
+    createDb_button.innerText = \\"Creating...\\";
+
+    const res = await fetch(\`/api/createDatabase/\${database}\`, {
+      method: \\"POST\\",
+    }).then((r) => r.json());
+    const { error, username, dbPassword, email } = res;
+    if (error) {
+      alert(error.message);
+      disabled = false;
+      createDb_button.classList.remove(\\"disabled\\");
+      createDb_button.innerText = \\"Create my database\\";
+      return;
+    }
+    alert(
+      email
+        ? \\"Your database has been successfully created!\\"
+        : \\"Your temporary database has been successfully created!\\\\r\\\\nSince credentials are provided only once, please keep the information somewhere safe.\\"
+    );
+    createDb_button.style.opacity = 0;
+    setTimeout(() => {
+      createDb_button.innerText = \\"Complete!\\";
+      createDb_button.style.background = \\"rgb(10, 170, 75)\\";
+      createDb_button.style.opacity = 1;
+      setTimeout(() => {
+        renderCredentials(username, dbPassword);
+        renderContent(username, dbPassword);
+      }, 200);
+    }, 200);
+  };
+
+  const createDb_button = document.createElement(\\"button\\");
+  createDb_button.id = \\"createDb\\";
+  createDb_button.innerText = \\"Create my database\\";
+  createDb_button.addEventListener(\\"click\\", createDb);
+
+  (function setIntroduction() {
+    const vowelsTable = [\\"A\\", \\"E\\", \\"I\\", \\"O\\", \\"U\\"].reduce((acc, vowel) => {
+      acc[vowel] = true;
+      return acc;
+    }, {});
+    const a = \`a\${vowelsTable[database[0]] ? \\"n\\" : \\"\\"}\`;
+    const introduction = document.getElementById(\\"introduction\\");
+    const messageOpening = \`<p>In this module, you can learn how to use \${database}. \`;
+    if (!username || !dbExists) {
+      const tense = !username ? \\"temporary \\" : \\"\\";
+      const messageMiddle = \`Don't have \${database} installed on your local machine yet? Fear not! We can make \${a} \${database} database for you. Simply click on the button below to create your \${tense}database. Credentials for your database will appear after it is done being created.</p>\`;
+      const messageEnding = !username
+        ? \`<p>Temporary database credentials will expire in 5 days. If you want, you can sign up with us and get a non-expiring \${database} database!</p>\`
+        : \\"\\";
+      introduction.innerHTML = \`\${messageOpening}\${messageMiddle}\${messageEnding}\`;
+      introduction.append(createDb_button);
+      return renderContent(\\"username\\", \\"dbPassword\\");
+    }
+    introduction.innerHTML = \`\${messageOpening}You have already created \${a} \${database} database on our server. Here are the credentials for your database.</p>\`;
+    renderCredentials(username, dbPassword);
+    renderContent(username, dbPassword);
+  })();
+</script>
+<style>
+  #createDb {
+    display: block;
+    margin: auto;
+    margin-top: 26px;
+    margin-bottom: 26px;
+    transition: 0.2s;
+  }
+
+  #createDb.disabled {
+    cursor: default;
+  }
+</style>
+"
+`;
+
 exports[`test welcome page should render elasticsearch page correctly 1`] = `
 "<!--views/partials/head.ejs-->
 <meta charset='UTF-8'>
@@ -58,116 +248,122 @@ exports[`test welcome page should render elasticsearch page correctly 1`] = `
 </script>
 
 <h3>Learn Elasticsearch</h3>
-<div id=\\"introduction\\">
-</div>
+<div id=\\"introduction\\"></div>
 <div id=\\"content\\"></div>
 <script src=\\"https://cdn.jsdelivr.net/npm/marked/marked.min.js\\"></script>
-<script src=\\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js\\"
+<script
+  src=\\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js\\"
   integrity=\\"sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw==\\"
-  crossorigin=\\"anonymous\\"></script>
-<link rel=\\"stylesheet\\" href=\\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/tomorrow.min.css\\"
+  crossorigin=\\"anonymous\\"
+></script>
+<link
+  rel=\\"stylesheet\\"
+  href=\\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/tomorrow.min.css\\"
   integrity=\\"sha512-r3qr7vMdHYmWUzqC7l4H/W03ikAyiFIQld+B71yAmHhu7wcsnvm/adhikM+FzDxxK9ewznhCVnAm+yYZpPBnSg==\\"
-  crossorigin=\\"anonymous\\" />
+  crossorigin=\\"anonymous\\"
+/>
 <script>
-  const dbHost = \\"elastic.learndatabases.dev\\"
-  const username = \\"\\"
-  const dbPassword = \\"\\"
-  const dbExists = false
-  const database = \\"Elasticsearch\\"
+  const dbHost = \\"elastic.learndatabases.dev\\";
+  const username = \\"\\";
+  const dbPassword = \\"\\";
+  const dbExists = \\"\\";
+  const database = \\"Elasticsearch\\";
 
-  const credentials = document.createElement(\\"pre\\")
+  const credentials = document.createElement(\\"pre\\");
   const renderCredentials = (username, dbPassword) => {
-    if (database === \\"Postgres\\") {
-      credentials.innerHTML = \`<code>host: \${dbHost}
-username: \${username}
-password: \${dbPassword}
-database: \${username}</code>\`
-    } else if (database === \\"Elasticsearch\\") {
-      credentials.innerHTML = \`<code>host: \${dbHost}
-username: \${username}
-password: \${dbPassword}
-index: \${username}-*</code>\`
-    } else {
-      credentials.innerHTML = \\"\\"
+    const creds = \`host: \${dbHost}\\\\nusername: \${username}\\\\npassword: \${dbPassword}\\\\n\`;
+    /**
+     **** EACH TIME A DATABASE IS ADDED, ADD TO THE endingChoice OBJECT ****
+     * This is the only change you need to make if you are altering
+     * this file because another database has been implemented.
+     */
+    const endingChoice = {
+      Postgres: \`database: \${username}\`,
+      Elasticsearch: \`index: \${username}-*\`,
+      Arango: \`databaseName: \${username}\`,
+    };
+    credentials.innerHTML = \`<code>\${creds}\${endingChoice[database]}</code>\`;
+    introduction.append(credentials);
+  };
+
+  const content = document.getElementById(\\"content\\");
+  const renderContent = async (username, dbPassword) => {
+    const r = await fetch(\`/lessons/\${database}.md\`).then((r) => r.text());
+    marked.setOptions({
+      highlight: function (code) {
+        return hljs.highlightAuto(code).value;
+      },
+    });
+    const markedHTML = marked(r);
+    const markedHTMLwithUserData = markedHTML
+      .replace(/@username/gi, username)
+      .replace(/@dbPassword/gi, dbPassword);
+    content.innerHTML = markedHTMLwithUserData;
+  };
+
+  let disabled;
+  const createDb = async () => {
+    if (disabled) return;
+    disabled = true;
+    createDb_button.classList.add(\\"disabled\\");
+    createDb_button.innerText = \\"Creating...\\";
+
+    const res = await fetch(\`/api/createDatabase/\${database}\`, {
+      method: \\"POST\\",
+    }).then((r) => r.json());
+    const { error, username, dbPassword, email } = res;
+    if (error) {
+      alert(error.message);
+      disabled = false;
+      createDb_button.classList.remove(\\"disabled\\");
+      createDb_button.innerText = \\"Create my database\\";
+      return;
     }
-    introduction.append(credentials)
-  }
+    alert(
+      email
+        ? \\"Your database has been successfully created!\\"
+        : \\"Your temporary database has been successfully created!\\\\r\\\\nSince credentials are provided only once, please keep the information somewhere safe.\\"
+    );
+    createDb_button.style.opacity = 0;
+    setTimeout(() => {
+      createDb_button.innerText = \\"Complete!\\";
+      createDb_button.style.background = \\"rgb(10, 170, 75)\\";
+      createDb_button.style.opacity = 1;
+      setTimeout(() => {
+        renderCredentials(username, dbPassword);
+        renderContent(username, dbPassword);
+      }, 200);
+    }, 200);
+  };
 
-  const content = document.getElementById(\\"content\\")
-  const renderContent = (username, dbPassword) => {
-    fetch(\`/lessons/\${database}.md\`).then(r => r.text()).then((r) => {
-      marked.setOptions({
-        highlight: function (code) {
-          return hljs.highlightAuto(code).value
-        }
-      })
-      const markedHTML = marked(r)
-      const markedHTMLwithUserData = markedHTML.replace(/@username/gi, username).replace(/@dbPassword/gi, dbPassword)
-      content.innerHTML = markedHTMLwithUserData
-    })
-  }
-  
-  let disabled
-  const createDb = () => {
-    if (disabled) return
-    disabled = true
-    createDb_button.classList.add(\\"disabled\\")
-    createDb_button.innerText = \\"Creating...\\"
-    fetch(\`/api/createDatabase/\${database}\`, { method: \\"POST\\" }).then(r => r.json()).then((r) => {
-      if (r.error) {
-        alert(r.error.message)
-        disabled = false
-        createDb_button.classList.remove(\\"disabled\\")
-        createDb_button.innerText = \\"Create my database\\"
-      } else {
-        if (r.email) {
-          alert(\\"Your database is successfully created!\\")
-        } else {
-          alert(\\"Your temporary database is successfully created!\\\\r\\\\nSince credentials are provided only once, please keep the information somewhere safe.\\")
-        }
-        createDb_button.style.opacity = 0
-        setTimeout(() => {
-          createDb_button.innerText = \\"Complete!\\"
-          createDb_button.style.background = \\"rgb(10, 170, 75)\\"
-          createDb_button.style.opacity = 1
-          setTimeout(() => {
-            renderCredentials(r.username, r.dbPassword)
-            renderContent(r.username, r.dbPassword)
-          }, 200)
-        }, 200)
-      }
-    })
-  }
+  const createDb_button = document.createElement(\\"button\\");
+  createDb_button.id = \\"createDb\\";
+  createDb_button.innerText = \\"Create my database\\";
+  createDb_button.addEventListener(\\"click\\", createDb);
 
-  const createDb_button = document.createElement(\\"button\\")
-  createDb_button.id = \\"createDb\\"
-  createDb_button.innerText = \\"Create my database\\"
-  createDb_button.addEventListener(\\"click\\", createDb)
-  
-  const introduction = document.getElementById(\\"introduction\\")
-  if (!username) {
-    introduction.innerHTML = \`
-      <p>In this module, you can learn how to use \${database}. Don't have \${database} installed on your local machine yet? Fear not! We can make a \${database} database for you. Simply click on the button below to create your temporary \${database} database. Credentials for your database will appear after it is done being created.</p>
-      <p>Temporary database credentials will expire in 5 days. If you want, you can sign up with us and get a non-expiring Postgres database!</p>
-    \`
-    introduction.append(createDb_button)
-    renderContent(\\"username\\", \\"dbPassword\\")
-  } else if (!dbExists) {
-    introduction.innerHTML = \`
-      <p>In this module, you can learn how to use \${database}. Don't have \${database} installed on your local machine yet? Fear not! We can make an \${database} database for you. Simply click on the button below to create your \${database} database. Credentials for your database will appear after it is done being created.</p>
-    \`
-    introduction.append(createDb_button)
-    renderContent(\\"username\\", \\"dbPassword\\")
-  } else {
-    introduction.innerHTML = \`
-<p>In this module, you can learn how to use \${database}. You have already created an \${database} database on our server. Here are the credentials for your database.</p>
-    \`
-    renderCredentials(username, dbPassword)
-    renderContent(username, dbPassword)
-  }
-
+  (function setIntroduction() {
+    const vowelsTable = [\\"A\\", \\"E\\", \\"I\\", \\"O\\", \\"U\\"].reduce((acc, vowel) => {
+      acc[vowel] = true;
+      return acc;
+    }, {});
+    const a = \`a\${vowelsTable[database[0]] ? \\"n\\" : \\"\\"}\`;
+    const introduction = document.getElementById(\\"introduction\\");
+    const messageOpening = \`<p>In this module, you can learn how to use \${database}. \`;
+    if (!username || !dbExists) {
+      const tense = !username ? \\"temporary \\" : \\"\\";
+      const messageMiddle = \`Don't have \${database} installed on your local machine yet? Fear not! We can make \${a} \${database} database for you. Simply click on the button below to create your \${tense}database. Credentials for your database will appear after it is done being created.</p>\`;
+      const messageEnding = !username
+        ? \`<p>Temporary database credentials will expire in 5 days. If you want, you can sign up with us and get a non-expiring \${database} database!</p>\`
+        : \\"\\";
+      introduction.innerHTML = \`\${messageOpening}\${messageMiddle}\${messageEnding}\`;
+      introduction.append(createDb_button);
+      return renderContent(\\"username\\", \\"dbPassword\\");
+    }
+    introduction.innerHTML = \`\${messageOpening}You have already created \${a} \${database} database on our server. Here are the credentials for your database.</p>\`;
+    renderCredentials(username, dbPassword);
+    renderContent(username, dbPassword);
+  })();
 </script>
-
 <style>
   #createDb {
     display: block;
@@ -242,116 +438,122 @@ exports[`test welcome page should render postgres page correctly 1`] = `
 </script>
 
 <h3>Learn Postgres</h3>
-<div id=\\"introduction\\">
-</div>
+<div id=\\"introduction\\"></div>
 <div id=\\"content\\"></div>
 <script src=\\"https://cdn.jsdelivr.net/npm/marked/marked.min.js\\"></script>
-<script src=\\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js\\"
+<script
+  src=\\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js\\"
   integrity=\\"sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw==\\"
-  crossorigin=\\"anonymous\\"></script>
-<link rel=\\"stylesheet\\" href=\\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/tomorrow.min.css\\"
+  crossorigin=\\"anonymous\\"
+></script>
+<link
+  rel=\\"stylesheet\\"
+  href=\\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/tomorrow.min.css\\"
   integrity=\\"sha512-r3qr7vMdHYmWUzqC7l4H/W03ikAyiFIQld+B71yAmHhu7wcsnvm/adhikM+FzDxxK9ewznhCVnAm+yYZpPBnSg==\\"
-  crossorigin=\\"anonymous\\" />
+  crossorigin=\\"anonymous\\"
+/>
 <script>
-  const dbHost = \\"learndatabases.dev\\"
-  const username = \\"\\"
-  const dbPassword = \\"\\"
-  const dbExists = false
-  const database = \\"Postgres\\"
+  const dbHost = \\"learndatabases.dev\\";
+  const username = \\"\\";
+  const dbPassword = \\"\\";
+  const dbExists = \\"\\";
+  const database = \\"Postgres\\";
 
-  const credentials = document.createElement(\\"pre\\")
+  const credentials = document.createElement(\\"pre\\");
   const renderCredentials = (username, dbPassword) => {
-    if (database === \\"Postgres\\") {
-      credentials.innerHTML = \`<code>host: \${dbHost}
-username: \${username}
-password: \${dbPassword}
-database: \${username}</code>\`
-    } else if (database === \\"Elasticsearch\\") {
-      credentials.innerHTML = \`<code>host: \${dbHost}
-username: \${username}
-password: \${dbPassword}
-index: \${username}-*</code>\`
-    } else {
-      credentials.innerHTML = \\"\\"
+    const creds = \`host: \${dbHost}\\\\nusername: \${username}\\\\npassword: \${dbPassword}\\\\n\`;
+    /**
+     **** EACH TIME A DATABASE IS ADDED, ADD TO THE endingChoice OBJECT ****
+     * This is the only change you need to make if you are altering
+     * this file because another database has been implemented.
+     */
+    const endingChoice = {
+      Postgres: \`database: \${username}\`,
+      Elasticsearch: \`index: \${username}-*\`,
+      Arango: \`databaseName: \${username}\`,
+    };
+    credentials.innerHTML = \`<code>\${creds}\${endingChoice[database]}</code>\`;
+    introduction.append(credentials);
+  };
+
+  const content = document.getElementById(\\"content\\");
+  const renderContent = async (username, dbPassword) => {
+    const r = await fetch(\`/lessons/\${database}.md\`).then((r) => r.text());
+    marked.setOptions({
+      highlight: function (code) {
+        return hljs.highlightAuto(code).value;
+      },
+    });
+    const markedHTML = marked(r);
+    const markedHTMLwithUserData = markedHTML
+      .replace(/@username/gi, username)
+      .replace(/@dbPassword/gi, dbPassword);
+    content.innerHTML = markedHTMLwithUserData;
+  };
+
+  let disabled;
+  const createDb = async () => {
+    if (disabled) return;
+    disabled = true;
+    createDb_button.classList.add(\\"disabled\\");
+    createDb_button.innerText = \\"Creating...\\";
+
+    const res = await fetch(\`/api/createDatabase/\${database}\`, {
+      method: \\"POST\\",
+    }).then((r) => r.json());
+    const { error, username, dbPassword, email } = res;
+    if (error) {
+      alert(error.message);
+      disabled = false;
+      createDb_button.classList.remove(\\"disabled\\");
+      createDb_button.innerText = \\"Create my database\\";
+      return;
     }
-    introduction.append(credentials)
-  }
+    alert(
+      email
+        ? \\"Your database has been successfully created!\\"
+        : \\"Your temporary database has been successfully created!\\\\r\\\\nSince credentials are provided only once, please keep the information somewhere safe.\\"
+    );
+    createDb_button.style.opacity = 0;
+    setTimeout(() => {
+      createDb_button.innerText = \\"Complete!\\";
+      createDb_button.style.background = \\"rgb(10, 170, 75)\\";
+      createDb_button.style.opacity = 1;
+      setTimeout(() => {
+        renderCredentials(username, dbPassword);
+        renderContent(username, dbPassword);
+      }, 200);
+    }, 200);
+  };
 
-  const content = document.getElementById(\\"content\\")
-  const renderContent = (username, dbPassword) => {
-    fetch(\`/lessons/\${database}.md\`).then(r => r.text()).then((r) => {
-      marked.setOptions({
-        highlight: function (code) {
-          return hljs.highlightAuto(code).value
-        }
-      })
-      const markedHTML = marked(r)
-      const markedHTMLwithUserData = markedHTML.replace(/@username/gi, username).replace(/@dbPassword/gi, dbPassword)
-      content.innerHTML = markedHTMLwithUserData
-    })
-  }
-  
-  let disabled
-  const createDb = () => {
-    if (disabled) return
-    disabled = true
-    createDb_button.classList.add(\\"disabled\\")
-    createDb_button.innerText = \\"Creating...\\"
-    fetch(\`/api/createDatabase/\${database}\`, { method: \\"POST\\" }).then(r => r.json()).then((r) => {
-      if (r.error) {
-        alert(r.error.message)
-        disabled = false
-        createDb_button.classList.remove(\\"disabled\\")
-        createDb_button.innerText = \\"Create my database\\"
-      } else {
-        if (r.email) {
-          alert(\\"Your database is successfully created!\\")
-        } else {
-          alert(\\"Your temporary database is successfully created!\\\\r\\\\nSince credentials are provided only once, please keep the information somewhere safe.\\")
-        }
-        createDb_button.style.opacity = 0
-        setTimeout(() => {
-          createDb_button.innerText = \\"Complete!\\"
-          createDb_button.style.background = \\"rgb(10, 170, 75)\\"
-          createDb_button.style.opacity = 1
-          setTimeout(() => {
-            renderCredentials(r.username, r.dbPassword)
-            renderContent(r.username, r.dbPassword)
-          }, 200)
-        }, 200)
-      }
-    })
-  }
+  const createDb_button = document.createElement(\\"button\\");
+  createDb_button.id = \\"createDb\\";
+  createDb_button.innerText = \\"Create my database\\";
+  createDb_button.addEventListener(\\"click\\", createDb);
 
-  const createDb_button = document.createElement(\\"button\\")
-  createDb_button.id = \\"createDb\\"
-  createDb_button.innerText = \\"Create my database\\"
-  createDb_button.addEventListener(\\"click\\", createDb)
-  
-  const introduction = document.getElementById(\\"introduction\\")
-  if (!username) {
-    introduction.innerHTML = \`
-      <p>In this module, you can learn how to use \${database}. Don't have \${database} installed on your local machine yet? Fear not! We can make a \${database} database for you. Simply click on the button below to create your temporary \${database} database. Credentials for your database will appear after it is done being created.</p>
-      <p>Temporary database credentials will expire in 5 days. If you want, you can sign up with us and get a non-expiring Postgres database!</p>
-    \`
-    introduction.append(createDb_button)
-    renderContent(\\"username\\", \\"dbPassword\\")
-  } else if (!dbExists) {
-    introduction.innerHTML = \`
-      <p>In this module, you can learn how to use \${database}. Don't have \${database} installed on your local machine yet? Fear not! We can make an \${database} database for you. Simply click on the button below to create your \${database} database. Credentials for your database will appear after it is done being created.</p>
-    \`
-    introduction.append(createDb_button)
-    renderContent(\\"username\\", \\"dbPassword\\")
-  } else {
-    introduction.innerHTML = \`
-<p>In this module, you can learn how to use \${database}. You have already created an \${database} database on our server. Here are the credentials for your database.</p>
-    \`
-    renderCredentials(username, dbPassword)
-    renderContent(username, dbPassword)
-  }
-
+  (function setIntroduction() {
+    const vowelsTable = [\\"A\\", \\"E\\", \\"I\\", \\"O\\", \\"U\\"].reduce((acc, vowel) => {
+      acc[vowel] = true;
+      return acc;
+    }, {});
+    const a = \`a\${vowelsTable[database[0]] ? \\"n\\" : \\"\\"}\`;
+    const introduction = document.getElementById(\\"introduction\\");
+    const messageOpening = \`<p>In this module, you can learn how to use \${database}. \`;
+    if (!username || !dbExists) {
+      const tense = !username ? \\"temporary \\" : \\"\\";
+      const messageMiddle = \`Don't have \${database} installed on your local machine yet? Fear not! We can make \${a} \${database} database for you. Simply click on the button below to create your \${tense}database. Credentials for your database will appear after it is done being created.</p>\`;
+      const messageEnding = !username
+        ? \`<p>Temporary database credentials will expire in 5 days. If you want, you can sign up with us and get a non-expiring \${database} database!</p>\`
+        : \\"\\";
+      introduction.innerHTML = \`\${messageOpening}\${messageMiddle}\${messageEnding}\`;
+      introduction.append(createDb_button);
+      return renderContent(\\"username\\", \\"dbPassword\\");
+    }
+    introduction.innerHTML = \`\${messageOpening}You have already created \${a} \${database} database on our server. Here are the credentials for your database.</p>\`;
+    renderCredentials(username, dbPassword);
+    renderContent(username, dbPassword);
+  })();
 </script>
-
 <style>
   #createDb {
     display: block;
@@ -850,14 +1052,14 @@ exports[`test welcome page should render welcome page correctly 1`] = `
         <h4 class=\\"db-title\\">Elasticsearch</h4>
         <p class=\\"db-discription\\">A highly scalable full-text search analytics engine. It allows you to store, search and analyze big volumes of data quickly and in near real time.</p>
       </blockquote>
+      <blockquote id=\\"arango\\" class=\\"db-card umami--click--arango-button\\">
+        <h4 class=\\"db-title\\">Arango</h4>
+        <p class=\\"db-discription\\">A multi-model database. Whether you want to store data in tables or graphs is up to you!</p>
+      </blockquote>
       <blockquote id=\\"mongodb\\" class=\\"db-card darkenCards umami--click--mongodb-button\\">
         <h4 class=\\"db-title\\">MongoDB (coming next sprint!)</h4>
         <p class=\\"db-discription\\">An open source database management system using a document-oriented database model that supports various forms of data.<p>
 			</blockquote>
-      <blockquote id=\\"neo4j\\" class=\\"db-card darkenCards umami--click--neo4j-button\\">
-        <h4 class=\\"db-title\\">Neo4j (coming next sprint!)</h4>
-        <p class=\\"db-discription\\">A graph database management system that is the most popular graph database and the 22nd most popular database overall.</p>
-      </blockquote>
 
     <p style=\\"text-align:center;\\">Everything we do here is open source. Checkout our github
     <a href=\\"https://github.com/garageScript/databases\\" class=\\"umami--click--github-anchor\\">Here</a></p>
@@ -908,14 +1110,12 @@ exports[`test welcome page should render welcome page correctly 1`] = `
         location.href = '/tutorial/Elasticsearch'
       }, 10)
     })
-		/*
-    document.getElementById('mongodb').addEventListener('click', () => {
-      location.href = '/mongodb'
-    })
-    document.getElementById('neo4j').addEventListener('click', () => {
-      location.href = '/neo4j'
+    // document.getElementById('mongodb').addEventListener('click', () => {
+    //   location.href = '/mongodb'
+    // })
+    document.getElementById('arango').addEventListener('click', () => {
+      location.href = '/tutorial/Arango'
 		})
-		*/
   </script>
 
   <script async defer data-website-id=\\"d367293a-0e30-4ae1-bdce-3651e1b64909\\" src=\\"https://analytics.learndatabases.dev/umami.js\\"></script>

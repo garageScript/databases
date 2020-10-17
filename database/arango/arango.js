@@ -6,14 +6,21 @@ const logger = require("./../../lib/log")(__filename);
 const arangoModule = {};
 let db;
 
-arangoModule.checkIfDatabaseExists = async (name) => {
-  // returns array of objects containing a '_name' key.
-  // Ex [{ _name: 'lol' }, { _name: 'cakes' }]
-  const names = await db.databases();
-  return names.map((db) => db._name).includes(name);
+arangoModule.checkIfDatabaseExists = async (username) => {
+  const db = new Database({
+    url: process.env.ARANGO_URL,
+    databaseName: username,
+    auth: {
+      username: process.env.ARANGO_USER,
+      password: process.env.ARANGO_PW,
+    },
+  });
+  const res = await db.exists();
+  db.close();
+  return res;
 };
 
-arangoModule.startArangoDB = async () => {
+arangoModule.startArangoDB = () => {
   try {
     db = new Database({
       url: process.env.ARANGO_URL,
