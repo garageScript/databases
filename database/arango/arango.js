@@ -55,7 +55,7 @@ arangoModule.createAccount = async (account) => {
 
   try {
     await db.createDatabase(username, {
-      users: [{ username, password: dbPassword }],
+      users: [{ username, passwd: dbPassword }],
     });
     logger.info(`Successfully created Arango user and database ${username}`);
   } catch (err) {
