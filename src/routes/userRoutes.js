@@ -10,6 +10,7 @@ const db = require("../../sequelize/db");
 const pgModule = require("../../database/postgres/pg");
 const es = require("../../database/elasticsearch/elastic");
 const arangoModule = require("../../database/arango/arango");
+const influx = require("../../database/influx/influx.js");
 const routes = {};
 
 routes.resetPasswordEmail = async (req, res) => {
@@ -143,6 +144,7 @@ const createDatabaseAccount = {
   Postgres: pgModule.userHasPgAccount,
   Elasticsearch: es.createAccount,
   Arango: arangoModule.createAccount,
+  Influx: influx.createAccount,
 };
 
 routes.createDatabase = async (req, res) => {

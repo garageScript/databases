@@ -91,6 +91,7 @@ exports[`test welcome page should render arango page correctly 1`] = `
       Postgres: \`database: \${username}\`,
       Elasticsearch: \`index: \${username}-*\`,
       Arango: \`databaseName: \${username}\`,
+      Influx:\`database: \${username}\`
     };
     credentials.innerHTML = \`<code>\${creds}\${endingChoice[database]}</code>\`;
     introduction.append(credentials);
@@ -281,6 +282,7 @@ exports[`test welcome page should render elasticsearch page correctly 1`] = `
       Postgres: \`database: \${username}\`,
       Elasticsearch: \`index: \${username}-*\`,
       Arango: \`databaseName: \${username}\`,
+      Influx:\`database: \${username}\`
     };
     credentials.innerHTML = \`<code>\${creds}\${endingChoice[database]}</code>\`;
     introduction.append(credentials);
@@ -471,6 +473,7 @@ exports[`test welcome page should render postgres page correctly 1`] = `
       Postgres: \`database: \${username}\`,
       Elasticsearch: \`index: \${username}-*\`,
       Arango: \`databaseName: \${username}\`,
+      Influx:\`database: \${username}\`
     };
     credentials.innerHTML = \`<code>\${creds}\${endingChoice[database]}</code>\`;
     introduction.append(credentials);
@@ -1059,7 +1062,11 @@ exports[`test welcome page should render welcome page correctly 1`] = `
       <blockquote id=\\"mongodb\\" class=\\"db-card darkenCards umami--click--mongodb-button\\">
         <h4 class=\\"db-title\\">MongoDB (coming next sprint!)</h4>
         <p class=\\"db-discription\\">An open source database management system using a document-oriented database model that supports various forms of data.<p>
-			</blockquote>
+      </blockquote>
+      <blockquote id=\\"influx\\" class=\\"db-card umami--click--influx-button\\">
+        <h4 class=\\"db-title\\">InfluxDB</h4>
+        <p class=\\"db-discription\\">Timeseries database.<p>
+			</blockquote
 
     <p style=\\"text-align:center;\\">Everything we do here is open source. Checkout our github
     <a href=\\"https://github.com/garageScript/databases\\" class=\\"umami--click--github-anchor\\">Here</a></p>
@@ -1115,6 +1122,9 @@ exports[`test welcome page should render welcome page correctly 1`] = `
     // })
     document.getElementById('arango').addEventListener('click', () => {
       location.href = '/tutorial/Arango'
+    })
+    document.getElementById('influx').addEventListener('click', () => {
+      location.href = '/tutorial/Influx'
 		})
   </script>
 
