@@ -61,20 +61,20 @@ describe("test InfluxDB", () => {
   });
   describe("deleteAccount", () => {
     it("should sucessfully delete account", async () => {
-      await deleteAccount(user);
+      await deleteAccount(user.username);
       expect(mockClient.dropUser).toHaveBeenCalledTimes(1);
       expect(mockClient.dropDatabase).toHaveBeenCalledTimes(1);
     });
     it("should throw error to invalid credentials", async () => {
       try {
         mockClient.dropUser.mockReturnValue(Promise.reject());
-        expect(await deleteAccount(user)).rejects.toThrow();
+        expect(await deleteAccount(user.username)).rejects.toThrow();
       } catch (err) {
         expect(logger.error).toHaveBeenCalledTimes(1);
       }
     });
     it("should return if no username was provided", async () => {
-      const res = await deleteAccount({});
+      const res = await deleteAccount("");
       expect(res).toEqual(undefined);
     });
   });

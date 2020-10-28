@@ -29,8 +29,7 @@ influxModule.createAccount = async (account) => {
     throw new Error(`failed to create new influx user with ${username} name`);
   }
 };
-influxModule.deleteAccount = async (account) => {
-  const { username } = account;
+influxModule.deleteAccount = async (username) => {
   if (!username) return;
   try {
     await client.dropUser(username);
