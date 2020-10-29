@@ -32,7 +32,6 @@ const prod = () => {
 // If you are here because you are implementing another database, then
 // just add to the hashtables above! No need to touch down here.
 routes.database = async (req, res) => {
-  console.log("hiaheoifhaie");
   const { email, userid } = req.session;
   const { database } = req.params;
   const { Accounts } = db.getModels();
