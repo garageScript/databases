@@ -32,16 +32,15 @@ const prod = () => {
 // If you are here because you are implementing another database, then
 // just add to the hashtables above! No need to touch down here.
 routes.database = async (req, res) => {
+  console.log("hiaheoifhaie");
   const { email, userid } = req.session;
   const { database } = req.params;
   const { Accounts } = db.getModels();
-
   const user = userid && (await Accounts.findOne({ where: { id: userid } }));
   const { username, dbPassword } = user || {};
   const renderData = { email, username, dbPassword, database };
   renderData.dbHost = prod() ? dbHost[database] : dev_dbHost[database];
-  renderData.dbExists = username && (await checkAccount[database](user));
-
+  renderData.dbExists = username && (await checkAccount[database](username));
   res.render("tutorial", renderData);
 };
 
