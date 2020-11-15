@@ -4,6 +4,7 @@ const util = require("../lib/util");
 const dbModule = require("../sequelize/db");
 const session = require("express-session");
 const pgModule = require("../database/postgres/pg");
+const igniteModule = require("../database/ignite/ignite");
 const {
   resetPasswordEmail,
   createUser,
@@ -30,6 +31,7 @@ const startServer = async (portNumber) => {
   await dbModule.start();
   await pgModule.startPGDB();
   await arangoModule.startArangoDB();
+  await igniteModule.startIgnite();
 
   cleaner = await util.cleanAnonymous();
 
@@ -89,6 +91,7 @@ const stopServer = () => {
     dbModule.close();
     pgModule.closePGDB();
     arangoModule.closeArangoDB();
+    igniteModule.closeIgnite();
     logger.info("DB has been closed");
     server.close(() => {
       logger.info("The server has been closed");

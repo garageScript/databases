@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@types/node-fetch": "^2.5.7",
+    "apache-ignite-client": "^1.0.0",
     "arangojs": "^7.0.2",
     "base-x": "^3.0.8",
     "bcrypt": "^5.0.0",

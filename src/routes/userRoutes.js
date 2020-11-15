@@ -10,6 +10,7 @@ const db = require("../../sequelize/db");
 const pgModule = require("../../database/postgres/pg");
 const es = require("../../database/elasticsearch/elastic");
 const arangoModule = require("../../database/arango/arango");
+const igniteModule = require("../../database/ignite/ignite");
 const routes = {};
 
 routes.resetPasswordEmail = async (req, res) => {
@@ -143,6 +144,7 @@ const createDatabaseAccount = {
   Postgres: pgModule.userHasPgAccount,
   Elasticsearch: es.createAccount,
   Arango: arangoModule.createAccount,
+  Ignite:igniteModule.createAccount
 };
 
 routes.createDatabase = async (req, res) => {
