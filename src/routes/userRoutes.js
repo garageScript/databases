@@ -144,7 +144,7 @@ const createDatabaseAccount = {
   Postgres: pgModule.userHasPgAccount,
   Elasticsearch: es.createAccount,
   Arango: arangoModule.createAccount,
-  Ignite:igniteModule.createAccount
+  Ignite: igniteModule.createAccount,
 };
 
 routes.createDatabase = async (req, res) => {

@@ -4,7 +4,7 @@ const { SqlFieldsQuery } = require("apache-ignite-client/lib/Query");
 const IgniteClientConfiguration = IgniteClient.IgniteClientConfiguration;
 const CacheConfiguration = IgniteClient.CacheConfiguration;
 require("dotenv").config();
-let igniteModule = {};
+const igniteModule = {};
 let igniteClient;
 igniteModule.startIgnite = async () => {
   try {

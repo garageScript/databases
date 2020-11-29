@@ -11,7 +11,7 @@ const dev_dbHost = {
   Postgres: process.env.HOST,
   Elasticsearch: process.env.ES_HOST,
   Arango: process.env.ARANGO_URL,
-  Ignite:process.env.IGNITE_HOST
+  Ignite: process.env.IGNITE_HOST,
 };
 
 // This is the 'host' url for a person's database credentials in prod.
@@ -19,14 +19,14 @@ const dbHost = {
   Postgres: "learndatabases.dev",
   Elasticsearch: "elastic.learndatabases.dev",
   Arango: "arangodb.learndatabases.dev",
-  Ignite:"ADD_IGNITE_HOST"
+  Ignite: "ADD_IGNITE_HOST",
 };
 
 const checkAccount = {
   Postgres: pg.userHasPgAccount,
   Elasticsearch: es.checkAccount,
   Arango: arangoModule.checkIfDatabaseExists,
-  Ignite: igniteModule.checkAccount
+  Ignite: igniteModule.checkAccount,
 };
 
 const prod = () => {
