@@ -1,0 +1,37 @@
+version: "3.7"
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: learndb_dev
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - "5111:5432"
+  elastic:
+    image: "elasticsearch:7.9.2"
+    ports:
+        - "9200:9200"
+    environment: 
+      discovery.type: single-node 
+      xpack.security.enabled: "true"
+      ELASTIC_PASSWORD: test
+    volumes:
+      - ./esdata:/usr/share/elasticsearch/data
+
+  web:
+    environment: 
+        ES_HOST: "http://elastic:9200"
+        HOST: postgres
+        DATABASE: learndb_dev
+        PG_USER: postgres
+        PASSWORD: postgres
+        ES_PASSWORD: test
+    image: ulisseus/learn_databases
+    depends_on:
+      - postgres
+      - elastic
+    ports:
+      - "4000:4000" 
