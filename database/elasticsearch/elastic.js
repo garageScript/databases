@@ -79,9 +79,9 @@ es.deleteAccount = async (account) => {
     null,
     authorization
   );
-  const r3 = await sendFetch(`/${username}-*`, "DELETE", null, authorization);
-  const err = r1.error || r2.error;
-  if (err || !r1.found || !r2.found) {
+  const r3 = await sendFetch(`${ES_HOST}/${username}-*`, "DELETE", null, authorization);
+  const err = r1.error || r2.error || r3.error;
+  if (err || !r1.found || !r2.found || !r3.found) {
     logger.error("Deleting Elasticsearch user failed");
     throw new Error(`Failed to delete Elasticsearch account for user: ${id}`);
   }
