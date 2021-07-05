@@ -65,6 +65,7 @@ describe("Testing database router", () => {
     expect(mockResponse.render.mock.calls[0][1].dbHost).toEqual(
       process.env.ARANGO_URL
     );
+    expect(mockResponse.render.mock.calls[0][1].dbExists).toEqual(false);
   });
   test("when database function is called with non-logged in user and Postgres parameter", async () => {
     process.env = { ...process.env, NODE_ENV: "dev" };
@@ -74,6 +75,7 @@ describe("Testing database router", () => {
     expect(mockResponse.render.mock.calls[0][1].dbHost).toEqual(
       process.env.HOST
     );
+    expect(mockResponse.render.mock.calls[0][1].dbExists).toEqual(false);
   });
   test("when database function is called with non-logged in user and Elasticsearch parameter", async () => {
     process.env = { ...process.env, NODE_ENV: "dev" };
@@ -83,6 +85,7 @@ describe("Testing database router", () => {
     expect(mockResponse.render.mock.calls[0][1].dbHost).toEqual(
       process.env.ES_HOST
     );
+    expect(mockResponse.render.mock.calls[0][1].dbExists).toEqual(false);
   });
   test("when database function is called with logged in user and Arango parameter", async () => {
     process.env = { ...process.env, NODE_ENV: "dev" };

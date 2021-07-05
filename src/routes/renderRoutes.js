@@ -39,7 +39,7 @@ routes.database = async (req, res) => {
   const { username, dbPassword } = user || {};
   const renderData = { email, username, dbPassword, database };
   renderData.dbHost = prod() ? dbHost[database] : dev_dbHost[database];
-  renderData.dbExists = username && (await checkAccount[database](username));
+  renderData.dbExists = username && (await checkAccount[database](username)) || false;
   res.render("tutorial", renderData);
 };
 
