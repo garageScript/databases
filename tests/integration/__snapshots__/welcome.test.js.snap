@@ -76,7 +76,7 @@ exports[`test welcome page should render arango page correctly 1`] = `
   const dbHost = \\"arangodb.learndatabases.dev\\";
   const username = \\"\\";
   const dbPassword = \\"\\";
-  const dbExists = ;
+  const dbExists = false;
   const database = \\"Arango\\";
 
   const credentials = document.createElement(\\"pre\\");
@@ -266,7 +266,7 @@ exports[`test welcome page should render elasticsearch page correctly 1`] = `
   const dbHost = \\"elastic.learndatabases.dev\\";
   const username = \\"\\";
   const dbPassword = \\"\\";
-  const dbExists = ;
+  const dbExists = false;
   const database = \\"Elasticsearch\\";
 
   const credentials = document.createElement(\\"pre\\");
@@ -456,7 +456,7 @@ exports[`test welcome page should render postgres page correctly 1`] = `
   const dbHost = \\"learndatabases.dev\\";
   const username = \\"\\";
   const dbPassword = \\"\\";
-  const dbExists = ;
+  const dbExists = false;
   const database = \\"Postgres\\";
 
   const credentials = document.createElement(\\"pre\\");
