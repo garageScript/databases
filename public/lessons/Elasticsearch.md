@@ -29,7 +29,7 @@ fetch("https://elastic.learndatabases.dev/@username-example/_doc", {
   body: JSON.stringify({
     date: "2020-09-05",
     subject: "My first data",
-    message: "I just wrote some data to my Elasticsearch!"
+    message: "I just wrote some data to my Elasticsearch!",
     user: {
       id: 5
     }
