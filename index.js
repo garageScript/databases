@@ -1,3 +1,3 @@
-const {startServer} = require('./src/server')
+const { startServer } = require("./src/server");
 
-startServer(process.env.PORT || 3052)
+startServer(process.env.PORT || 3052);

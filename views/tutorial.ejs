@@ -33,6 +33,7 @@
       Postgres: `database: ${username}`,
       Elasticsearch: `index: ${username}-*`,
       Arango: `databaseName: ${username}`,
+      Ignite: `cache: ${username}`
     };
     credentials.innerHTML = `<code>${creds}${endingChoice[database]}</code>`;
     introduction.append(credentials);

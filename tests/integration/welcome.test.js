@@ -78,4 +78,11 @@ describe("test welcome page", () => {
     );
     expect(result).toMatchSnapshot();
   });
+  test("should render ignite page correctly", async () => {
+    process.env = { ...process.env, NODE_ENV: "CI" };
+    const result = await fetch(baseUrl + "tutorial/Ignite").then((r) =>
+      r.text()
+    );
+    expect(result).toMatchSnapshot();
+  });
 });
