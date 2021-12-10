@@ -76,7 +76,7 @@ exports[`test welcome page should render arango page correctly 1`] = `
   const dbHost = \\"arangodb.learndatabases.dev\\";
   const username = \\"\\";
   const dbPassword = \\"\\";
-  const dbExists = ;
+  const dbExists = \\"\\";
   const database = \\"Arango\\";
 
   const credentials = document.createElement(\\"pre\\");
@@ -104,7 +104,7 @@ exports[`test welcome page should render arango page correctly 1`] = `
         return hljs.highlightAuto(code).value;
       },
     });
-    const markedHTML = marked(r);
+    const markedHTML = marked.parse(r);
     const markedHTMLwithUserData = markedHTML
       .replace(/@username/gi, username)
       .replace(/@dbPassword/gi, dbPassword);
@@ -266,7 +266,7 @@ exports[`test welcome page should render elasticsearch page correctly 1`] = `
   const dbHost = \\"elastic.learndatabases.dev\\";
   const username = \\"\\";
   const dbPassword = \\"\\";
-  const dbExists = ;
+  const dbExists = \\"\\";
   const database = \\"Elasticsearch\\";
 
   const credentials = document.createElement(\\"pre\\");
@@ -294,7 +294,7 @@ exports[`test welcome page should render elasticsearch page correctly 1`] = `
         return hljs.highlightAuto(code).value;
       },
     });
-    const markedHTML = marked(r);
+    const markedHTML = marked.parse(r);
     const markedHTMLwithUserData = markedHTML
       .replace(/@username/gi, username)
       .replace(/@dbPassword/gi, dbPassword);
@@ -456,7 +456,7 @@ exports[`test welcome page should render postgres page correctly 1`] = `
   const dbHost = \\"learndatabases.dev\\";
   const username = \\"\\";
   const dbPassword = \\"\\";
-  const dbExists = ;
+  const dbExists = \\"\\";
   const database = \\"Postgres\\";
 
   const credentials = document.createElement(\\"pre\\");
@@ -484,7 +484,7 @@ exports[`test welcome page should render postgres page correctly 1`] = `
         return hljs.highlightAuto(code).value;
       },
     });
-    const markedHTML = marked(r);
+    const markedHTML = marked.parse(r);
     const markedHTMLwithUserData = markedHTML
       .replace(/@username/gi, username)
       .replace(/@dbPassword/gi, dbPassword);
