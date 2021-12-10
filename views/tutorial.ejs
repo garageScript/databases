@@ -46,7 +46,7 @@
         return hljs.highlightAuto(code).value;
       },
     });
-    const markedHTML = marked(r);
+    const markedHTML = marked.parse(r);
     const markedHTMLwithUserData = markedHTML
       .replace(/@username/gi, username)
       .replace(/@dbPassword/gi, dbPassword);
