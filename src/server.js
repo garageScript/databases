@@ -19,6 +19,7 @@ let server = null;
 let app = null;
 
 const arangoModule = require("../database/arango/arango");
+const influxModule = require("../database/influx/influx");
 
 let cleaner = null;
 
@@ -30,6 +31,7 @@ const startServer = async (portNumber) => {
   await dbModule.start();
   await pgModule.startPGDB();
   await arangoModule.startArangoDB();
+  influxModule.startInflux();
 
   cleaner = await util.cleanAnonymous();
 

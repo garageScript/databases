@@ -2,6 +2,7 @@ const db = require("../../sequelize/db");
 const es = require("../../database/elasticsearch/elastic");
 const pg = require("../../database/postgres/pg");
 const arangoModule = require("../../database/arango/arango");
+const influxModule = require("../../database/influx/influx");
 require("dotenv").config();
 const routes = {};
 
@@ -10,6 +11,7 @@ const dev_dbHost = {
   Postgres: process.env.HOST,
   Elasticsearch: process.env.ES_HOST,
   Arango: process.env.ARANGO_URL,
+  Influx: process.env.INF_HOST,
 };
 
 // This is the 'host' url for a person's database credentials in prod.
@@ -17,12 +19,14 @@ const dbHost = {
   Postgres: "learndatabases.dev",
   Elasticsearch: "elastic.learndatabases.dev",
   Arango: "arangodb.learndatabases.dev",
+  Influx: "PRODUCTION INFLUXDB HOST",
 };
 
 const checkAccount = {
   Postgres: pg.userHasPgAccount,
   Elasticsearch: es.checkAccount,
   Arango: arangoModule.checkIfDatabaseExists,
+  Influx: influxModule.checkAccount,
 };
 
 const prod = () => {
