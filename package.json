@@ -36,7 +36,7 @@
     "mailgun-js": "^0.22.0",
     "mongodb": "^3.6.1",
     "neo4j-driver": "^4.1.1",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "nodemon": "^2.0.4",
     "password-generator": "^2.3.2",
     "pg": "^8.0.3",
